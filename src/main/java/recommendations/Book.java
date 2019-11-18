@@ -1,4 +1,5 @@
 package recommendations;
 
-public class Book implements Format {
+public class Book extends Object {
+
 }
