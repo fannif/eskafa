@@ -11,7 +11,8 @@ Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on 
 
 
 #### CircleCI
-https://circleci.com/gh/fannif/workflows/eskafa
+https://circleci.com/gh/fannif/workflows/eskafa  
+[![CircleCI](https://circleci.com/gh/fannif/eskafa.svg?style=svg)](https://circleci.com/gh/fannif/eskafa)
 
 #### Codeclimate
 https://codeclimate.com/github/fannif/eskafa
