@@ -30,7 +30,7 @@ test {
     systemProperties System.getProperties()
 }
 
-mainClassName = 'ohtu.Main'
+mainClassName = 'recommendations.Main'
 
 run {
     standardInput = System.in
