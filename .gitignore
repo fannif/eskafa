@@ -1,5 +1,19 @@
-# Ignore Gradle project-specific cache directory
-.gradle
+# Temporary files
+*.tmp
 
-# Ignore Gradle build output directory
+# Gradle
+.gradle
+.nb-gradle
 build
+
+# Java
+.project
+.classpath
+.settings
+bin
+
+#VSCode
+.vscode
+
+#IntelliJ
+.idea
