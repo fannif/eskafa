@@ -1,6 +1,6 @@
 package recommendations;
 
-public class Object implements Type {
+public class Recommendation implements Type {
     @Override
     public String getTitle() {
         return null;
@@ -58,46 +58,6 @@ public class Object implements Type {
 
     @Override
     public void setDescription(String description) {
-
-    }
-
-    @Override
-    public String getWriter() {
-        return null;
-    }
-
-    @Override
-    public void setWriter(String writer) {
-
-    }
-
-    @Override
-    public String getISBN() {
-        return null;
-    }
-
-    @Override
-    public void setISBN(String ISBN) {
-
-    }
-
-    @Override
-    public String getUrl() {
-        return null;
-    }
-
-    @Override
-    public void setUrl(String url) {
-
-    }
-
-    @Override
-    public String getPodcastName() {
-        return null;
-    }
-
-    @Override
-    public void setPodcastName(String name) {
 
     }
 }

@@ -14,20 +14,15 @@ public interface Type {
     String getDescription();
     void setDescription(String description);
 
-    // Class-spesific methods:
-    // books/blog posts:
-    String getWriter();
-    void setWriter(String writer);
-    String getISBN();
-    void setISBN(String ISBN);
+    // book: check the class
 
     // videos/blog posts:
-    String getUrl();
-    void setUrl(String url);
+    // String getUrl();
+    // void setUrl(String url);
 
     // podcasts: podcast name != otsikko("title")
-    String getPodcastName();
-    void setPodcastName(String name);
+    // String getPodcastName();
+    // void setPodcastName(String name);
 
 }
 
