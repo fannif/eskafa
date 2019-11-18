@@ -9,6 +9,10 @@
 ### Definition of done
 Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on tehty kattavasti. Myös Cucumber-testejä on jonkin verran. Kaikki toteutettavat toiminnallisuudet ovat käytettävissä ilman, että ohjelma kaatuu.
 
+#### Työmääräkirjanpito ja Burndown chart
+
+[Sprintti 1](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
+
 
 #### CircleCI
 https://circleci.com/gh/fannif/workflows/eskafa  
