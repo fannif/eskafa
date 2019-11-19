@@ -5,13 +5,13 @@
     <module name="TreeWalker">
         <module name="MethodLength">
   	    <property name="tokens" value="METHOD_DEF"/>
-  	    <property name="max" value="15"/>
+  	    <property name="max" value="20"/>
 	</module>
 	<module name="NestedIfDepth">
-  	    <property name="max" value="1"/>
+  	    <property name="max" value="2"/>
 	</module>
 	<module name="NestedForDepth">
-  	    <property name="max" value="0"/>
+  	    <property name="max" value="1"/>
 	</module>
 	<module name="Indentation"/>
 	<module name="LeftCurly">
