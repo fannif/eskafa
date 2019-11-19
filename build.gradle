@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'build-dashboard'
 apply plugin: 'application'
+apply plugin: "jacoco"
 
 project.ext {
     cucumberVersion = '4.7.4'
