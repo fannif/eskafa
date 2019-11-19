@@ -1,8 +1,0 @@
-test
-
-<<<<<<< HEAD
-Heippa!
-=======
-testikommentti
-
->>>>>>> d39e19bfe041d8bf4114dbc7268a5ce1aecdea1c
