@@ -23,7 +23,7 @@ public class CommandLineUI {
             System.out.println("2 --- Add a new book");
             System.out.println("3 --- Remove a book from recommendatitons");
             System.out.println("q --- Quit");
-            System.out.println("Select 1, 2 or q");
+            System.out.println("Select 1, 2, 3 or q");
             String choice = reader.nextLine();
 
             switch(choice) {
