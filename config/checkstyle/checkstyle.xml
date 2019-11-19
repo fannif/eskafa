@@ -24,7 +24,7 @@
     </module>
 
     <module name="SuppressionFilter">
-  	<property name="file" value="./skipped_files.xml" />
+  	<property name="file" value="skipped_files.xml" />
     </module>
 
 </module>
