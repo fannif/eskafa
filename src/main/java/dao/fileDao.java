@@ -62,6 +62,8 @@ public class fileDao implements readerDao<Book, String> {
             newLine = newLine + related + ";";
         }
         
+        newLine = newLine + tip.getComment();
+        
         BufferedWriter writer = new BufferedWriter(new FileWriter("books.csv", true));
         writer.append("\n");
         writer.append(newLine);
@@ -108,7 +110,7 @@ public class fileDao implements readerDao<Book, String> {
             bookRelated.add(relation);
         }
         
-        return new Book(parts[0], parts[1], parts[2], parts[3], bookTags, bookRelated);
+        return new Book(parts[0], parts[1], parts[2], parts[3], bookTags, bookRelated, parts[6]);
     }
     
     public void connectReader() {
