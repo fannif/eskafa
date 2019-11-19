@@ -17,29 +17,47 @@ public class CommandLineUI {
 
         System.out.println("Welcome!");
         
-
-        while (true) {
+        boolean go = true;
+        while (go) {
             System.out.println("\n1 --- List all recommended books");
             System.out.println("2 --- Add a new book");
+            System.out.println("3 --- Remove a book from recommendatitons");
             System.out.println("q --- Quit");
             System.out.println("Select 1, 2 or q");
             String choice = reader.nextLine();
 
-            if (choice.equals("q")) {
-                break;
+            switch(choice) {
+                case "q":
+                    go=false;
+                    break;
+                case "1":
+                    listBooks();
+                    break;
+                case "2":
+                    addBook();
+                    break;
+                case "3": 
+                    removeBook();
+                    break;
+                default:
             }
-
-            if (choice.equals("1")) {
-                listBooks();
-            }
-
-            if (choice.equals("2")) {
-                addBook();
-            }
-
         }
 
         System.out.println("\nThanks for using Recommendations! Have a nice day!");
+    }
+
+    private void removeBook() {
+        System.out.println("\nPlease enter the title of the book to be removed: ");
+        String title = reader.nextLine();
+        /* Sit kun on olemassa Book
+        if(fileDao.findOne(title) == null) {
+            System.out.println("No such book found. Please check the spelling.");
+        } else {
+            fileDao.delete(title);
+            System.out.println("The book has been successfully removed");
+        }
+        */
+        System.out.println("Nothing happens yet!");
     }
 
     private void listBooks() {
