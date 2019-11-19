@@ -1,0 +1,35 @@
+package recommendations;
+
+public interface Readable {
+    String getTitle();
+    void setTitle(String title);
+    String getType();
+    void setType(String type);
+    String getTag();
+    void setTag(String tag);
+    String getRelatedCourses();
+    void setRelatedCourses(String coureName);
+    String getComment();
+    void setComment(String comment);
+    String getDescription();
+    void setDescription(String description);
+    String toString();
+
+    /* Class-spesific methods:
+    1) books/blog posts:
+    String getWriter();
+    void setWriter(String writer);
+    String getISBN();
+    void setISBN(String ISBN);
+
+    2) videos/blog posts:
+    String getUrl();
+    void setUrl(String url);
+
+    3) podcasts: podcast name != otsikko("title")
+    String getPodcastName();
+    void setPodcastName(String name);
+    */
+}
+
+
