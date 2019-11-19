@@ -7,7 +7,7 @@
 [1. Sprint Backlog](https://docs.google.com/spreadsheets/d/1OqxUPbk6urff_mOtHHC_oDDHmhOTyWZxNcCAq9ybvWM/edit?usp=sharing)
 
 ### Definition of done
-Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on tehty kattavasti. Myös Cucumber-testejä on jonkin verran. Kaikki toteutettavat toiminnallisuudet ovat käytettävissä ilman, että ohjelma kaatuu.
+Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on tehty kattavasti. Myös Cucumber-testejä on jonkin verran. Kaikki toteutettavat toiminnallisuudet ovat käytettävissä ilman, että ohjelma kaatuu. Toiminnallisuus on sen verran selkeää, että käyttäjän on helppo käyttää ohjelmaa omatoimisesti.
 
 #### Työmääräkirjanpito ja Burndown chart
 
