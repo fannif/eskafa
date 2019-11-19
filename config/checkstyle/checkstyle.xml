@@ -5,7 +5,7 @@
     <module name="TreeWalker">
         <module name="MethodLength">
   	    <property name="tokens" value="METHOD_DEF"/>
-  	    <property name="max" value="20"/>
+  	    <property name="max" value="30"/>
 	</module>
 	<module name="NestedIfDepth">
   	    <property name="max" value="2"/>
@@ -18,7 +18,7 @@
 	    <property name="option" value="eol"/>
         </module>
 	<module name="CyclomaticComplexity">
-  	    <property name="max" value="3"/>
+  	    <property name="max" value="7"/>
 	</module>
 
     </module>
