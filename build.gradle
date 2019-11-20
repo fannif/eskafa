@@ -26,6 +26,11 @@ dependencies {
     testCompile 'junit:junit:' + junitVersion
 }
 
+checkstyle {
+	configFile = project(':').file('config/checkstyle/checkstyle.xml')
+	configProperties = [ "suppressionFile" : project(':').file('config/checkstyle/suppressions.xml')]
+}
+
 test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
