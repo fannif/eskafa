@@ -24,11 +24,19 @@
     </module>
 
 
+<<<<<<< HEAD
 
     <module name="SuppressionFilter">
   	<property name="file" value="skipped_files.xml" />
     </module>
 
+=======
+    
+    <module name="SuppressionFilter">
+  	<property name="file" value="skipped_files.xml" />
+    </module>
+    
+>>>>>>> df50ea916b4adf6c9dcff8e07229ae46b77f7c41
  
 
 </module>
