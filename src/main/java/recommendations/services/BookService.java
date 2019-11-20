@@ -1,34 +1,28 @@
 package recommendations.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import recommendations.domain.Book;
 import recommendations.dao.readerDao;
 
-// String-toteutus rakenteen testausta varten //
+
 public class BookService {
 
     private readerDao bookDao;
 
-    // tilapäinen
-    private ArrayList<String> books;
-
-    // tilapäinen
-    public BookService() {
-        this.books = new ArrayList<>();
-    }
-
-    // Book-olion kanssa käytettävä konstruktori
+   
     public BookService(readerDao dao) {
         this.bookDao = dao;
     }
 
-    public void addBook(String book) {
-        this.books.add(book);
+    public void addBook(Book book) throws IOException {
+       bookDao.save(book);
 
     }
 
-    public ArrayList<String> listBooks() {
-        return this.books;
+    public ArrayList<Book> listBooks() {
+       ArrayList<Book> books = bookDao.findAll();
+       return books;
     }
 
 }

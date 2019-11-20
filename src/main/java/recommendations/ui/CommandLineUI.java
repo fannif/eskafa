@@ -1,7 +1,9 @@
 package recommendations.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import recommendations.domain.Book;
 import recommendations.services.BookService;
 
 public class CommandLineUI {
@@ -14,7 +16,7 @@ public class CommandLineUI {
         this.service = service;
     }
 
-    public void start() {
+    public void start() throws IOException {
 
         System.out.println("Welcome!");
 
@@ -73,7 +75,7 @@ public class CommandLineUI {
 
     }
 
-    private void addBook() {
+    private void addBook() throws IOException {
         System.out.println("\nAdd a new Book");
         
         System.out.print("Title: ");
@@ -85,7 +87,39 @@ public class CommandLineUI {
         System.out.print("ISBN: ");
         String isbn = reader.nextLine();
 
-        service.addBook(title);
+        System.out.print("Type: ");
+        String type = reader.nextLine();
+        
+        ArrayList<String> tags = new ArrayList();
+        ArrayList<String> courses = new ArrayList();
+        
+        System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                + "to continue: ");
+        
+        while(true) {
+            String tag = reader.nextLine();
+            if (tag.equals("")) {
+                break;
+            }
+            tags.add(tag);
+        }
+        
+        System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                + "to continue: ");
+        
+        while(true) {
+            String course = reader.nextLine();
+            if (course.equals("")) {
+                break;
+            }
+            courses.add(course);
+        }
+        
+        System.out.print("Add a comment: ");
+        String comment = reader.nextLine();
+        
+        
+        service.addBook(new Book(author, title, type, isbn, tags, courses, comment));
         System.out.println("A new book recommendation was added successfully!");
 
     }

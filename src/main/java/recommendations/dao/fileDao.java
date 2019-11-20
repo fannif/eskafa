@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import recommendations.domain.Book;
-/*
+
 public class fileDao implements readerDao<Book, String> {
     
     Scanner fileReader;
@@ -51,7 +51,7 @@ public class fileDao implements readerDao<Book, String> {
         String newLine = "";
         newLine = newLine + tip.getAuthor() + ",";
         newLine = newLine + tip.getTitle() + ",";
-        newLine = newLine + tip.getTyyppi() + ",";
+        newLine = newLine + tip.getType()+ ",";
         newLine = newLine + tip.getISBN() + ",";
         
         for (String tag: tip.getTag()) {
@@ -122,4 +122,3 @@ public class fileDao implements readerDao<Book, String> {
     }
     
 }
-*/
