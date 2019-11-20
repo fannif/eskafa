@@ -101,7 +101,7 @@ public class fileDao implements readerDao<Book, String> {
             newLine = newLine + ";" + related;
         }
         
-        newLine = newLine + "," + tip.getComment();
+        newLine = newLine + "," + tip.getComment() + ", ";
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("books.csv", true))) {
             writer.append(newLine);
