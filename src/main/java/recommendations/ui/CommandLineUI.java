@@ -2,21 +2,22 @@ package recommendations.ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import recommendations.services.BookService;
 
 public class CommandLineUI {
 
     private Scanner reader;
-    private ArrayList<String> recommendations;
+    private BookService service;
 
-    public CommandLineUI(Scanner reader) {
+    public CommandLineUI(Scanner reader, BookService service) {
         this.reader = reader;
-        this.recommendations = new ArrayList<>();
+        this.service = service;
     }
 
     public void start() {
 
         System.out.println("Welcome!");
-        
+
         boolean go = true;
         while (go) {
             System.out.println("\n1 --- List all recommended books");
@@ -26,9 +27,9 @@ public class CommandLineUI {
             System.out.println("Select 1, 2, 3 or q");
             String choice = reader.nextLine();
 
-            switch(choice) {
+            switch (choice) {
                 case "q":
-                    go=false;
+                    go = false;
                     break;
                 case "1":
                     listBooks();
@@ -36,7 +37,7 @@ public class CommandLineUI {
                 case "2":
                     addBook();
                     break;
-                case "3": 
+                case "3":
                     removeBook();
                     break;
                 default:
@@ -56,34 +57,35 @@ public class CommandLineUI {
             fileDao.delete(title);
             System.out.println("The book has been successfully removed");
         }
-        */
+         */
         System.out.println("Nothing happens yet!");
     }
 
     private void listBooks() {
-        System.out.println("\nRecommendations:");
-        if (recommendations.isEmpty()) {
+        System.out.println("\nRecommendations:\n");
+        if (service.listBooks().isEmpty()) {
             System.out.println("No recommendations yet. Be the first one to contribute!");
         }
-        
-        recommendations.forEach((s) -> {
-            System.out.println(s);
+
+        service.listBooks().forEach((s) -> {
+            System.out.println("\t" + s);
         });
 
     }
 
     private void addBook() {
         System.out.println("\nAdd a new Book");
+        
         System.out.print("Title: ");
         String title = reader.nextLine();
 
         System.out.print("Author: ");
         String author = reader.nextLine();
 
-        System.out.println("ISBN: ");
+        System.out.print("ISBN: ");
         String isbn = reader.nextLine();
 
-        recommendations.add(title);
+        service.addBook(title);
         System.out.println("A new book recommendation was added successfully!");
 
     }
