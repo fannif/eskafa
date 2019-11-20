@@ -64,10 +64,10 @@ public class fileDao implements readerDao<Book, String> {
         
         newLine = newLine + tip.getComment();
         
-        BufferedWriter writer = new BufferedWriter(new FileWriter("books.csv", true));
-        writer.append("\n");
-        writer.append(newLine);
-        writer.close();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("books.csv", true))) {
+            writer.append("\n");
+            writer.append(newLine);
+        }
         
         return true;
     }
@@ -76,18 +76,18 @@ public class fileDao implements readerDao<Book, String> {
     @Override
     public void delete(String title) throws Exception {
         File temp = new File("temp.csv");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
-        connectReader();
-        
-        String line = "";
-        
-        while(fileReader.hasNextLine()) {
-            if (line.split(",")[1].equals(title)) {
-                continue;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(temp))) {
+            connectReader();
+            
+            String line = "";
+            
+            while(fileReader.hasNextLine()) {
+                if (line.split(",")[1].equals(title)) {
+                    continue;
+                }
+                writer.write(line + "\n");
             }
-            writer.write(line + "\n");
         }
-        writer.close();
         fileReader.close();
         
         file.delete();
@@ -113,9 +113,9 @@ public class fileDao implements readerDao<Book, String> {
         return new Book(parts[0], parts[1], parts[2], parts[3], bookTags, bookRelated, parts[6]);
     }
     
-    public void connectReader() {
-        try (Scanner fileReader = new Scanner(new File("books.csv"))) {
-            this.fileReader = fileReader;
+    private void connectReader() {
+        try (Scanner fReader = new Scanner(new File("books.csv"))) {
+            this.fileReader = fReader;
         } catch (Exception e) {
             System.out.println("No file 'books.csv' found in root directory.");
         }
