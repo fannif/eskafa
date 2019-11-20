@@ -1,6 +1,6 @@
 package recommendations;
 
-import ui.CommandLineUI;
+import recommendations.ui.CommandLineUI;
 import java.util.Scanner;
 
 public class Main {

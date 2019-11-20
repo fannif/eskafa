@@ -1,5 +1,5 @@
 
-package dao;
+package recommendations.dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,8 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import recommendations.Book;
-
+import recommendations.domain.Book;
+/*
 public class fileDao implements readerDao<Book, String> {
     
     Scanner fileReader;
@@ -122,3 +122,4 @@ public class fileDao implements readerDao<Book, String> {
     }
     
 }
+*/

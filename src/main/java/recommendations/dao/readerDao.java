@@ -1,5 +1,5 @@
 
-package dao;
+package recommendations.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;

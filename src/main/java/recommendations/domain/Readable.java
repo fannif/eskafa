@@ -1,4 +1,4 @@
-package recommendations;
+package recommendations.domain;
 
 public interface Readable {
     String getTitle();
