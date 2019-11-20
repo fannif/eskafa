@@ -4,11 +4,15 @@ package recommendations.dao;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import recommendations.domain.Book;
 
 public class fileDao implements readerDao<Book, String> {
@@ -18,12 +22,20 @@ public class fileDao implements readerDao<Book, String> {
     
     public fileDao() {
         file = new File("books.csv");
-        connectReader();
+        try {
+            connectReader();
+        } catch (Exception ex) {
+            Logger.getLogger(fileDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public Book findOne(String title) {
-        connectReader();
+        try {
+            connectReader();
+        } catch (Exception ex) {
+            Logger.getLogger(fileDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         while(fileReader.hasNextLine()) {
             String line = fileReader.nextLine();
             if (line.split(",")[1].equals(title)) {
@@ -37,10 +49,20 @@ public class fileDao implements readerDao<Book, String> {
     
     @Override
     public ArrayList<Book> findAll() {
-        connectReader();
+        try {
+            connectReader();
+        } catch (Exception ex) {
+            Logger.getLogger(fileDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ArrayList<Book> tips = new ArrayList<>();
+        String line = "";                
+        
         while(fileReader.hasNextLine()) {
-            tips.add(convert(fileReader.nextLine()));
+            line = fileReader.nextLine();
+            if (line.trim().equals("")) {
+                continue;
+            }
+            tips.add(convert(line));
         }
         fileReader.close();
         return tips;
@@ -49,24 +71,41 @@ public class fileDao implements readerDao<Book, String> {
     @Override
     public boolean save(Book tip) throws IOException {
         String newLine = "";
+
         newLine = newLine + tip.getAuthor() + ",";
         newLine = newLine + tip.getTitle() + ",";
         newLine = newLine + tip.getType()+ ",";
         newLine = newLine + tip.getISBN() + ",";
         
+        int i = 0;
+        
         for (String tag: tip.getTag()) {
-            newLine = newLine + tag + ";";
+            if (i == 0) {
+                newLine = newLine + tag;
+                i++;
+                continue;
+            }
+            newLine = newLine + ";" + tag;            
         }
+        
+        newLine = newLine + ",";
+        
+        i = 0;
         
         for (String related: tip.getRelatedCourses()) {
-            newLine = newLine + related + ";";
+            if (i == 0) {
+                newLine = newLine + related;
+                i++;
+                continue;
+            }
+            newLine = newLine + ";" + related;
         }
         
-        newLine = newLine + tip.getComment();
+        newLine = newLine + "," + tip.getComment();
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("books.csv", true))) {
-            writer.append("\n");
             writer.append(newLine);
+            writer.append("\n");
         }
         
         return true;
@@ -76,8 +115,9 @@ public class fileDao implements readerDao<Book, String> {
     @Override
     public void delete(String title) throws Exception {
         File temp = new File("temp.csv");
+        connectReader();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(temp))) {
-            connectReader();
+            
             
             String line = "";
             
@@ -102,23 +142,16 @@ public class fileDao implements readerDao<Book, String> {
         ArrayList<String> bookTags = new ArrayList<>();
         ArrayList<String> bookRelated = new ArrayList<>();
         
-        for (String tag: tags) {
-            bookTags.add(tag);
-        }
+        bookTags.addAll(Arrays.asList(tags));
         
-        for (String relation: related) {
-            bookRelated.add(relation);
-        }
+        bookRelated.addAll(Arrays.asList(related));
         
         return new Book(parts[0], parts[1], parts[2], parts[3], bookTags, bookRelated, parts[6]);
     }
     
-    private void connectReader() {
-        try (Scanner fReader = new Scanner(new File("books.csv"))) {
-            this.fileReader = fReader;
-        } catch (Exception e) {
-            System.out.println("No file 'books.csv' found in root directory.");
-        }
+    private void connectReader() throws Exception {
+         
+        this.fileReader = new Scanner(new File("books.csv"));
     }
     
 }
