@@ -16,9 +16,9 @@ import recommendations.services.BookService;
 public class RecommendationsTest {
 
     readerDao readerDaoStub = new readerDao() {
-        
+        ArrayList<Book> tips = createListForStub();
+
         public Object findOne(Object title) {
-            ArrayList<Book> tips = createListForStub();
             Book searchedTip = null; 
             for (int i= 0; i < tips.size(); i++) {
                 if (tips.get(i).getTitle().equals(title)) {
@@ -29,26 +29,21 @@ public class RecommendationsTest {
         }
 
         public ArrayList findAll() {
-            ArrayList<Book> tips = createListForStub();
             return tips;
         }
 
-        
         public boolean save(Object tip) throws IOException {
-            ArrayList<Book> tips = createListForStub();
             Book tipToAdd = (Book)tip;
             tips.add(tipToAdd);
             return true;
         }
 
-        
         public void delete(Object title) throws Exception {
-            ArrayList<Book> tips = createListForStub();
-            Book selectedForDeleting = findWanted(title, tips);
+            Book selectedForDeleting = findWanted(title);
             tips.remove(selectedForDeleting);
         }
 
-        private Book findWanted(Object title, ArrayList<Book> tips) {
+        private Book findWanted(Object title) {
             Book wanted = null;
             for (int i= 0; i < tips.size(); i++) {
                 if (tips.get(i).getTitle().equals(title)) {
@@ -57,14 +52,21 @@ public class RecommendationsTest {
             }
             return wanted;
         }
-        private ArrayList<Book> createListForStub() {
-            ArrayList<String> tags = new ArrayList<>();
+        public ArrayList<Book> createListForStub() {
+            ArrayList<Book> tipList = new ArrayList<>();
+            ArrayList<String> tags1 = new ArrayList<>();
+            ArrayList<String> tags2 = new ArrayList<>();
+            tags1.add("clean code");
+            tags2.add("Security");
+            tags2.add("Popular");
             ArrayList<String> courses = new ArrayList<>();
-            ArrayList<Book> tips = new ArrayList<>();
-            tips.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags , courses, ""));
-            tips.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags , courses, ""));
-            tips.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags , courses, ""));
-            return tips;
+            courses.add("Ohjelmistotuotanto");
+            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses, "Must have!"));
+            courses.remove("Ohjelmistotuotanto");
+            courses.add("");
+            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses, ""));
+            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses, ""));
+            return tipList;
         }
         
     };
@@ -73,6 +75,7 @@ public class RecommendationsTest {
     
     @Before
     public void setUp() {
+        
         BookService service = new BookService(readerDaoStub);
     }
     
