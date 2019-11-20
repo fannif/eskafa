@@ -1,14 +1,16 @@
 package recommendations.domain;
 
+import java.util.ArrayList;
+
 public interface Readable {
     String getTitle();
     void setTitle(String title);
     String getType();
     void setType(String type);
-    String getTag();
-    void setTag(String tag);
-    String getRelatedCourses();
-    void setRelatedCourses(String coureName);
+    ArrayList<String> getTag();
+    void setTag(ArrayList<String> tags);
+    ArrayList<String> getRelatedCourses();
+    void setRelatedCourses(ArrayList<String> courses);
     String getComment();
     void setComment(String comment);
     String getDescription();
