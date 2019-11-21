@@ -6,9 +6,6 @@
 #### Sprint Backlog
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1OqxUPbk6urff_mOtHHC_oDDHmhOTyWZxNcCAq9ybvWM/edit?usp=sharing)
 
-### Definition of done
-Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on tehty kattavasti. Myös Cucumber-testejä on jonkin verran. Kaikki toteutettavat toiminnallisuudet ovat käytettävissä ilman, että ohjelma kaatuu. Toiminnallisuus on sen verran selkeää, että käyttäjän on helppo käyttää ohjelmaa omatoimisesti.
-
 #### Työmääräkirjanpito ja Burndown chart
 
 [Sprintti 1](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
@@ -23,3 +20,45 @@ Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on 
 
 #### Licence
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Definition of done
+Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on tehty kattavasti. Myös Cucumber-testejä on jonkin verran. Kaikki toteutettavat toiminnallisuudet ovat käytettävissä ilman, että ohjelma kaatuu. Toiminnallisuus on sen verran selkeää, että käyttäjän on helppo käyttää ohjelmaa omatoimisesti.
+
+## Ohjelman asennus- ja käyttöohje
+
+### Asennus ja käynnistys
+
+Lataa ohjelman viimeisin versio jar-tiedostona (release 1.0) [täältä](). Ohjelma ei vaadi asennusta eli jar-tiedoston 
+voi ajaa suoraan komentoriviltä. Tätä varten hakemistossa, johon jar-tiedosto on tallennettu, täytyy suorittaa alla oleva 
+komento, joka käynnistää sovelluksen: 
+
+`java -jar recommendations.jar` 
+
+Ensimmäisellä käynnistyskerralla ohjelma luo books.csv-nimisen tiedoston projektin juurikansioon
+lukuvinkkien tallentamista varten. Ohjelman oikea toiminta edellyttää, että koneelle on asennettu Java.   
+
+### Lukuvinkkikirjaston käyttö
+
+Ohjelma sisältää seuraavia toimintoja: 
+
+#### 1. Kirjavinkin lisääminen
+
+Uuden kirjavinkin lisääminen onnistuu valitsemalla päävalikosta vaihtoehdon
+
+`2 --- Add a new book`
+ 
+Tämän jälkeen ohjelma kysyy lisättävän kirjan tiedot ja tallentaa ne tiedostoon.  
+
+#### 2. Kirjavinkin poistaminen
+
+Kirjavinkin poistaminen onnistuu komennolla 
+
+`3 --- Remove a book from recommendations`
+
+Ohjelma etsii teoksen nimen perusteella ja poistaa sen tiedot lukuvinkkien listalta. 
+
+#### 3. Ohjelman sulkeminen
+
+Ohjelman voi sulkea komennolla 
+
+`q --- quit`
