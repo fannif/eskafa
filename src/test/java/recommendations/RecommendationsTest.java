@@ -105,15 +105,16 @@ public class RecommendationsTest {
         assertEquals(null, readerDaoStub.findOne("Beyond Fear"));
     }
     
-//    @Test
-//    public void removeBookDoesNothingIfBookNotInList() throws Exception {
-//        String title = "Hello world";
-//        Scanner lukija = new Scanner(System.in);
-//        service.remove(title, lukija);
-//        assertEquals(3, service.listBooks().size());
-//        //assertEquals(, readerDaoStub.findOne("Beyond Fear"));        
-//        
-//    }
+    @Test
+    public void removeBookDoesNothingIfBookNotInList() throws Exception {
+        String title = "Hello world";
+        Scanner lukija = new Scanner("q");
+        service.remove(title, lukija);
+        
+        assertEquals(3, service.listBooks().size());
+        //assertEquals(, readerDaoStub.findOne("Beyond Fear"));        
+        
+    }
     
   
 
