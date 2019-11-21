@@ -10,7 +10,6 @@ public class CommandLineUI {
 
     private Scanner reader;
     private BookService service;
-    public static boolean loop = true;
 
     public CommandLineUI(Scanner reader, BookService service) {
         this.reader = reader;
@@ -51,12 +50,9 @@ public class CommandLineUI {
     }
 
     private void removeBook() throws Exception {
-        loop = true;
-        while(loop) {
-            System.out.println("\nPlease enter the title of the book to be removed: ");
-            String title = reader.nextLine();
-            System.out.println(service.remove(title));
-        }
+        System.out.println("\nPlease enter the title of the book to be removed: ");
+        String title = reader.nextLine();
+        service.remove(title, reader);
     }
 
     private void listBooks() {
