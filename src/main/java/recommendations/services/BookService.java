@@ -27,7 +27,7 @@ public class BookService {
     }
 
     public String remove(String title) throws Exception {
-        if (bookDao.findOne(title) != null) {
+        if (bookDao.findOne(title) == null) {
             return "No such book found. Please check the spelling.";
         } else {
             bookDao.delete(title);
