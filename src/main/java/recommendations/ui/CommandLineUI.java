@@ -24,7 +24,7 @@ public class CommandLineUI {
         while (go) {
             System.out.println("\n1 --- List all recommended books");
             System.out.println("2 --- Add a new book");
-            System.out.println("3 --- Remove a book from recommendatitons");
+            System.out.println("3 --- Remove a book from recommendations");
             System.out.println("q --- Quit");
             System.out.println("Select 1, 2, 3 or q");
             String choice = reader.nextLine();
