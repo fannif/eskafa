@@ -51,6 +51,7 @@ public class CommandLineUI {
     }
 
     private void removeBook() throws Exception {
+        loop = true;
         while(loop) {
             System.out.println("\nPlease enter the title of the book to be removed: ");
             String title = reader.nextLine();
