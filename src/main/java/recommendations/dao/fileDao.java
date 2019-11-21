@@ -22,6 +22,11 @@ public class fileDao implements readerDao<Book, String> {
     
     public fileDao() {
         file = new File("books.csv");
+        try { 
+            file.createNewFile(); // Create file if doesn't exist
+        } catch (IOException ex) {
+            Logger.getLogger(fileDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             connectReader();
         } catch (Exception ex) {
