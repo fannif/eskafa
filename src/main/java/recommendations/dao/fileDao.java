@@ -120,22 +120,26 @@ public class fileDao implements readerDao<Book, String> {
     @Override
     public void delete(String title) throws Exception {
         File temp = new File("temp.csv");
-        
-        connectReader();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(temp))) {
+        try {
+            connectReader();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(temp))) {
             
             
-            String line = "";
+                String line = "";
             
-            while(fileReader.hasNextLine()) {
-                if (line.trim().equals("")) {
-                    continue;
+                while(fileReader.hasNextLine()) {
+                    line = fileReader.nextLine();
+                    if (line.trim().equals("")) {
+                        continue;
+                    }
+                    if (line.split(",")[1].equals(title)) {
+                        continue;
+                    }
+                    writer.write(line + "\n");
                 }
-                if (line.split(",")[1].equals(title)) {
-                    continue;
-                }
-                writer.write(line + "\n");
             }
+        } catch (Exception e) {
+            
         }
         fileReader.close();
         
