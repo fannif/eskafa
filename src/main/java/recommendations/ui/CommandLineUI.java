@@ -67,6 +67,8 @@ public class CommandLineUI {
 
     }
 
+    
+
     private void addBook() throws IOException {
         System.out.println("\nAdd a new Book");
         
@@ -115,5 +117,6 @@ public class CommandLineUI {
         System.out.println("A new book recommendation was added successfully!");
 
     }
+    
 
 }
