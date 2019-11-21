@@ -10,13 +10,14 @@ public class CommandLineUI {
 
     private Scanner reader;
     private BookService service;
+    public static boolean loop = true;
 
     public CommandLineUI(Scanner reader, BookService service) {
         this.reader = reader;
         this.service = service;
     }
 
-    public void start() throws IOException {
+    public void start() throws Exception {
 
         System.out.println("Welcome!");
 
@@ -49,18 +50,12 @@ public class CommandLineUI {
         System.out.println("\nThanks for using Recommendations! Have a nice day!");
     }
 
-    private void removeBook() {
-        System.out.println("\nPlease enter the title of the book to be removed: ");
-        String title = reader.nextLine();
-        /* Sit kun on olemassa Book
-        if(fileDao.findOne(title) == null) {
-            System.out.println("No such book found. Please check the spelling.");
-        } else {
-            fileDao.delete(title);
-            System.out.println("The book has been successfully removed");
+    private void removeBook() throws Exception {
+        while(loop) {
+            System.out.println("\nPlease enter the title of the book to be removed: ");
+            String title = reader.nextLine();
+            System.out.println(service.remove(title));
         }
-         */
-        System.out.println("Nothing happens yet!");
     }
 
     private void listBooks() {

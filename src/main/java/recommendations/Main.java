@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         Scanner reader = new Scanner(System.in);
         fileDao filedao = new fileDao();
