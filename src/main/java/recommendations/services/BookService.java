@@ -41,7 +41,7 @@ public class BookService {
                 bookDao.delete(input);
                 go = false;
             }
-            System.out.println("The book has been successfully removed");
         }
+        System.out.println("The book has been successfully removed");
     }
 }
