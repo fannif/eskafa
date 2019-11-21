@@ -128,7 +128,7 @@ public class Book implements Readable {
     }
 
     public String listToString(ArrayList list) {
-        if (list.get(0).equals("")) {
+        if (list.get(0).equals("") || list.isEmpty()) {
             return "";
         } else {
             String listString = "|";

@@ -59,25 +59,60 @@ public class RecommendationsTest {
             tags1.add("clean code");
             tags2.add("Security");
             tags2.add("Popular");
-            ArrayList<String> courses = new ArrayList<>();
-            courses.add("Ohjelmistotuotanto");
-            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses, "Must have!"));
-            courses.remove("Ohjelmistotuotanto");
-            courses.add("");
-            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses, ""));
-            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses, ""));
+            ArrayList<String> courses1 = new ArrayList<>();
+            ArrayList<String> courses2 = new ArrayList<>();            
+            courses1.add("Ohjelmistotuotanto");
+            courses1.add("OhJa");            
+            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
+            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
+            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses2, ""));
             return tipList;
         }
         
     };
     
 
-    
+    BookService service;
     @Before
     public void setUp() {
-        
-        BookService service = new BookService(readerDaoStub);
+        service = new BookService(readerDaoStub);
     }
+    
+    @Test
+    public void listBooksReturnsBookList() {
+        assertEquals(3, service.listBooks().size());
+    }
+    
+    @Test
+    public void listBooksReturnsBookListInRightForm() {
+        assertEquals("Type: Book\n\tTitle: Clean Code\n\tAuthor: Robert C. Martin\n\tISBN: 978-0-13-235088-4\n\tTags:"
+                + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n" ,service.listBooks().get(0).toString());
+    }
+    
+    public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() {
+        assertEquals("Type: Book\n\tTitle: Secret & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
+                + "|security|\n\tRelated courses:\n\\n" ,service.listBooks().get(2).toString());
+    }
+     
+    
+    @Test
+    public void removeBookRemovesBookIfBookExistsInList() throws Exception {
+        String title = "Beyond Fear";
+        Scanner lukija = new Scanner(System.in);
+        service.remove(title, lukija);
+        assertEquals(2, service.listBooks().size());
+        assertEquals(null, readerDaoStub.findOne("Beyond Fear"));
+    }
+    
+//    @Test
+//    public void removeBookDoesNothingIfBookNotInList() throws Exception {
+//        String title = "Hello world";
+//        Scanner lukija = new Scanner(System.in);
+//        service.remove(title, lukija);
+//        assertEquals(3, service.listBooks().size());
+//        //assertEquals(, readerDaoStub.findOne("Beyond Fear"));        
+//        
+//    }
     
   
 

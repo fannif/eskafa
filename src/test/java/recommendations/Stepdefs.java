@@ -112,13 +112,12 @@ public class Stepdefs {
             tags1.add("clean code");
             tags2.add("Security");
             tags2.add("Popular");
-            ArrayList<String> courses = new ArrayList<>();
-            courses.add("Ohjelmistotuotanto");
-            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses, "Must have!"));
-            courses.remove("Ohjelmistotuotanto");
-            courses.add("");
-            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses, ""));
-            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses, ""));
+            ArrayList<String> courses1 = new ArrayList<>();
+            ArrayList<String> courses2 = new ArrayList<>();
+            courses1.add("Ohjelmistotuotanto");
+            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
+            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
+            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses2, ""));
             return tipList;
         }
         
