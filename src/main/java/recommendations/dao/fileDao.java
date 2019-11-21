@@ -120,11 +120,8 @@ public class fileDao implements readerDao<Book, String> {
     @Override
     public void delete(String title) throws Exception {
         File temp = new File("temp.csv");
-        try {
-            connectReader();
-        } catch (Exception ex) {
-            Logger.getLogger(fileDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        connectReader();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(temp))) {
             
             
