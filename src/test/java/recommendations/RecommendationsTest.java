@@ -89,9 +89,10 @@ public class RecommendationsTest {
                 + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n" ,service.listBooks().get(0).toString());
     }
     
+    @Test
     public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() {
-        assertEquals("Type: Book\n\tTitle: Secret & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
-                + "|security|\n\tRelated courses:\n\\n" ,service.listBooks().get(2).toString());
+        assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
+                + "|Security|Popular|\n\tRelated courses:\n\t\n" ,service.listBooks().get(2).toString());
     }
      
     

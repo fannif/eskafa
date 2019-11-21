@@ -128,14 +128,17 @@ public class Book implements Readable {
     }
 
     public String listToString(ArrayList list) {
-        if (list.get(0).equals("") || list.isEmpty()) {
-            return "";
-        } else {
-            String listString = "|";
-            for (int i = 0; i < list.size(); i++) {
-                listString = listString + list.get(i) + "|";
+        if (!list.isEmpty()) {
+            if (list.get(0).equals("")) {
+                return "";
+            } else {
+                String listString = "|";
+                for (int i = 0; i < list.size(); i++) {
+                    listString = listString + list.get(i) + "|";
+                }
+                return listString;
             }
-            return listString;
         }
+        return "";
     }
 }
