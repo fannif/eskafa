@@ -10,26 +10,26 @@ import recommendations.dao.readerDao;
 public class BookService {
 
     private readerDao bookDao;
-   
+
     public BookService(readerDao dao) {
         this.bookDao = dao;
     }
 
     public void addBook(Book book) throws IOException {
-       bookDao.save(book);
+        bookDao.save(book);
 
     }
 
     public ArrayList<Book> listBooks() {
-       ArrayList<Book> books = bookDao.findAll();
-       return books;
+        ArrayList<Book> books = bookDao.findAll();
+        return books;
     }
 
     public void remove(String title, Scanner lukija) throws Exception {
         boolean go = true;
         Scanner reader = lukija;
         String input = title;
-        while(go) {
+        while (go) {
             if (input.equals("q")) {
                 return;
             }

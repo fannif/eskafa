@@ -19,7 +19,6 @@ public class CommandLineUI {
     public void start() throws Exception {
 
         System.out.println("Welcome!");
-
         boolean go = true;
         while (go) {
             System.out.println("\n1 --- List all recommended books");
@@ -45,7 +44,6 @@ public class CommandLineUI {
                 default:
             }
         }
-
         System.out.println("\nThanks for using Recommendations! Have a nice day!");
     }
 
@@ -67,26 +65,18 @@ public class CommandLineUI {
 
     }
 
-    
-
     private void addBook() throws IOException {
         System.out.println("\nAdd a new Book");
-        
         System.out.print("Title: ");
         String title = reader.nextLine();
-
         System.out.print("Author: ");
         String author = reader.nextLine();
-
         System.out.print("ISBN: ");
         String isbn = reader.nextLine();
-
         System.out.print("Type: ");
         String type = reader.nextLine();
-        
         ArrayList<String> tags = new ArrayList();
         ArrayList<String> courses = new ArrayList();
-        
         System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
         
@@ -97,7 +87,6 @@ public class CommandLineUI {
             }
             tags.add(tag);
         }
-        
         System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
         
@@ -108,15 +97,11 @@ public class CommandLineUI {
             }
             courses.add(course);
         }
-        
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
         
-        
         service.addBook(new Book(author, title, type, isbn, tags, courses, comment));
         System.out.println("A new book recommendation was added successfully!");
-
     }
     
-
 }
