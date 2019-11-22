@@ -2,7 +2,6 @@ package recommendations;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import recommendations.dao.fileDao;
 import recommendations.domain.Book;
 import recommendations.services.BookService;
 import recommendations.ui.CommandLineUI;
@@ -13,7 +12,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import org.junit.Before;
 import recommendations.dao.readerDao;
 
 public class Stepdefs {
@@ -27,10 +25,10 @@ public class Stepdefs {
 
     
 
-    public void makeInputString(List<String> inputLines) {
+    public void makeInputString(final List<String> inputLines) {
         this.input = "";
         for (int i = 0; i < inputLines.size(); i++) {
-            input = input + "\n" + inputLines.get(i);
+            input = input + inputLines.get(i) + "\n";
         }
     }
 
@@ -39,8 +37,14 @@ public class Stepdefs {
         inputLines.add("2");
     }
 
+    
+    @Given("Command remove is selected")
+    public void commandRemoveSelected() throws Throwable {      
+        inputLines.add("3");
+    }
+
     @When("User has filled in title {string}, author {string}, ISBN {string} and type {string}")
-    public void informationIsFilled(String title, String author, String isbn, String type) throws Throwable {
+    public void informationIsFilled(final String title, final String author, final String isbn, final String type) throws Throwable {
         
         inputLines.add(title);
         inputLines.add(author);
@@ -59,19 +63,44 @@ public class Stepdefs {
         testUI.start();
     } 
 
+    
+    @When("User has filled in the title {string} and this book is in memory")
+    public void userTriesToRemoveBookThatIsInMemory(String title) throws Throwable {
+        
+        inputLines.add(title);
+        inputLines.add("q");
+        makeInputString(inputLines);
+
+        testDao = createTestDao();
+        testService = new BookService(testDao);       
+        TestScanner = new Scanner(input);
+        testUI = new CommandLineUI(TestScanner, testService);
+
+        testUI.start();
+
+    }
+    
+
     @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
-    public void memoryContainsBook(String title, String author, String isbn) {
-        Book found = (Book) testDao.findOne(title);
+    public void memoryContainsBook(final String title, final String author, final String isbn) {
+        final Book found = (Book) testDao.findOne(title);
         assertTrue(found.getTitle().equals(title));
         assertTrue(found.getAuthor().equals(author));
         assertTrue(found.getISBN().equals(isbn));
     }
+
+    
+    @Then("Memory should not contain a book called {string}")
+    public void memoryShouldNotContainTheBook(String title) throws Throwable {
+        assertNull(testDao.findOne(title));
+    }
+    
     
    public readerDao createTestDao() {
        return new readerDao() {
         ArrayList<Book> tips = createListForStub();
 
-        public Object findOne(Object title) {
+        public Object findOne(final Object title) {
             Book searchedTip = null; 
             for (int i= 0; i < tips.size(); i++) {
                 if (tips.get(i).getTitle().equals(title)) {
@@ -85,18 +114,18 @@ public class Stepdefs {
             return tips;
         }
 
-        public boolean save(Object tip) throws IOException {
-            Book tipToAdd = (Book)tip;
+        public boolean save(final Object tip) throws IOException {
+            final Book tipToAdd = (Book)tip;
             tips.add(tipToAdd);
             return true;
         }
 
-        public void delete(Object title) throws Exception {
-            Book selectedForDeleting = findWanted(title);
+        public void delete(final Object title) throws Exception {
+            final Book selectedForDeleting = findWanted(title);
             tips.remove(selectedForDeleting);
         }
 
-        private Book findWanted(Object title) {
+        private Book findWanted(final Object title) {
             Book wanted = null;
             for (int i= 0; i < tips.size(); i++) {
                 if (tips.get(i).getTitle().equals(title)) {
@@ -106,14 +135,14 @@ public class Stepdefs {
             return wanted;
         }
         public ArrayList<Book> createListForStub() {
-            ArrayList<Book> tipList = new ArrayList<>();
-            ArrayList<String> tags1 = new ArrayList<>();
-            ArrayList<String> tags2 = new ArrayList<>();
+            final ArrayList<Book> tipList = new ArrayList<>();
+            final ArrayList<String> tags1 = new ArrayList<>();
+            final ArrayList<String> tags2 = new ArrayList<>();
             tags1.add("clean code");
             tags2.add("Security");
             tags2.add("Popular");
-            ArrayList<String> courses1 = new ArrayList<>();
-            ArrayList<String> courses2 = new ArrayList<>();
+            final ArrayList<String> courses1 = new ArrayList<>();
+            final ArrayList<String> courses2 = new ArrayList<>();
             courses1.add("Ohjelmistotuotanto");
             tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
             tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
