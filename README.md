@@ -41,15 +41,23 @@ lukuvinkkien tallentamista varten. Ohjelman oikea toiminta edellyttää, että k
 
 Ohjelma sisältää seuraavia toimintoja: 
 
-#### 1. Kirjavinkin lisääminen
+#### 1. Kirjavinkkien listaaminen
 
-Uuden kirjavinkin lisääminen onnistuu valitsemalla päävalikosta vaihtoehdon
+Sovellukseen lisättyjä kirjavinkkejä pääsee selailemaan valitsemalla komennon  
+
+`1 --- List all recommended books`,
+
+joka palauttaa listan kaikista lisätyistä kirjoista.
+
+#### 2. Kirjavinkin lisääminen
+
+Uuden kirjavinkin lisääminen onnistuu valitsemalla vaihtoehdon
 
 `2 --- Add a new book`
  
 Tämän jälkeen ohjelma kysyy lisättävän kirjan tiedot ja tallentaa ne tiedostoon.  
 
-#### 2. Kirjavinkin poistaminen
+#### 3. Kirjavinkin poistaminen
 
 Kirjavinkin poistaminen onnistuu komennolla 
 
@@ -57,7 +65,7 @@ Kirjavinkin poistaminen onnistuu komennolla
 
 Ohjelma etsii teoksen nimen perusteella ja poistaa sen tiedot lukuvinkkien listalta. 
 
-#### 3. Ohjelman sulkeminen
+#### 4. Ohjelman sulkeminen
 
 Ohjelman voi sulkea komennolla 
 
