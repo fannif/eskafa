@@ -28,7 +28,7 @@ Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on 
 
 ### Asennus ja käynnistys
 
-Lataa ohjelman viimeisin versio jar-tiedostona (release 1.0) [täältä](). Ohjelma ei vaadi asennusta eli jar-tiedoston 
+Lataa ohjelman viimeisin versio jar-tiedostona (release 1.0) [täältä](https://github.com/fannif/eskafa/releases/download/v1.0/recommendations.jar). Ohjelma ei vaadi asennusta eli jar-tiedoston 
 voi ajaa suoraan komentoriviltä. Tätä varten hakemistossa, johon jar-tiedosto on tallennettu, täytyy suorittaa alla oleva 
 komento, joka käynnistää sovelluksen: 
 
