@@ -23,8 +23,6 @@ public class Stepdefs {
     BookService testService;
     CommandLineUI testUI;
 
-    
-
     public void makeInputString(final List<String> inputLines) {
         this.input = "";
         for (int i = 0; i < inputLines.size(); i++) {
@@ -37,15 +35,14 @@ public class Stepdefs {
         inputLines.add("2");
     }
 
-    
     @Given("Command remove is selected")
-    public void commandRemoveSelected() throws Throwable {      
+    public void commandRemoveSelected() throws Throwable {
         inputLines.add("3");
     }
 
     @When("User has filled in title {string}, author {string}, ISBN {string} and type {string}")
     public void informationIsFilled(final String title, final String author, final String isbn, final String type) throws Throwable {
-        
+
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add(isbn);
@@ -61,25 +58,23 @@ public class Stepdefs {
         testService = new BookService(testDao);
         testUI = new CommandLineUI(TestScanner, testService);
         testUI.start();
-    } 
+    }
 
-    
     @When("User has filled in the title {string} and this book is in memory")
     public void userTriesToRemoveBookThatIsInMemory(String title) throws Throwable {
-        
+
         inputLines.add(title);
         inputLines.add("q");
         makeInputString(inputLines);
 
         testDao = createTestDao();
-        testService = new BookService(testDao);       
+        testService = new BookService(testDao);
         TestScanner = new Scanner(input);
         testUI = new CommandLineUI(TestScanner, testService);
 
         testUI.start();
 
     }
-    
 
     @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
     public void memoryContainsBook(final String title, final String author, final String isbn) {
@@ -89,76 +84,98 @@ public class Stepdefs {
         assertTrue(found.getISBN().equals(isbn));
     }
 
-    
     @Then("Memory should not contain a book called {string}")
     public void memoryShouldNotContainTheBook(String title) throws Throwable {
         assertNull(testDao.findOne(title));
     }
-    
-    
-   public readerDao createTestDao() {
-       return new readerDao() {
-        ArrayList<Book> tips = createListForStub();
 
-        public Object findOne(final Object title) {
-            Book searchedTip = null; 
-            for (int i= 0; i < tips.size(); i++) {
-                if (tips.get(i).getTitle().equals(title)) {
-                    searchedTip = tips.get(i);
+    @Given("book titled {string} has been added")
+    public void bookTitledHasBeenAdded(String title) {
+        inputLines.add("2");
+        inputLines.add(title);
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("Book");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("");
+    }
+
+    @When("command list is selected")
+    public void commandListIsSelected() throws Throwable {
+        inputLines.add("1");
+        inputLines.add("q");
+        makeInputString(inputLines);
+
+        TestScanner = new Scanner(input);
+        testDao = createTestDao();
+        testService = new BookService(testDao);
+        testUI = new CommandLineUI(TestScanner, testService);
+        testUI.start();
+    }
+
+    @Then("system responds with a list of books containing a book titled {string}")
+    public void systemRespondsWithAListOfBooksContainingABookTitled(String title) {
+        assertTrue(testDao.findAll().contains(new Book("", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
+    }
+
+    public readerDao createTestDao() {
+        return new readerDao() {
+            ArrayList<Book> tips = createListForStub();
+
+            public Object findOne(final Object title) {
+                Book searchedTip = null;
+                for (int i = 0; i < tips.size(); i++) {
+                    if (tips.get(i).getTitle().equals(title)) {
+                        searchedTip = tips.get(i);
+                    }
                 }
+                return searchedTip;
             }
-            return searchedTip;
-        }
 
-        public ArrayList findAll() {
-            return tips;
-        }
+            public ArrayList findAll() {
+                return tips;
+            }
 
-        public boolean save(final Object tip) throws IOException {
-            final Book tipToAdd = (Book)tip;
-            tips.add(tipToAdd);
-            return true;
-        }
+            public boolean save(final Object tip) throws IOException {
+                final Book tipToAdd = (Book) tip;
+                tips.add(tipToAdd);
+                return true;
+            }
 
-        public void delete(final Object title) throws Exception {
-            final Book selectedForDeleting = findWanted(title);
-            tips.remove(selectedForDeleting);
-        }
+            public void delete(final Object title) throws Exception {
+                final Book selectedForDeleting = findWanted(title);
+                tips.remove(selectedForDeleting);
+            }
 
-        private Book findWanted(final Object title) {
-            Book wanted = null;
-            for (int i= 0; i < tips.size(); i++) {
-                if (tips.get(i).getTitle().equals(title)) {
-                    wanted = tips.get(i);
+            private Book findWanted(final Object title) {
+                Book wanted = null;
+                for (int i = 0; i < tips.size(); i++) {
+                    if (tips.get(i).getTitle().equals(title)) {
+                        wanted = tips.get(i);
+                    }
                 }
+                return wanted;
             }
-            return wanted;
-        }
-        public ArrayList<Book> createListForStub() {
-            final ArrayList<Book> tipList = new ArrayList<>();
-            final ArrayList<String> tags1 = new ArrayList<>();
-            final ArrayList<String> tags2 = new ArrayList<>();
-            tags1.add("clean code");
-            tags2.add("Security");
-            tags2.add("Popular");
-            final ArrayList<String> courses1 = new ArrayList<>();
-            final ArrayList<String> courses2 = new ArrayList<>();
-            courses1.add("Ohjelmistotuotanto");
-            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
-            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
-            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses2, ""));
-            return tipList;
-        }
-        
-    };
 
-   }
+            public ArrayList<Book> createListForStub() {
+                final ArrayList<Book> tipList = new ArrayList<>();
+                final ArrayList<String> tags1 = new ArrayList<>();
+                final ArrayList<String> tags2 = new ArrayList<>();
+                tags1.add("clean code");
+                tags2.add("Security");
+                tags2.add("Popular");
+                final ArrayList<String> courses1 = new ArrayList<>();
+                final ArrayList<String> courses2 = new ArrayList<>();
+                courses1.add("Ohjelmistotuotanto");
+                tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
+                tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
+                tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
+                return tipList;
+            }
 
-    
+        };
 
+    }
 
-
-    
- 
 }
-
