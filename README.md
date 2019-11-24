@@ -36,7 +36,7 @@ komento, joka käynnistää sovelluksen:
 
 `java -jar recommendations.jar` (Java 11)
 
-`java -jar recommendadtions_java8.jar` (Java 8)
+`java -jar recommendations_java8.jar` (Java 8)
 
 Ensimmäisellä käynnistyskerralla ohjelma luo books.csv-nimisen tiedoston projektin juurikansioon
 lukuvinkkien tallentamista varten. Ohjelman oikea toiminta edellyttää, että koneelle on asennettu Java.   
