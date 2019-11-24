@@ -53,3 +53,9 @@ jacocoTestReport {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'recommendations.Main'
+    }
+}
+
