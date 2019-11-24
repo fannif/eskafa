@@ -16,7 +16,9 @@
 
 #### Codeclimate
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/fannif/eskafa)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/test_coverage)](https://codeclimate.com/github/fannif/eskafa)
+
+#### Codecov
+Testikattavuus: https://codecov.io/gh/fannif/eskafa
 
 #### Licence
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
