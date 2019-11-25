@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Book implements Readable {
 
+    private int id;
     private String author;
     private String title;
     private String type;
@@ -14,7 +15,7 @@ public class Book implements Readable {
     private String description;
     private String comment;
 
-    public Book(String author, String title, String type, String ISBN, ArrayList<String> tags, ArrayList<String> relatedCourses, String comment) {
+    public Book(int id, String author, String title, String type, String ISBN, ArrayList<String> tags, ArrayList<String> relatedCourses, String comment) {
         this.author = author;
         this.title = title;
         this.type = type;
