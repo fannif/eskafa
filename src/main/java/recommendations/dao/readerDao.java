@@ -12,5 +12,6 @@ public interface readerDao<T, K> {
     List<T> findAll() throws SQLException;
     void save(T tip) throws SQLException;
     void delete(K title) throws Exception;
+    void edit(T tip) throws SQLException;
     
 }
