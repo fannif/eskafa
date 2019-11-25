@@ -1,6 +1,8 @@
 
 package recommendations.domain;
 
+import java.util.List;
+
 public class Tag {
     
     private int id;

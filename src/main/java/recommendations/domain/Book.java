@@ -10,8 +10,6 @@ public class Book implements Readable {
     private String title;
     private String type;
     private String ISBN;
-    // Pitäiskö olla ArrayList<Tag>
-    // ja ArrayList<Course> ?
     private ArrayList<String> tags;
     private ArrayList<String> relatedCourses;
     private String description;

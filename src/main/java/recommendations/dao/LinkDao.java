@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import recommendations.domain.Link;
 
-public class linkDao implements readerDao<Link, String> {
+public class LinkDao implements readerDao<Link, String> {
     
     private Database database;
     
-    public linkDao(Database database) {
+    public LinkDao(Database database) {
         this.database = database;
     }
     
@@ -43,7 +43,7 @@ public class linkDao implements readerDao<Link, String> {
     }
 
     private ArrayList<String> getLinkRelatedTags(ArrayList<String> courseRelatedTags) throws SQLException {
-        String sql = "SELECT * FROM Tag JOIN Link ON Tag.link_id = Link.id ";
+        String sql = "SELECT * FROM Tag JOIN Link ON Tag.link_id = Link.id";
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet results = statement.executeQuery();
@@ -58,7 +58,7 @@ public class linkDao implements readerDao<Link, String> {
     }
 
     private ArrayList<String> getLinkRelatedCourses(ArrayList<String> linkRelatedCourses)  throws SQLException {
-        String sql = "SELECT * FROM Course JOIN Link ON Course.link_id = Link.id ";
+        String sql = "SELECT * FROM Course JOIN Link ON Course.link_id = Link.id";
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet results = statement.executeQuery();
@@ -74,7 +74,8 @@ public class linkDao implements readerDao<Link, String> {
 
     @Override
     public List<Link> findAll() throws SQLException {
-        
+        ArrayList<String> linkRelatedTags = new ArrayList<>();
+        ArrayList<String> linkRelatedCourses = new ArrayList<>();
         List<Link> links;
         try (Connection connection = database.getConnection()) {
             Statement statement = connection.createStatement();
@@ -87,10 +88,17 @@ public class linkDao implements readerDao<Link, String> {
                 String type = results.getString("type");
                 String metadata = results.getString("metadata");
                 String comment = results.getString("comment");
-                
-                // Lisää tägien ja kurssien näyttäminen!
-                
-                Link link = new Link(id, title, URL, type, metadata, new ArrayList<String>(), new ArrayList<String>(), comment);
+                ResultSet tags = statement.executeQuery("SELECT * FROM Tag JOIN Link ON Tag.link_id = Link.id ");
+                while (results.next()) {
+                    linkRelatedTags.add(tags.getString("name"));
+                }
+                tags.close();
+                ResultSet courses = statement.executeQuery("SELECT * FROM Course JOIN Link ON Course.link_id = Link.id");
+                while(courses.next()) {
+                    linkRelatedCourses.add(courses.getString("name"));
+                }
+                Link link = new Link(id, title, URL, type, metadata, linkRelatedTags, linkRelatedCourses, comment);
+                links.add(link);
             }
         }
         
@@ -107,7 +115,7 @@ public class linkDao implements readerDao<Link, String> {
             statement.setString(2, link.getURL());
             statement.setString(3, link.getType());
             statement.setString(4, link.getMetadata());
-            statement.setString(5, link.getComment());
+            statement.setString(7, link.getComment());
             // Lisää vielä tagien ja kurssien lisäys!
         }
     }

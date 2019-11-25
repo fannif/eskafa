@@ -39,11 +39,7 @@ public class Database {
                     + " title VARCHAR(72),"
                     + " type VARCHAR(72),"
                     + " ISBN VARCHAR(72),"
-                    + " tag_id INTEGER,"
-                    + " course_id INTEGER,"
-                    + " comment VARCHAR(255),"
-                    + " FOREIGN KEY (tag_id) REFERENCES Tag(id),"
-                    + " FOREIGN KEY (course_id) REFERENCES Course(id))");
+                    + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
         }
@@ -58,11 +54,7 @@ public class Database {
                     + " URL VARCHAR(255),"
                     + " type VARCHAR(72),"
                     + " metadata VARCHAR(255),"
-                    + " tag_id INTEGER,"
-                    + " course_id INTEGER,"
-                    + " comment VARCHAR(255),"
-                    + " FOREIGN KEY (tag_id) REFERENCES Tag(id),"
-                    + " FOREIGN KEY (course_id) REFERENCES Course(id))");
+                    + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
         }
@@ -73,11 +65,7 @@ public class Database {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Tag"
                     + " (id SERIAL,"
-                    + " name VARCHAR(72),"
-                    + " book_id INTEGER,"
-                    + " link_id INTEGER,"
-                    + " FOREIGN KEY (book_id) REFERENCES Book(id),"
-                    + " FOREIGN KEY (link_id) REFERENCES Link(id))");
+                    + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
         }
@@ -88,11 +76,7 @@ public class Database {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Course"
                     + " (id SERIAL,"
-                    + " name VARCHAR(72),"
-                    + " book_id INTEGER, "
-                    + " link_id INTEGER,"
-                    + " FOREIGN KEY (book_id) REFERENCES Book(id),"
-                    + " FOREIGN KEY (link_id) REFERENCES Link(id))");
+                    + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
         }
@@ -102,7 +86,8 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS LinkTag"
-                    + " (link_id INTEGER,"
+                    + " (id SERIAL,"
+                    + " link_id INTEGER,"
                     + " tag_id INTEGER,"
                     + "FOREIGN KEY (link_id) REFERENCES Link(id),"
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
@@ -115,7 +100,8 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS BookTag"
-                    + " (book_id INTEGER,"
+                    + " (id SERIAL,"
+                    + " book_id INTEGER,"
                     + " tag_id INTEGER,"
                     + "FOREIGN KEY (book_id) REFERENCES Book(id),"
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
@@ -128,7 +114,8 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS CourseTag"
-                    + " (course_id INTEGER,"
+                    + " (id SERIAL,"
+                    + " course_id INTEGER,"
                     + " tag_id INTEGER,"
                     + "FOREIGN KEY (course_id) REFERENCES Book(id),"
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
@@ -141,7 +128,8 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS CourseLink"
-                    + " (course_id INTEGER,"
+                    + " (id SERIAL,"
+                    + " course_id INTEGER,"
                     + " link_id INTEGER,"
                     + "FOREIGN KEY (course_id) REFERENCES Book(id),"
                     + "FOREIGN KEY (tag_id) REFERENCES Link(id))");
