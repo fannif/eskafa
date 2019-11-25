@@ -18,7 +18,7 @@ public class BookTest {
         tags.add("tag2");
         ArrayList<String> courses = new ArrayList<>();
         courses.add("TestCourse");
-        this.book = new Book("Test Author", "TestBook", "Book", "123-456", tags, courses, "This is a test comment.");
+        this.book = new Book(1,"Test Author", "TestBook", "Book", "123-456", tags, courses, "This is a test comment.");
     }
 
     @Test
@@ -104,13 +104,13 @@ public class BookTest {
 
     @Test
     public void equalsWorksWhenBooksEqual() {
-        Book book2 = new Book("Test Author", "TestBook", "Book", "", new ArrayList<>(), new ArrayList<>(), "");
+        Book book2 = new Book(0,"Test Author", "TestBook", "Book", "", new ArrayList<>(), new ArrayList<>(), "");
         assertTrue(book.equals(book2));
     }
 
     @Test
     public void equalsWorksWhenBooksNotEqual() {
-        Book book2 = new Book("Test Author", "AnotherBook", "Book", "", new ArrayList<>(), new ArrayList<>(), "");
+        Book book2 = new Book(0,"Test Author", "AnotherBook", "Book", "", new ArrayList<>(), new ArrayList<>(), "");
         assertFalse(book.equals(book2));
     }
 

@@ -1,6 +1,6 @@
 package recommendations;
 
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -27,10 +27,12 @@ public class RecommendationsTest {
             return tips;
         }
 
-        public boolean save(Object tip) throws IOException {
-            Book tipToAdd = (Book)tip;
-            tips.add(tipToAdd);
-            return true;
+        
+        public void save(Object tip) {
+            if (tip.getClass().equals(Book.class)) {
+                Book tipToAdd = (Book)tip;  
+                tips.add(tipToAdd);
+            }
         }
 
         public void delete(Object title) throws Exception {
@@ -58,10 +60,15 @@ public class RecommendationsTest {
             ArrayList<String> courses2 = new ArrayList<>();            
             courses1.add("Ohjelmistotuotanto");
             courses1.add("OhJa");            
-            tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
-            tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
-            tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses2, ""));
+            tipList.add(new Book(1,"Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1 , courses1, "Must have!"));
+            tipList.add(new Book(2,"Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2 , courses2, ""));
+            tipList.add(new Book(3,"Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2 , courses2, ""));
             return tipList;
+        }
+
+        @Override
+        public void edit(Object tip) throws SQLException {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
     };

@@ -6,7 +6,7 @@ import recommendations.domain.Book;
 import recommendations.services.BookService;
 import recommendations.ui.CommandLineUI;
 import io.cucumber.java.en.Then;
-import java.io.IOException;
+import java.sql.SQLException;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class Stepdefs {
     }
 
     @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
-    public void memoryContainsBook(final String title, final String author, final String isbn) {
+    public void memoryContainsBook(final String title, final String author, final String isbn) throws SQLException {
         final Book found = (Book) testDao.findOne(title);
         assertTrue(found.getTitle().equals(title));
         assertTrue(found.getAuthor().equals(author));
@@ -115,8 +115,8 @@ public class Stepdefs {
     }
 
     @Then("system responds with a list of books containing a book titled {string}")
-    public void systemRespondsWithAListOfBooksContainingABookTitled(String title) {
-        assertTrue(testDao.findAll().contains(new Book("", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
+    public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
+        assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
     }
 
     public readerDao createTestDao() {
@@ -137,10 +137,9 @@ public class Stepdefs {
                 return tips;
             }
 
-            public boolean save(final Object tip) throws IOException {
+            public void save(final Object tip) {
                 final Book tipToAdd = (Book) tip;
                 tips.add(tipToAdd);
-                return true;
             }
 
             public void delete(final Object title) throws Exception {
@@ -168,10 +167,15 @@ public class Stepdefs {
                 final ArrayList<String> courses1 = new ArrayList<>();
                 final ArrayList<String> courses2 = new ArrayList<>();
                 courses1.add("Ohjelmistotuotanto");
-                tipList.add(new Book("Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
-                tipList.add(new Book("Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
-                tipList.add(new Book("Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
+                tipList.add(new Book(1,"Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
+                tipList.add(new Book(2,"Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
+                tipList.add(new Book(3,"Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
                 return tipList;
+            }
+
+            @Override
+            public void edit(Object tip) throws SQLException {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
         };
