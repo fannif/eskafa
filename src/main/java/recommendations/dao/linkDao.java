@@ -77,6 +77,7 @@ public class linkDao implements readerDao<Link, String> {
             statement.setString(4, link.getMetadata());
             statement.setString(5, link.getComment());
             // Lisää vielä tagien ja kurssien lisäys!
+            statement.executeUpdate();
         }
     }
     

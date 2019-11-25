@@ -55,7 +55,7 @@ public class Database {
                     + " title VARCHAR(72),"
                     + " URL VARCHAR(255),"
                     + " type VARCHAR(72),"
-                    + " metadata VARCHAR(255),"
+                    + " metadata VARCHAR(255)," // KASVATA
                     + " tag_id INTEGER, "
                     + " course_id INTEGER"
                     + " comment VARCHAR(255))");
