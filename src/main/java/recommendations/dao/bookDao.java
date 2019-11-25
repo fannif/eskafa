@@ -9,11 +9,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,16 +58,46 @@ public class bookDao implements readerDao<Book, String> {
     }
     
     @Override
-    public ArrayList<Book> findAll() throws SQLException {
+    public List<Book> findAll() throws SQLException {
         
-        return null;
+        Connection connection = database.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery("SELECT * FROM Book");
+        
+        List<Book> books = new ArrayList<>();
+        
+        while (results.next()) {
+            int id = results.getInt("id");
+            String author = results.getString("author");
+            String title = results.getString("title");
+            String type = results.getString("type");
+            String ISBN = results.getString("ISBN");
+            String comment = results.getString("comment");
+            
+            // Lisää tägien ja kurssien listaus!
+            
+            Book book = new Book(id, author, title, type, ISBN, new ArrayList<String>(), new ArrayList<String>(), comment);
+        }
+        
+        connection.close();
+        
+        return books;
     }
     
     @Override
-    public boolean save(Book tip) throws IOException {
+    public void save(Book book) throws SQLException {
         
+        Connection connection = database.getConnection();
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Book(author, title, type, ISBN, comment)"
+                + " VALUES ( ? , ? , ? , ? , ?)");
         
-        return true;
+        statement.setString(1, book.getAuthor());
+        statement.setString(2, book.getTitle());
+        statement.setString(3, book.getType());
+        statement.setString(4, book.getISBN());
+        statement.setString(5, book.getComment());
+        
+        connection.close();
     }
     
     @Override
