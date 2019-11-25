@@ -63,5 +63,79 @@ public class Database {
             stmt.close();
         }
     }
+
+    public void createTableTag() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS Tag"
+                    + " (id SERIAL,"
+                    + " name VARCHAR(72))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void createTableCourse() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS Course"
+                    + " (id SERIAL,"
+                    + " name VARCHAR(72))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void createTableLinkTag() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS LinkTag"
+                    + " (link_id INTEGER,"
+                    + " tag_id INTEGER,"
+                    + "FOREIGN KEY (link_id) REFERENCES Link(id),"
+                    + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void createTableBookTag() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS BookTag"
+                    + " (book_id INTEGER,"
+                    + " tag_id INTEGER,"
+                    + "FOREIGN KEY (book_id) REFERENCES Book(id),"
+                    + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void createTableCourseTag() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS CourseTag"
+                    + " (course_id INTEGER,"
+                    + " tag_id INTEGER,"
+                    + "FOREIGN KEY (course_id) REFERENCES Book(id),"
+                    + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void createTableCourseLink() throws SQLException {
+        try (Connection connection = this.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(""
+                    + "CREATE TABLE IF NOT EXISTS CourseLink"
+                    + " (course_id INTEGER,"
+                    + " link_id INTEGER,"
+                    + "FOREIGN KEY (course_id) REFERENCES Book(id),"
+                    + "FOREIGN KEY (tag_id) REFERENCES Link(id))");
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
     
 }
