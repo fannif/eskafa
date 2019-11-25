@@ -1,6 +1,7 @@
 package recommendations.services;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,13 +16,13 @@ public class BookService {
         this.bookDao = dao;
     }
 
-    public void addBook(Book book) throws IOException {
+    public void addBook(Book book) throws IOException, SQLException {
         bookDao.save(book);
 
     }
 
-    public ArrayList<Book> listBooks() {
-        ArrayList<Book> books = bookDao.findAll();
+    public ArrayList<Book> listBooks() throws SQLException {
+        ArrayList<Book> books = (ArrayList<Book>) bookDao.findAll();
         return books;
     }
 

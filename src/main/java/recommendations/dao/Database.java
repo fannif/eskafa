@@ -40,7 +40,7 @@ public class Database {
                     + " type VARCHAR(72),"
                     + " ISBN VARCHAR(72),"
                     + " tag_id INTEGER, "
-                    + " course_id INTEGER"
+                    + " course_id INTEGER,"
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();

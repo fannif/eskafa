@@ -1,6 +1,7 @@
 package recommendations.ui;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import recommendations.domain.Book;
@@ -53,7 +54,7 @@ public class CommandLineUI {
         service.remove(title, reader);
     }
 
-    private void listBooks() {
+    private void listBooks() throws SQLException {
         System.out.println("\nRecommendations:\n");
         if (service.listBooks().isEmpty()) {
             System.out.println("No recommendations yet. Be the first one to contribute!");
@@ -65,7 +66,7 @@ public class CommandLineUI {
 
     }
 
-    private void addBook() throws IOException {
+    private void addBook() throws IOException, SQLException {
         System.out.println("\nAdd a new Book");
         System.out.print("Title: ");
         String title = reader.nextLine();
@@ -100,7 +101,7 @@ public class CommandLineUI {
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
         
-        service.addBook(new Book(author, title, type, isbn, tags, courses, comment));
+        service.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
         System.out.println("A new book recommendation was added successfully!");
     }
     
