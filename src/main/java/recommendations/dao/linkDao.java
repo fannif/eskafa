@@ -22,6 +22,8 @@ public class linkDao implements readerDao<Link, String> {
     @Override
     public Link findOne(String title) throws SQLException {
         Link link;
+        ArrayList<String> linkRelatedTags = new ArrayList<>();
+        ArrayList<String> linkRelatedCourses = new ArrayList<>();
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Link WHERE title = ?");
             statement.setString(1, title);
@@ -31,15 +33,45 @@ public class linkDao implements readerDao<Link, String> {
                 return null;
             }   link = new Link(results.getInt("id"), results.getString("title"),
                     results.getString("URL"), results.getString("type"),
-                    results.getString("metadata"), new ArrayList<String>(), new ArrayList<String>(), results.getString("comment"));
-            // Lisää ArrayListeihin vielä tägit ja kurssit!
+                    results.getString("metadata"), linkRelatedTags, linkRelatedCourses, results.getString("comment"));
             statement.close();
             results.close();
         }
-
+        link.setTags(getLinkRelatedTags(linkRelatedTags));
+        link.setCourses(getLinkRelatedCourses(linkRelatedCourses));
         return link;
     }
-    
+
+    private ArrayList<String> getLinkRelatedTags(ArrayList<String> courseRelatedTags) throws SQLException {
+        String sql = "SELECT * FROM Tag JOIN Link ON Tag.link_id = Link.id ";
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
+            while(results.next()) {
+                courseRelatedTags.add(results.getString("name"));
+            }
+
+            statement.close();
+            results.close();
+        }
+        return courseRelatedTags;
+    }
+
+    private ArrayList<String> getLinkRelatedCourses(ArrayList<String> linkRelatedCourses)  throws SQLException {
+        String sql = "SELECT * FROM Course JOIN Link ON Course.link_id = Link.id ";
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
+            while(results.next()) {
+                linkRelatedCourses.add(results.getString("name"));
+            }
+
+            statement.close();
+            results.close();
+        }
+        return linkRelatedCourses;
+    }
+
     @Override
     public List<Link> findAll() throws SQLException {
         
