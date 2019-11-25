@@ -2,26 +2,13 @@
 
 package recommendations.dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import recommendations.domain.Book;
 import recommendations.domain.Link;
 
 public class linkDao implements readerDao<Link, String> {
@@ -69,7 +56,7 @@ public class linkDao implements readerDao<Link, String> {
                 String metadata = results.getString("metadata");
                 String comment = results.getString("comment");
                 
-                // Lisää tägien ja kurssien listaus!
+                // Lisää tägien ja kurssien näyttäminen!
                 
                 Link link = new Link(id, title, URL, type, metadata, new ArrayList<String>(), new ArrayList<String>(), comment);
             }
