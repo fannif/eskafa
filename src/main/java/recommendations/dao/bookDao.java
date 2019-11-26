@@ -58,6 +58,8 @@ public class bookDao implements readerDao<Book, String> {
                 // Lisää tägien ja kurssien näyttäminen!
                 
                 Book book = new Book(id, author, title, type, ISBN, new ArrayList<String>(), new ArrayList<String>(), comment);
+                
+                books.add(book);
             }
         }
         

@@ -57,6 +57,7 @@ public class LinkDao implements readerDao<Link, String> {
                 // Lisää tägien ja kurssien näyttäminen!
 
                 Link link = new Link(id, title, URL, type, metadata, new ArrayList<String>(), new ArrayList<String>(), comment);
+                links.add(link);
             }
         }
 
