@@ -107,6 +107,10 @@ public class BookDao implements readerDao<Book, String> {
     @Override
     public boolean edit(Book book) throws SQLException {
         
+        if (this.findOne(book.getTitle()) != null) {
+            return false;
+        }
+        
         try (Connection connection = database.getConnection()) {
             
             connection.close();

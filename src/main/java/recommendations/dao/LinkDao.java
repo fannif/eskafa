@@ -108,6 +108,10 @@ public class LinkDao implements readerDao<Link, String> {
     @Override
     public boolean edit(Link link) throws SQLException {
         
+        if (this.findOne(link.getTitle()) != null ) {
+            return false;
+        }
+        
         try (Connection connection = database.getConnection()) {
             
             
