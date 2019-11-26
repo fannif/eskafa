@@ -136,7 +136,7 @@ public class CommandLineUI {
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
 
-        service.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
+        bookService.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
         System.out.println("A new book recommendation was added successfully!");
     }
 
