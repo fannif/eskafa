@@ -21,7 +21,7 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         BookDao bookdao = new BookDao(db);
         LinkDao linkDao = new LinkDao(db);
-        TagDao tagDao = new TagDao();
+        TagDao tagDao = new TagDao(db);
         //BookService service = new BookService(new fileDao());
         BookService service = new BookService(bookdao);
         LinkService linkService = new LinkService(linkDao);
