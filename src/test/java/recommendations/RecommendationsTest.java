@@ -74,10 +74,15 @@ public class RecommendationsTest {
     };
     
 
+    ReaderDao readerDaoBook;
+    ReaderDao rederDaoLink;
+
     BookService service;
     @Before
     public void setUp() {
-        service = new BookService(readerDaoStub);
+        readerDaoBook = new FakeBookDao();
+        rederDaoLink = new FakeLinkDao();
+        service = new BookService(readerDaoBook);
     }
     
     @Test
@@ -104,7 +109,7 @@ public class RecommendationsTest {
         Scanner lukija = new Scanner(System.in);
         service.remove(title, lukija);
         assertEquals(2, service.listBooks().size());
-        assertEquals(null, readerDaoStub.findOne("Beyond Fear"));
+        assertEquals(null, readerDaoBook.findOne("Beyond Fear"));
     }
     
     @Test

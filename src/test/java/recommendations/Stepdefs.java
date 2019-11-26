@@ -12,15 +12,24 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 import recommendations.dao.ReaderDao;
+
+import recommendations.services.LinkService;
+
 
 public class Stepdefs {
 
     List<String> inputLines = new ArrayList<>();
     String input;
     Scanner TestScanner;
+
     ReaderDao testDao;
+
+    readerDao testDaoLink;
+
     BookService testService;
+    LinkService testServiceLink;
     CommandLineUI testUI;
 
     public void makeInputString(final List<String> inputLines) {
@@ -54,9 +63,12 @@ public class Stepdefs {
         makeInputString(inputLines);
 
         TestScanner = new Scanner(input);
-        testDao = createTestDao();
+        testDao = new FakeBookDao();
+        testDaoLink = new FakeLinkDao();
+        testServiceLink = new LinkService(testDaoLink);
         testService = new BookService(testDao);
-        testUI = new CommandLineUI(TestScanner, testService);
+
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
         testUI.start();
     }
 
@@ -67,10 +79,12 @@ public class Stepdefs {
         inputLines.add("q");
         makeInputString(inputLines);
 
-        testDao = createTestDao();
+        testDao = new FakeBookDao();
         testService = new BookService(testDao);
         TestScanner = new Scanner(input);
-        testUI = new CommandLineUI(TestScanner, testService);
+        testDaoLink = new FakeLinkDao();
+        testServiceLink = new LinkService(testDaoLink);
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
 
         testUI.start();
 
@@ -108,9 +122,11 @@ public class Stepdefs {
         makeInputString(inputLines);
 
         TestScanner = new Scanner(input);
-        testDao = createTestDao();
+        testDao = new FakeBookDao();
         testService = new BookService(testDao);
-        testUI = new CommandLineUI(TestScanner, testService);
+        testServiceLink = new LinkService(testDaoLink);
+        testService = new BookService(testDao);        
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
         testUI.start();
     }
 
@@ -118,6 +134,7 @@ public class Stepdefs {
     public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
         assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
     }
+
 
     public ReaderDao createTestDao() {
         return new ReaderDao() {
