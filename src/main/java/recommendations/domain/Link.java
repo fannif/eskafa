@@ -3,7 +3,7 @@ package recommendations.domain;
 
 import java.util.ArrayList;
 
-public class Link {
+public class Link implements Readable {
     
     private int id;
     private String title;
