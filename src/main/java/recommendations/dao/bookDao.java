@@ -67,7 +67,11 @@ public class bookDao implements readerDao<Book, String> {
     }
     
     @Override
-    public void save(Book book) throws SQLException {
+    public boolean save(Book book) throws SQLException {
+        
+        if (!(this.findOne(book.getTitle()) == null)) {
+            return false;
+        }
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO Book(author, title, type, ISBN, comment)"
@@ -81,6 +85,7 @@ public class bookDao implements readerDao<Book, String> {
             statement.executeUpdate();
             connection.close();
         }
+        return true;
     }
     
     @Override

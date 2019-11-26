@@ -10,7 +10,7 @@ public interface readerDao<T, K> {
     
     T findOne(K title) throws SQLException;
     List<T> findAll() throws SQLException;
-    void save(T tip) throws SQLException;
+    boolean save(T tip) throws SQLException;
     void delete(K title) throws Exception;
     void edit(T tip) throws SQLException;
     

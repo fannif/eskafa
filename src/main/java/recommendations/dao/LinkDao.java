@@ -65,8 +65,12 @@ public class LinkDao implements readerDao<Link, String> {
     }
 
     @Override
-    public void save(Link link) throws SQLException {
+    public boolean save(Link link) throws SQLException {
 
+        if (!(this.findOne(link.getTitle()) == null)) {
+            return false;
+        }
+        
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO Link(title, URL, type, metadata, comment)"
                     + " VALUES ( ? , ? , ? , ? , ?)");
@@ -79,6 +83,7 @@ public class LinkDao implements readerDao<Link, String> {
             statement.executeUpdate();
             connection.close();
         }
+        return true;
     }
 
     @Override
