@@ -2,18 +2,21 @@ package recommendations.ui;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Scanner;
 import recommendations.domain.Book;
 import recommendations.domain.Link;
+import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.services.LinkService;
+import recommendations.services.TagService;
 
 public class CommandLineUI {
 
     private Scanner reader;
     private BookService service;
     private LinkService linkService;
+    private TagService tagService;
 
     public CommandLineUI(Scanner reader, BookService service, LinkService linkService) {
         this.reader = reader;
@@ -30,6 +33,7 @@ public class CommandLineUI {
             System.out.println("2 --- Add a new book");
             System.out.println("3 --- Remove a book from recommendations");
             System.out.println("4 --- Add a new link");
+            System.out.println("5 --- List tags");
             System.out.println("q --- Quit");
             System.out.println("Select 1, 2, 3 or q");
             String choice = reader.nextLine();
@@ -50,6 +54,8 @@ public class CommandLineUI {
                 case "4":
                     addLink();
                     break;
+                case "5":
+                    listTags();
                 default:
             }
         }
@@ -151,6 +157,18 @@ public class CommandLineUI {
 
         linkService.addLink(new Link(0, title, url, type, metadata, tags, courses, comment));
         System.out.println("A new link recommendation was added successfully!");
+    }
+
+    private void listTags() throws SQLException {
+        if (tagService.listTags().isEmpty()) {
+            System.out.println("No added tags.");
+        } else {
+            System.out.println("\nTags:\n" );
+            List<Tag> tags = tagService.listTags();
+            tags.forEach(tag -> {
+                System.out.println("\t" + tag.toString());
+            });
+        }
     }
     
 }
