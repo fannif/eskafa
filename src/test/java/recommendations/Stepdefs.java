@@ -128,6 +128,7 @@ public class Stepdefs {
 
         TestScanner = new Scanner(input);
         testDao = new FakeBookDao();
+        testDaoLink = new FakeLinkDao();
         testService = new BookService(testDao);
         testServiceLink = new LinkService(testDaoLink);
         testService = new BookService(testDao);        
