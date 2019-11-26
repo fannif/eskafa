@@ -60,9 +60,37 @@ public class BookDao implements ReaderDao<Book, String> {
                 String ISBN = results.getString("ISBN");
                 String comment = results.getString("comment");
                 
-                // Lisää tägien ja kurssien näyttäminen!
+                statement.close();
                 
-                Book book = new Book(id, author, title, type, ISBN, new ArrayList<Tag>(), new ArrayList<Course>(), comment);
+                ArrayList<Tag> tags = new ArrayList<>();
+                
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.link_id = Tag.id JOIN Link ON LinkTag.link_id = ?");
+                stmt.setInt(1, id);
+                ResultSet tagResults = stmt.executeQuery();
+                
+                while (tagResults.next()) {
+                    int tagId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    tags.add(new Tag(tagId, name));
+                }
+                
+                stmt.close();
+                
+                ArrayList<Course> courses = new ArrayList<>();
+                
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Tag JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = ?");
+                stmt.setInt(1, id);
+                ResultSet courseResults = stmt2.executeQuery();
+                
+                while (courseResults.next()) {
+                    int courseId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    courses.add(new Course(courseId, name));
+                }
+                
+                stmt2.close();
+                
+                Book book = new Book(id, author, title, type, ISBN, tags, courses, comment);
                 
                 books.add(book);
             }

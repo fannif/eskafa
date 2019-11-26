@@ -60,10 +60,39 @@ public class LinkDao implements ReaderDao<Link, String> {
                 String type = results.getString("type");
                 String metadata = results.getString("metadata");
                 String comment = results.getString("comment");
+                
+                statement.close();
+                
+                ArrayList<Tag> tags = new ArrayList<>();
+                
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.tag_id = Tag.id JOIN Book ON BookTag.book_id = ?");
+                stmt.setInt(1, id);
+                ResultSet tagResults = stmt.executeQuery();
+                
+                while (tagResults.next()) {
+                    int tagId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    tags.add(new Tag(tagId, name));
+                }
+                
+                stmt.close();
+                
+                ArrayList<Course> courses = new ArrayList<>();
+                
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Tag JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = ?");
+                stmt.setInt(1, id);
+                ResultSet courseResults = stmt2.executeQuery();
+                
+                while (courseResults.next()) {
+                    int courseId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    courses.add(new Course(courseId, name));
+                }
+                
+                stmt2.close();
 
-                // Lisää tägien ja kurssien näyttäminen!
-
-                Link link = new Link(id, title, URL, type, metadata, new ArrayList<Tag>(), new ArrayList<Course>(), comment);
+                
+                Link link = new Link(id, title, URL, type, metadata, tags, courses, comment);
                 links.add(link);
             }
             connection.close();
