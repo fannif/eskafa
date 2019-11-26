@@ -72,6 +72,8 @@ public class Database {
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
     
@@ -87,6 +89,8 @@ public class Database {
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -98,6 +102,8 @@ public class Database {
                     + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -109,6 +115,8 @@ public class Database {
                     + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -123,6 +131,8 @@ public class Database {
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -137,6 +147,8 @@ public class Database {
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -151,6 +163,8 @@ public class Database {
                     + "FOREIGN KEY (book_id) REFERENCES Book(id))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
 
@@ -165,6 +179,8 @@ public class Database {
                     + "FOREIGN KEY (tag_id) REFERENCES Link(id))");
             stmt.executeUpdate();
             stmt.close();
+            
+            connection.close();
         }
     }
     
