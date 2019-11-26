@@ -43,12 +43,12 @@ public class BookTest {
 
     @Test
     public void getTagsWorks() {
-        assertEquals("tag2", book.getTag().get(1));
+        assertEquals("tag2", book.getTags().get(1));
     }
 
     @Test
     public void getRelatedCoursesWorks() {
-        assertEquals("TestCourse", book.getRelatedCourses().get(0));
+        assertEquals("TestCourse", book.getCourses().get(0));
     }
 
     @Test
@@ -84,16 +84,16 @@ public class BookTest {
     public void setTagWorks() {
         ArrayList<String> testList = new ArrayList<>();
         testList.add("testing");
-        book.setTag(testList);
-        assertEquals("testing", book.getTag().get(0));
+        book.setTags(testList);
+        assertEquals("testing", book.getTags().get(0));
     }
 
     @Test
     public void setRelatedCoursesWorks() {
         ArrayList<String> testList = new ArrayList<>();
         testList.add("testing");
-        book.setRelatedCourses(testList);
-        assertEquals("testing", book.getRelatedCourses().get(0));
+        book.setCourses(testList);
+        assertEquals("testing", book.getCourses().get(0));
     }
 
     @Test

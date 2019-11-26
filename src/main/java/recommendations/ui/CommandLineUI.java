@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.Scanner;
+import recommendations.domain.Readable;
 import recommendations.domain.Book;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
@@ -14,13 +15,13 @@ import recommendations.services.TagService;
 public class CommandLineUI {
 
     private Scanner reader;
-    private BookService service;
+    private BookService bookService;
     private LinkService linkService;
     private TagService tagService;
 
     public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
         this.reader = reader;
-        this.service = service;
+        this.bookService = service;
         this.linkService = linkService;
         this.tagService = tagService;
 
@@ -31,7 +32,7 @@ public class CommandLineUI {
         System.out.println("Welcome!");
         boolean go = true;
         while (go) {
-            System.out.println("\n1 --- List all recommended books");
+            System.out.println("\n1 --- List all recommendations");
             System.out.println("2 --- Add a new book");
             System.out.println("3 --- Remove a book from recommendations");
             System.out.println("4 --- List all links");
@@ -46,7 +47,7 @@ public class CommandLineUI {
                     go = false;
                     break;
                 case "1":
-                    listBooks();
+                    listRecommendations();
                     break;
                 case "2":
                     addBook();
@@ -78,19 +79,26 @@ public class CommandLineUI {
     private void removeBook() throws Exception {
         System.out.println("\nPlease enter the title of the book to be removed: ");
         String title = reader.nextLine();
-        service.remove(title, reader);
+        bookService.remove(title, reader);
     }
 
-    private void listBooks() throws SQLException {
+    private void listRecommendations() throws SQLException {
         System.out.println("\nRecommendations:\n");
-        if (service.listBooks().isEmpty()) {
-            System.out.println("No recommendations yet. Be the first one to contribute!");
+        ArrayList<Readable> recommendations = new ArrayList<>();
+        for (Book book : bookService.listBooks()) {
+            recommendations.add(book);
         }
-
-        service.listBooks().forEach((s) -> {
-            System.out.println("\t" + s);
-        });
-
+        for (Link link : linkService.listLinks()) {
+            recommendations.add(link);
+        }
+       
+        if (recommendations.isEmpty()) {
+            System.out.println("No recommendations yet. Be the first one to contribute!");
+        } else {
+            for (Readable recommendation : recommendations) {
+                System.out.println("\t" + recommendation);
+            }
+        }
     }
 
     private void addBook() throws IOException, SQLException {

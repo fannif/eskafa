@@ -7,14 +7,14 @@ public interface Readable {
     void setTitle(String title);
     String getType();
     void setType(String type);
-    ArrayList<String> getTag();
-    void setTag(ArrayList<String> tags);
-    ArrayList<String> getRelatedCourses();
-    void setRelatedCourses(ArrayList<String> courses);
+    ArrayList<String> getTags();
+    void setTags(ArrayList<String> tags);
+    ArrayList<String> getCourses();
+    void setCourses(ArrayList<String> courses);
     String getComment();
     void setComment(String comment);
-    String getDescription();
-    void setDescription(String description);
+//    String getDescription();
+//    void setDescription(String description);
     String toString();
 
     /* Class-spesific methods:

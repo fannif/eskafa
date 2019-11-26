@@ -12,7 +12,7 @@ public class Book implements Readable {
     private String ISBN;
     private ArrayList<String> tags;
     private ArrayList<String> relatedCourses;
-    private String description;
+//    private String description;
     private String comment;
 
     public Book(int id, String author, String title, String type, String ISBN, ArrayList<String> tags, ArrayList<String> relatedCourses, String comment) {
@@ -62,34 +62,34 @@ public class Book implements Readable {
     }
 
     @Override
-    public ArrayList<String> getTag() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
     @Override
-    public void setTag(ArrayList<String> tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
     @Override
-    public ArrayList<String> getRelatedCourses() {
+    public ArrayList<String> getCourses() {
         return relatedCourses;
     }
 
     @Override
-    public void setRelatedCourses(ArrayList<String> relatedCourses) {
+    public void setCourses(ArrayList<String> relatedCourses) {
         this.relatedCourses = relatedCourses;
     }
 
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    @Override
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    @Override
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
     @Override
     public String getComment() {

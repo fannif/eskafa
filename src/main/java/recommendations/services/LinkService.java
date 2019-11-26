@@ -9,9 +9,11 @@ import recommendations.domain.Link;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import recommendations.dao.ReaderDao;
 
 public class LinkService {
@@ -63,6 +65,11 @@ public class LinkService {
         }
 
         return "No metadata description";
+    }
+
+    public ArrayList<Link> listLinks() throws SQLException {
+        ArrayList<Link> links = (ArrayList<Link>) linkDao.findAll();
+        return links;
     }
 
 }
