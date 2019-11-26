@@ -1,16 +1,13 @@
-package recommendations.dao;
+package recommendations.domain;
 
-import recommendations.domain.Link;
-
-public class LinkTag {
-
+public class BookTag {
     private Integer id;
-    private Integer linkId;
+    private Integer bookId;
     private Integer tagId;
 
-    public LinkTag(Integer id, Integer linkId, Integer tagId) {
+    public BookTag(Integer id, Integer bookId, Integer tagId) {
         this.id = id;
-        this.linkId = linkId;
+        this.bookId = bookId;
         this.tagId = tagId;
     }
 
@@ -22,12 +19,12 @@ public class LinkTag {
         this.id = id;
     }
 
-    public Integer getLinkId() {
-        return linkId;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setLinkId(Integer linkId) {
-        this.linkId = linkId;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public Integer getTagId() {

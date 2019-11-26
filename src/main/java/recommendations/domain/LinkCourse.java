@@ -1,13 +1,14 @@
-package recommendations.dao;
+package recommendations.domain;
 
-public class BookCourse {
+
+public class LinkCourse {
     private Integer id;
-    private Integer bookId;
+    private Integer linkId;
     private Integer courseId;
 
-    public BookCourse(Integer id, Integer bookId, Integer courseId) {
+    public LinkCourse(Integer id, Integer linkid, Integer courseId) {
         this.id = id;
-        this.bookId = bookId;
+        this.linkId = linkid;
         this.courseId = courseId;
     }
 
@@ -19,12 +20,12 @@ public class BookCourse {
         this.id = id;
     }
 
-    public Integer getBookId() {
-        return bookId;
+    public Integer getLinkId() {
+        return linkId;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public void setLinkId(Integer linkId) {
+        this.linkId = linkId;
     }
 
     public Integer getCourseId() {
