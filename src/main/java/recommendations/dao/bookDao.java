@@ -77,6 +77,7 @@ public class bookDao implements readerDao<Book, String> {
             statement.setString(5, book.getComment());
             // Lisää vielä tagien ja kurssien lisäys!
             statement.executeUpdate();
+            connection.close();
         }
     }
     

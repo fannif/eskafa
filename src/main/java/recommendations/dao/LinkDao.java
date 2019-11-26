@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import recommendations.domain.Link;
 
-public class linkDao implements readerDao<Link, String> {
+public class LinkDao implements readerDao<Link, String> {
 
     private Database database;
 
-    public linkDao(Database database) {
+    public LinkDao(Database database) {
         this.database = database;
     }
 
@@ -76,6 +76,7 @@ public class linkDao implements readerDao<Link, String> {
             statement.setString(5, link.getComment());
             // Lisää vielä tagien ja kurssien lisäys!
             statement.executeUpdate();
+            connection.close();
         }
     }
 
