@@ -53,7 +53,7 @@ public class Database {
                     + " title VARCHAR(72),"
                     + " URL VARCHAR(255),"
                     + " type VARCHAR(72),"
-                    + " metadata VARCHAR(255)," // KASVATA
+                    + " metadata VARCHAR(8000),"
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
