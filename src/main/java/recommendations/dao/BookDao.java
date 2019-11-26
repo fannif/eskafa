@@ -30,13 +30,55 @@ public class BookDao implements ReaderDao<Book, String> {
             boolean hasOne = results.next();
             if (!hasOne) {
                 return null;
-            }   book = new Book(results.getInt("id"), results.getString("author"),
-                    results.getString("title"), results.getString("type"),
-                    results.getString("ISBN"), new ArrayList<Tag>(), new ArrayList<Course>(), results.getString("comment"));
+            }   
             
-            // Lisää ArrayListeihin vielä tägit ja kurssit!
+            ArrayList<Tag> tags = new ArrayList<>();
+            ArrayList<Course> courses = new ArrayList<>();
             
+            int id = results.getInt("id");
+            String author = results.getString("author");
+            title = results.getString("title");
+            String type = results.getString("type");
+            String ISBN = results.getString("ISBN");
+            String comment = results.getString("comment");
+            
+            book = new Book(id, author,
+                    title, type,
+                    ISBN, tags, courses, comment);
+
             statement.close();
+            
+            
+                
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.book_id = Tag.id JOIN Book ON BookTag.book_id = ?");
+            stmt.setInt(1, id);
+            ResultSet tagResults = stmt.executeQuery();
+                
+            while (tagResults.next()) {
+                int tagId = tagResults.getInt("id");
+                String name = tagResults.getString("name");
+                tags.add(new Tag(tagId, name));
+            }
+                
+            stmt.close();
+                
+            
+                
+            PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Tag JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = ?");
+            stmt.setInt(1, id);
+            ResultSet courseResults = stmt2.executeQuery();
+                
+            while (courseResults.next()) {
+                int courseId = tagResults.getInt("id");
+                String name = tagResults.getString("name");
+                courses.add(new Course(courseId, name));
+            }
+                
+            stmt2.close();
+            
+            book.setTags(tags);
+            book.setCourses(courses);
+            
             results.close();
             connection.close();
         }
