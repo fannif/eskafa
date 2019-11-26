@@ -3,10 +3,10 @@ package recommendations;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import recommendations.dao.readerDao;
+import recommendations.dao.ReaderDao;
 import recommendations.domain.Book;
 
-public class FakeBookDao implements readerDao<Book, String>{
+public class FakeBookDao implements ReaderDao<Book, String>{
     
     ArrayList<Book> tips = createListForStub();
 

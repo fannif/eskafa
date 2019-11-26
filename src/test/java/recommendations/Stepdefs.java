@@ -25,8 +25,7 @@ public class Stepdefs {
     Scanner TestScanner;
 
     ReaderDao testDao;
-
-    readerDao testDaoLink;
+    ReaderDao testDaoLink;
 
     BookService testService;
     LinkService testServiceLink;
@@ -133,70 +132,6 @@ public class Stepdefs {
     @Then("system responds with a list of books containing a book titled {string}")
     public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
         assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
-    }
-
-
-    public ReaderDao createTestDao() {
-        return new ReaderDao() {
-            ArrayList<Book> tips = createListForStub();
-
-            public Object findOne(final Object title) {
-                Book searchedTip = null;
-                for (int i = 0; i < tips.size(); i++) {
-                    if (tips.get(i).getTitle().equals(title)) {
-                        searchedTip = tips.get(i);
-                    }
-                }
-                return searchedTip;
-            }
-
-            public ArrayList findAll() {
-                return tips;
-            }
-
-            public void save(final Object tip) {
-                final Book tipToAdd = (Book) tip;
-                tips.add(tipToAdd);
-            }
-
-            public void delete(final Object title) throws Exception {
-                final Book selectedForDeleting = findWanted(title);
-                tips.remove(selectedForDeleting);
-            }
-
-            private Book findWanted(final Object title) {
-                Book wanted = null;
-                for (int i = 0; i < tips.size(); i++) {
-                    if (tips.get(i).getTitle().equals(title)) {
-                        wanted = tips.get(i);
-                    }
-                }
-                return wanted;
-            }
-
-            public ArrayList<Book> createListForStub() {
-                final ArrayList<Book> tipList = new ArrayList<>();
-                final ArrayList<String> tags1 = new ArrayList<>();
-                final ArrayList<String> tags2 = new ArrayList<>();
-                tags1.add("clean code");
-                tags2.add("Security");
-                tags2.add("Popular");
-                final ArrayList<String> courses1 = new ArrayList<>();
-                final ArrayList<String> courses2 = new ArrayList<>();
-                courses1.add("Ohjelmistotuotanto");
-                tipList.add(new Book(1,"Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
-                tipList.add(new Book(2,"Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
-                tipList.add(new Book(3,"Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
-                return tipList;
-            }
-
-            @Override
-            public void edit(Object tip) throws SQLException {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
     }
 
 }

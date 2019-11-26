@@ -3,10 +3,10 @@ package recommendations;
 
 import java.sql.SQLException;
 import java.util.List;
-import recommendations.dao.readerDao;
+import recommendations.dao.ReaderDao;
 import recommendations.domain.Link;
 
-public class FakeLinkDao implements readerDao<Link, String> {
+public class FakeLinkDao implements ReaderDao<Link, String> {
 
     @Override
     public Link findOne(String title) throws SQLException {
