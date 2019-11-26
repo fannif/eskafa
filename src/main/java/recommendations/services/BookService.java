@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import recommendations.domain.Book;
-import recommendations.dao.readerDao;
+import recommendations.dao.ReaderDao;
 
 public class BookService {
 
-    private readerDao bookDao;
+    private ReaderDao bookDao;
 
-    public BookService(readerDao dao) {
+    public BookService(ReaderDao dao) {
         this.bookDao = dao;
     }
 

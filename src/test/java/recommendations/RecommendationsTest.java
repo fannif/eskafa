@@ -4,13 +4,13 @@ import java.sql.SQLException;
 import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
-import recommendations.dao.readerDao;
 import recommendations.domain.Book;
 import recommendations.services.BookService;
+import recommendations.dao.ReaderDao;
 
 public class RecommendationsTest {
 
-    readerDao readerDaoStub = new readerDao() {
+    ReaderDao readerDaoStub = new ReaderDao() {
         ArrayList<Book> tips = createListForStub();
 
         public Object findOne(Object title) {

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface readerDao<T, K> {
+public interface ReaderDao<T, K> {
     
     T findOne(K title) throws SQLException;
     List<T> findAll() throws SQLException;

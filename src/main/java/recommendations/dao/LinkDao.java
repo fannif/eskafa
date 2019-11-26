@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import recommendations.domain.Link;
 
-public class LinkDao implements readerDao<Link, String> {
+public class LinkDao implements ReaderDao<Link, String> {
 
     private Database database;
 

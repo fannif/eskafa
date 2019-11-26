@@ -12,14 +12,14 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import recommendations.dao.readerDao;
+import recommendations.dao.ReaderDao;
 
 public class Stepdefs {
 
     List<String> inputLines = new ArrayList<>();
     String input;
     Scanner TestScanner;
-    readerDao testDao;
+    ReaderDao testDao;
     BookService testService;
     CommandLineUI testUI;
 
@@ -119,8 +119,8 @@ public class Stepdefs {
         assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
     }
 
-    public readerDao createTestDao() {
-        return new readerDao() {
+    public ReaderDao createTestDao() {
+        return new ReaderDao() {
             ArrayList<Book> tips = createListForStub();
 
             public Object findOne(final Object title) {

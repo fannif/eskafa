@@ -1,16 +1,16 @@
 package recommendations.services;
 
-import recommendations.dao.readerDao;
 import recommendations.domain.Link;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import recommendations.dao.ReaderDao;
 
 public class LinkService {
 
-    private readerDao linkDao;
+    private ReaderDao linkDao;
 
-    public LinkService(readerDao dao) {
+    public LinkService(ReaderDao dao) {
         this.linkDao = dao;
     }
 

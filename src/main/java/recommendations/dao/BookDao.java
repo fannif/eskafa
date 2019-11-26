@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import recommendations.domain.Book;
 
-public class BookDao implements readerDao<Book, String> {
+public class BookDao implements ReaderDao<Book, String> {
     
     private Database database;
     
