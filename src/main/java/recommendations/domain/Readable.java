@@ -7,10 +7,10 @@ public interface Readable {
     void setTitle(String title);
     String getType();
     void setType(String type);
-    ArrayList<String> getTags();
-    void setTags(ArrayList<String> tags);
-    ArrayList<String> getCourses();
-    void setCourses(ArrayList<String> courses);
+    ArrayList<Tag> getTags();
+    void setTags(ArrayList<Tag> tags);
+    ArrayList<Course> getCourses();
+    void setCourses(ArrayList<Course> courses);
     String getComment();
     void setComment(String comment);
 //    String getDescription();

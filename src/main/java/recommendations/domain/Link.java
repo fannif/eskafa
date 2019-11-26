@@ -9,11 +9,11 @@ public class Link implements Readable {
     private String URL;
     private String type;
     private String metadata;
-    private ArrayList<String> tags; //Switch to Tag object when possible
-    private ArrayList<String> courses; //Switch to Course object when possible
+    private ArrayList<Tag> tags; //Switch to Tag object when possible
+    private ArrayList<Course> courses; //Switch to Course object when possible
     private String comment;
 
-    public Link(int id, String title, String URL, String type, String metadata, ArrayList<String> tags, ArrayList<String> courses, String comment) {
+    public Link(int id, String title, String URL, String type, String metadata, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
         this.title = title;
         this.URL = URL;
         this.type = type;
@@ -23,7 +23,7 @@ public class Link implements Readable {
         this.comment = comment;
     }
     
-     public Link(int id, String title, String URL, String type, ArrayList<String> tags, ArrayList<String> courses, String comment) {
+     public Link(int id, String title, String URL, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
         this.title = title;
         this.URL = URL;
         this.type = type;
@@ -73,19 +73,19 @@ public class Link implements Readable {
         this.metadata = metadata;
     }
 
-    public ArrayList<String> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
 
-    public ArrayList<String> getCourses() {
+    public ArrayList<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(ArrayList<String> courses) {
+    public void setCourses(ArrayList<Course> courses) {
         this.courses = courses;
     }
 
