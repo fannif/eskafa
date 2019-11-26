@@ -118,7 +118,9 @@ public class Stepdefs {
         TestScanner = new Scanner(input);
         testDao = new FakeBookDao();
         testService = new BookService(testDao);
-        //testUI = new CommandLineUI(TestScanner, testService);
+        testServiceLink = new LinkService(testDaoLink);
+        testService = new BookService(testDao);        
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
         testUI.start();
     }
 
