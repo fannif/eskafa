@@ -23,6 +23,16 @@ public class Link {
         this.courses = courses;
         this.comment = comment;
     }
+    
+     public Link(int id, String title, String URL, String type, ArrayList<String> tags, ArrayList<String> courses, String comment) {
+        this.title = title;
+        this.URL = URL;
+        this.type = type;
+        this.tags = tags;
+        this.courses = courses;
+        this.comment = comment;
+    }
+    
 
     public String getType() {
         return type;
@@ -94,7 +104,8 @@ public class Link {
         String coursesString = listToString(this.courses);
         return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: <" + this.URL
                 + ">\n\tTags:" + tagString + "\n\tRelated courses:"
-                + coursesString + "\n\t" + this.comment + "\n";
+                + coursesString + "\n\t" + this.comment + "\n"
+                + "Description: " + this.metadata;
     }
     
     public String listToString(ArrayList list) {

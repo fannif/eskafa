@@ -23,7 +23,7 @@ public class CommandLineUI {
         this.service = service;
         this.linkService = linkService;
         this.tagService = tagService;
-        
+
     }
 
     public void start() throws Exception {
@@ -34,10 +34,11 @@ public class CommandLineUI {
             System.out.println("\n1 --- List all recommended books");
             System.out.println("2 --- Add a new book");
             System.out.println("3 --- Remove a book from recommendations");
-            System.out.println("4 --- Add a new link");
-            System.out.println("5 --- List tags");
+            System.out.println("4 --- List all links");
+            System.out.println("5 --- Add a new link");
+            System.out.println("6 --- List tags");
             System.out.println("q --- Quit");
-            System.out.println("Select 1, 2, 3 or q");
+            System.out.println("Select 1, 2, 3, 4, 5, 6 or q");
             String choice = reader.nextLine();
 
             switch (choice) {
@@ -54,14 +55,24 @@ public class CommandLineUI {
                     removeBook();
                     break;
                 case "4":
-                    addLink();
+                    listLinks();
                     break;
                 case "5":
+                    addLink();
+                    break;
+                case "6":
                     listTags();
                 default:
             }
         }
         System.out.println("\nThanks for using Recommendations! Have a nice day!");
+    }
+    
+    private void listLinks() throws SQLException {
+        ArrayList<Link> links = linkService.list();
+        for (Link l : links) {
+            System.out.println(l.toString() + "\n");
+        }
     }
 
     private void removeBook() throws Exception {
@@ -96,8 +107,8 @@ public class CommandLineUI {
         ArrayList<String> courses = new ArrayList();
         System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
-        
-        while(true) {
+
+        while (true) {
             String tag = reader.nextLine();
             if (tag.equals("")) {
                 break;
@@ -106,8 +117,8 @@ public class CommandLineUI {
         }
         System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
-        
-        while(true) {
+
+        while (true) {
             String course = reader.nextLine();
             if (course.equals("")) {
                 break;
@@ -116,14 +127,14 @@ public class CommandLineUI {
         }
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
-        
+
         service.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
         System.out.println("A new book recommendation was added successfully!");
     }
 
     private void addLink() throws IOException, SQLException {
         // Sit ku on metadata toiminto, täytyy poistaa
-        String metadata = "";
+       // String metadata = "";
 
         System.out.println("\nAdd a new Link");
         System.out.print("Title: ");
@@ -137,7 +148,7 @@ public class CommandLineUI {
         System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
 
-        while(true) {
+        while (true) {
             String tag = reader.nextLine();
             if (tag.equals("")) {
                 break;
@@ -147,7 +158,7 @@ public class CommandLineUI {
         System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
 
-        while(true) {
+        while (true) {
             String course = reader.nextLine();
             if (course.equals("")) {
                 break;
@@ -157,20 +168,25 @@ public class CommandLineUI {
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
 
-        linkService.addLink(new Link(0, title, url, type, metadata, tags, courses, comment));
-        System.out.println("A new link recommendation was added successfully!");
+        // linkService.addLink(new Link(0, title, url, type, metadata, tags, courses, comment));
+        Boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
+        if (createNew) {
+            System.out.println("A new link recommendation was added successfully!");
+        } else {
+            System.out.println("Error error");
+        }
     }
 
     private void listTags() throws SQLException {
         if (tagService.listTags().isEmpty()) {
             System.out.println("No added tags.");
         } else {
-            System.out.println("\nTags:\n" );
+            System.out.println("\nTags:\n");
             List<Tag> tags = tagService.listTags();
             tags.forEach(tag -> {
                 System.out.println("\t" + tag.toString());
             });
         }
     }
-    
+
 }
