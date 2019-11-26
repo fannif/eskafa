@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import recommendations.domain.Book;
+import recommendations.domain.Course;
+import recommendations.domain.Tag;
 
 public class BookDao implements ReaderDao<Book, String> {
     
@@ -30,7 +32,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 return null;
             }   book = new Book(results.getInt("id"), results.getString("author"),
                     results.getString("title"), results.getString("type"),
-                    results.getString("ISBN"), new ArrayList<String>(), new ArrayList<String>(), results.getString("comment"));
+                    results.getString("ISBN"), new ArrayList<Tag>(), new ArrayList<Course>(), results.getString("comment"));
             
             // Lisää ArrayListeihin vielä tägit ja kurssit!
             
@@ -60,7 +62,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 // Lisää tägien ja kurssien näyttäminen!
                 
-                Book book = new Book(id, author, title, type, ISBN, new ArrayList<String>(), new ArrayList<String>(), comment);
+                Book book = new Book(id, author, title, type, ISBN, new ArrayList<Tag>(), new ArrayList<Course>(), comment);
                 
                 books.add(book);
             }

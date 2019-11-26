@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import recommendations.domain.Course;
 import recommendations.domain.Link;
+import recommendations.domain.Tag;
 
 public class LinkDao implements ReaderDao<Link, String> {
 
@@ -31,7 +33,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 return null;
             }   link = new Link(results.getInt("id"), results.getString("title"),
                     results.getString("URL"), results.getString("type"),
-                    results.getString("metadata"), new ArrayList<String>(), new ArrayList<String>(), results.getString("comment"));
+                    results.getString("metadata"), new ArrayList<Tag>(), new ArrayList<Course>(), results.getString("comment"));
             
             // Lisää ArrayListeihin vielä tägit ja kurssit!
             
@@ -61,7 +63,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 // Lisää tägien ja kurssien näyttäminen!
 
-                Link link = new Link(id, title, URL, type, metadata, new ArrayList<String>(), new ArrayList<String>(), comment);
+                Link link = new Link(id, title, URL, type, metadata, new ArrayList<Tag>(), new ArrayList<Course>(), comment);
                 links.add(link);
             }
             connection.close();
