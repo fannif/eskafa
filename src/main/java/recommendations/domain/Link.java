@@ -88,6 +88,28 @@ public class Link {
         this.comment = comment;
     }
     
+    @Override
+    public String toString() {
+        String tagString = listToString(this.tags);
+        String coursesString = listToString(this.courses);
+        return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: <" + this.URL
+                + ">\n\tTags:" + tagString + "\n\tRelated courses:"
+                + coursesString + "\n\t" + this.comment + "\n";
+    }
     
+    public String listToString(ArrayList list) {
+        if (!list.isEmpty()) {
+            if (list.get(0).equals("")) {
+                return "";
+            } else {
+                String listString = "|";
+                for (int i = 0; i < list.size(); i++) {
+                    listString = listString + list.get(i) + "|";
+                }
+                return listString;
+            }
+        }
+        return "";
+    }    
     
 }
