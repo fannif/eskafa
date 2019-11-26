@@ -176,7 +176,7 @@ public class Database {
                     + " course_id INTEGER,"
                     + " link_id INTEGER,"
                     + "FOREIGN KEY (course_id) REFERENCES Book(id),"
-                    + "FOREIGN KEY (tag_id) REFERENCES Link(id))");
+                    + "FOREIGN KEY (link_id) REFERENCES Link(id))");
             stmt.executeUpdate();
             stmt.close();
             
