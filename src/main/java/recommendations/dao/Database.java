@@ -39,6 +39,11 @@ public class Database {
                     + " title VARCHAR(72),"
                     + " type VARCHAR(72),"
                     + " ISBN VARCHAR(72),"
+<<<<<<< HEAD
+=======
+                    + " tag_id INTEGER, "
+                    + " course_id INTEGER,"
+>>>>>>> a6b545801eea1fe3d59a535b76788488495616bd
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
@@ -53,7 +58,13 @@ public class Database {
                     + " title VARCHAR(72),"
                     + " URL VARCHAR(255),"
                     + " type VARCHAR(72),"
+<<<<<<< HEAD
                     + " metadata VARCHAR(255),"
+=======
+                    + " metadata VARCHAR(255)," // KASVATA
+                    + " tag_id INTEGER, "
+                    + " course_id INTEGER"
+>>>>>>> a6b545801eea1fe3d59a535b76788488495616bd
                     + " comment VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();

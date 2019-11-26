@@ -81,18 +81,18 @@ public class RecommendationsTest {
     }
     
     @Test
-    public void listBooksReturnsBookList() {
+    public void listBooksReturnsBookList() throws SQLException {
         assertEquals(3, service.listBooks().size());
     }
     
     @Test
-    public void listBooksReturnsBookListInRightForm() {
+    public void listBooksReturnsBookListInRightForm() throws SQLException {
         assertEquals("Type: Book\n\tTitle: Clean Code\n\tAuthor: Robert C. Martin\n\tISBN: 978-0-13-235088-4\n\tTags:"
                 + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n" ,service.listBooks().get(0).toString());
     }
     
     @Test
-    public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() {
+    public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() throws SQLException {
         assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
                 + "|Security|Popular|\n\tRelated courses:\n\t\n" ,service.listBooks().get(2).toString());
     }
