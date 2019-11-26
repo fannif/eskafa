@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Course;
+import recommendations.domain.Tag;
 
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
@@ -140,7 +142,7 @@ public class Stepdefs {
 
     @Then("system responds with a list of books containing a book titled {string}")
     public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
-        assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<String>(), new ArrayList<String>(), "")));
+        assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
     }
 
 }

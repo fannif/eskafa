@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Scanner;
 import recommendations.domain.Readable;
 import recommendations.domain.Book;
+import recommendations.domain.Course;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
@@ -111,8 +112,8 @@ public class CommandLineUI {
         String isbn = reader.nextLine();
         System.out.print("Type: ");
         String type = reader.nextLine();
-        ArrayList<String> tags = new ArrayList();
-        ArrayList<String> courses = new ArrayList();
+        ArrayList<Tag> tags = new ArrayList();
+        ArrayList<Course> courses = new ArrayList();
         System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
 
@@ -121,7 +122,8 @@ public class CommandLineUI {
             if (tag.equals("")) {
                 break;
             }
-            tags.add(tag);
+            Tag newTag = new Tag(0, tag);
+            tags.add(newTag);
         }
         System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
@@ -131,7 +133,8 @@ public class CommandLineUI {
             if (course.equals("")) {
                 break;
             }
-            courses.add(course);
+            Course newCourse = new Course(0, course);
+            courses.add(newCourse);
         }
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
@@ -151,8 +154,8 @@ public class CommandLineUI {
         String url = reader.nextLine();
         System.out.print("Type: ");
         String type = reader.nextLine();
-        ArrayList<String> tags = new ArrayList();
-        ArrayList<String> courses = new ArrayList();
+        ArrayList<Tag> tags = new ArrayList();
+        ArrayList<Course> courses = new ArrayList();
         System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
 
@@ -161,7 +164,8 @@ public class CommandLineUI {
             if (tag.equals("")) {
                 break;
             }
-            tags.add(tag);
+            Tag newTag = new Tag(0, tag);
+            tags.add(newTag);
         }
         System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
@@ -171,7 +175,8 @@ public class CommandLineUI {
             if (course.equals("")) {
                 break;
             }
-            courses.add(course);
+            Course newCourse = new Course(0, course);
+            courses.add(newCourse);
         }
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();

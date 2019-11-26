@@ -13,11 +13,11 @@ public class BookTest {
 
     @Before
     public void setUp() {
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add("tag1");
-        tags.add("tag2");
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add("TestCourse");
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(1,"tag1"));
+        tags.add(new Tag(2,"tag2"));
+        ArrayList<Course> courses = new ArrayList<>();
+        courses.add(new Course(1,"TestCourse"));
         this.book = new Book(1,"Test Author", "TestBook", "Book", "123-456", tags, courses, "This is a test comment.");
     }
 
@@ -82,16 +82,16 @@ public class BookTest {
 
     @Test
     public void setTagWorks() {
-        ArrayList<String> testList = new ArrayList<>();
-        testList.add("testing");
+        ArrayList<Tag> testList = new ArrayList<>();
+        testList.add(new Tag(3,"testing"));
         book.setTags(testList);
         assertEquals("testing", book.getTags().get(0));
     }
 
     @Test
     public void setRelatedCoursesWorks() {
-        ArrayList<String> testList = new ArrayList<>();
-        testList.add("testing");
+        ArrayList<Course> testList = new ArrayList<>();
+        testList.add(new Course(3,"testing"));
         book.setCourses(testList);
         assertEquals("testing", book.getCourses().get(0));
     }

@@ -4,7 +4,9 @@ package recommendations;
 import java.sql.SQLException;
 import java.util.*;
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Course;
 import recommendations.domain.Link;
+import recommendations.domain.Tag;
 
 public class FakeLinkDao implements ReaderDao<Link, String> {
     List<Link> tips = createTips();
@@ -51,14 +53,14 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
 
     private ArrayList<Link> createTips() {
         ArrayList<Link> linkTips = new ArrayList<>();
-        ArrayList<String> tags = new ArrayList<>();
-        ArrayList<String> tags2 = new ArrayList<>();
-        tags.add("news");
-        ArrayList<String> courses = new ArrayList<>();
-        ArrayList<String> courses2 = new ArrayList<>();
-        courses2.add("Ohjelmistotuotanto");
-        linkTips.add(new Link(1, "Kaleva", "www.kaleva.fi", "Website", "", tags, courses, "news"));
-        linkTips.add(new Link(2, "", "", "Link", "https://ohjelmistotuotanto-hy.github.io/", tags2, courses2, ""));
+        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<Tag> tags2 = new ArrayList<>();
+        tags.add(new Tag(1,"news"));
+        ArrayList<Course> courses = new ArrayList<>();
+        ArrayList<Course> courses2 = new ArrayList<>();
+        courses2.add(new Course (1,"Ohjelmistotuotanto"));
+        linkTips.add(new Link(1, "Kaleva", "www.kaleva.fi", "Link", "", tags, courses, "news"));
+        linkTips.add(new Link(2, "", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, ""));
         return linkTips;
     }
     

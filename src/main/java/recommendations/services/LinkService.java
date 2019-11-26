@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Course;
+import recommendations.domain.Tag;
 
 public class LinkService {
 
@@ -28,7 +30,7 @@ public class LinkService {
         return linkDao.save(link);
     }
 
-    public boolean addLinkWithMeta(int id, String title, String url, String type, ArrayList<String> tags, ArrayList<String> courses, String comment) throws SQLException, IOException {
+    public boolean addLinkWithMeta(int id, String title, String url, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) throws SQLException, IOException {
         String data = getDescription(url);
         Link l = new Link(id, title, url, type, data, tags, courses, comment);
         

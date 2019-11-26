@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Book;
+import recommendations.domain.Course;
+import recommendations.domain.Tag;
 
 public class FakeBookDao implements ReaderDao<Book, String>{
     
@@ -46,15 +48,15 @@ public class FakeBookDao implements ReaderDao<Book, String>{
 
     public ArrayList<Book> createTipsList() {
         ArrayList<Book> tipList = new ArrayList<>();
-        ArrayList<String> tags1 = new ArrayList<>();
-        ArrayList<String> tags2 = new ArrayList<>();
-        tags1.add("clean code");
-        tags2.add("Security");
-        tags2.add("Popular");
-        ArrayList<String> courses1 = new ArrayList<>();
-        ArrayList<String> courses2 = new ArrayList<>();
-        courses1.add("Ohjelmistotuotanto");
-        courses1.add("OhJa");
+        ArrayList<Tag> tags1 = new ArrayList<>();
+        ArrayList<Tag> tags2 = new ArrayList<>();
+        tags1.add(new Tag(1,"clean code"));
+        tags2.add(new Tag(2,"Security"));
+        tags2.add(new Tag(3,"Popular"));
+        ArrayList<Course> courses1 = new ArrayList<>();
+        ArrayList<Course> courses2 = new ArrayList<>();
+        courses1.add(new Course(1,"Ohjelmistotuotanto"));
+        courses1.add(new Course(2,"OhJa"));
         tipList.add(new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
         tipList.add(new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
         tipList.add(new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
