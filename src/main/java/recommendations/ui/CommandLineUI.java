@@ -18,10 +18,12 @@ public class CommandLineUI {
     private LinkService linkService;
     private TagService tagService;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService) {
+    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
         this.reader = reader;
         this.service = service;
         this.linkService = linkService;
+        this.tagService = tagService;
+        
     }
 
     public void start() throws Exception {

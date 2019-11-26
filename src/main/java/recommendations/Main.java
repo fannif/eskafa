@@ -9,6 +9,8 @@ import recommendations.services.BookService;
 import recommendations.dao.BookDao;
 import java.util.Scanner;
 import recommendations.dao.Database;
+import recommendations.dao.TagDao;
+import recommendations.services.TagService;
 
 public class Main {
 
@@ -19,10 +21,12 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         BookDao bookdao = new BookDao(db);
         LinkDao linkDao = new LinkDao(db);
+        TagDao tagDao = new TagDao();
         //BookService service = new BookService(new fileDao());
         BookService service = new BookService(bookdao);
         LinkService linkService = new LinkService(linkDao);
-        CommandLineUI ui = new CommandLineUI(reader, service, linkService);
+        TagService tagService = new TagService(tagDao);
+        CommandLineUI ui = new CommandLineUI(reader, service, linkService, tagService);
 
         ui.start();
 

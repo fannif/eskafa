@@ -16,6 +16,7 @@ import java.util.Scanner;
 import recommendations.dao.ReaderDao;
 
 import recommendations.services.LinkService;
+import recommendations.services.TagService;
 
 
 public class Stepdefs {
@@ -26,9 +27,11 @@ public class Stepdefs {
 
     ReaderDao testDao;
     ReaderDao testDaoLink;
+    ReaderDao testDaoTag;
 
     BookService testService;
     LinkService testServiceLink;
+    TagService testServiceTag;
     CommandLineUI testUI;
 
     public void makeInputString(final List<String> inputLines) {
@@ -66,8 +69,9 @@ public class Stepdefs {
         testDaoLink = new FakeLinkDao();
         testServiceLink = new LinkService(testDaoLink);
         testService = new BookService(testDao);
+        testServiceTag = new TagService(testDaoTag);
 
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
         testUI.start();
     }
 
@@ -83,7 +87,9 @@ public class Stepdefs {
         TestScanner = new Scanner(input);
         testDaoLink = new FakeLinkDao();
         testServiceLink = new LinkService(testDaoLink);
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
+        testServiceTag = new TagService(testDaoTag);
+
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
 
         testUI.start();
 
@@ -125,7 +131,9 @@ public class Stepdefs {
         testService = new BookService(testDao);
         testServiceLink = new LinkService(testDaoLink);
         testService = new BookService(testDao);        
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink);
+        testServiceTag = new TagService(testDaoTag);
+
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
         testUI.start();
     }
 
