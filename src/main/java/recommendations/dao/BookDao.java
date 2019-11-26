@@ -158,9 +158,22 @@ public class BookDao implements ReaderDao<Book, String> {
             statement.setString(4, book.getISBN());
             statement.setString(5, book.getComment());
             
-            // Lisää vielä tagien ja kurssien lisäys!
-            
             statement.executeUpdate();
+            statement.close();
+            
+            for (Tag tag: book.getTags()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO BookTag(book_id, tag_id) VALUES (?, ?)");
+                stmt.setInt(1, book.getId());
+                stmt.setInt(2, tag.getId());
+            }
+            
+            for (Course course: book.getCourses()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseBook(book_id, course_id) VALUES (?, ?)");
+                stmt.setInt(1, book.getId());
+                stmt.setInt(2, course.getId());
+            }
+            
+            
             connection.close();
         }
         return true;

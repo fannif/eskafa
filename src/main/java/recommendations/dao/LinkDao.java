@@ -163,9 +163,21 @@ public class LinkDao implements ReaderDao<Link, String> {
             statement.setString(4, link.getMetadata());
             statement.setString(5, link.getComment());
             
-            // Lisää vielä tagien ja kurssien lisäys!
-            
             statement.executeUpdate();
+            statement.close();
+            
+            for (Tag tag: link.getTags()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO LinkTag(link_id, tag_id) VALUES (?, ?)");
+                stmt.setInt(1, link.getId());
+                stmt.setInt(2, tag.getId());
+            }
+            
+            for (Course course: link.getCourses()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseLink(link_id, course_id) VALUES (?, ?)");
+                stmt.setInt(1, link.getId());
+                stmt.setInt(2, course.getId());
+            }
+            
             connection.close();
         }
         return true;

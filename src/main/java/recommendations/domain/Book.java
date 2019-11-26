@@ -70,6 +70,10 @@ public class Book implements Readable {
     public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
+    
+    public int getId() {
+        return this.id;
+    }
 
     @Override
     public ArrayList<Course> getCourses() {
