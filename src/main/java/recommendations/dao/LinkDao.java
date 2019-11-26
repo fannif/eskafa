@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import recommendations.domain.Link;
 
 public class LinkDao implements readerDao<Link, String> {
@@ -104,8 +106,15 @@ public class LinkDao implements readerDao<Link, String> {
     }
 
     @Override
-    public void edit(Link link) {
-
+    public boolean edit(Link link) throws SQLException {
+        
+        try (Connection connection = database.getConnection()) {
+            
+            
+            
+            connection.close();
+        }
+        return true;
     }
 
 }

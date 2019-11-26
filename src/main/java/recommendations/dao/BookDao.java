@@ -105,7 +105,13 @@ public class BookDao implements readerDao<Book, String> {
     }
     
     @Override
-    public void edit(Book book) {
+    public boolean edit(Book book) throws SQLException {
+        
+        try (Connection connection = database.getConnection()) {
+            
+            connection.close();
+        }
+        return true;
         
     }
     
