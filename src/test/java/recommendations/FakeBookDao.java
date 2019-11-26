@@ -71,7 +71,7 @@ public class FakeBookDao implements readerDao<Book, String>{
     }
 
     @Override
-    public void edit(Book tip) throws SQLException {
+    public boolean edit(Book tip) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     } 
    
