@@ -8,18 +8,11 @@ import recommendations.domain.Book;
 
 public class FakeBookDao implements ReaderDao<Book, String>{
     
-    ArrayList<Book> tips = createListForStub();
-
-        
+    ArrayList<Book> tips = createTipsList();
 
     @Override
     public Book findOne(String title) {
-        Book searchedTip = null;
-        for (int i = 0; i < tips.size(); i++) {
-            if (tips.get(i).getTitle().equals(title)) {
-                searchedTip = tips.get(i);
-            }
-        }
+        Book searchedTip = findWanted(title);
         return searchedTip;
     }
 
@@ -30,10 +23,8 @@ public class FakeBookDao implements ReaderDao<Book, String>{
 
     @Override
     public boolean save(Book tip) {
-        if (tip.getClass().equals(Book.class)) {
-            Book tipToAdd = (Book) tip;
-            tips.add(tipToAdd);
-        }
+        tips.add(tip);
+        
         return true;
     }
 
@@ -53,7 +44,7 @@ public class FakeBookDao implements ReaderDao<Book, String>{
         return wanted;
     }
 
-    public ArrayList<Book> createListForStub() {
+    public ArrayList<Book> createTipsList() {
         ArrayList<Book> tipList = new ArrayList<>();
         ArrayList<String> tags1 = new ArrayList<>();
         ArrayList<String> tags2 = new ArrayList<>();
