@@ -30,9 +30,12 @@ public class LinkDao implements readerDao<Link, String> {
             }   link = new Link(results.getInt("id"), results.getString("title"),
                     results.getString("URL"), results.getString("type"),
                     results.getString("metadata"), new ArrayList<String>(), new ArrayList<String>(), results.getString("comment"));
+            
             // Lisää ArrayListeihin vielä tägit ja kurssit!
+            
             statement.close();
             results.close();
+            connection.close();
         }
 
         return link;
@@ -59,6 +62,7 @@ public class LinkDao implements readerDao<Link, String> {
                 Link link = new Link(id, title, URL, type, metadata, new ArrayList<String>(), new ArrayList<String>(), comment);
                 links.add(link);
             }
+            connection.close();
         }
 
         return links;
@@ -79,7 +83,9 @@ public class LinkDao implements readerDao<Link, String> {
             statement.setString(3, link.getType());
             statement.setString(4, link.getMetadata());
             statement.setString(5, link.getComment());
+            
             // Lisää vielä tagien ja kurssien lisäys!
+            
             statement.executeUpdate();
             connection.close();
         }
@@ -92,7 +98,8 @@ public class LinkDao implements readerDao<Link, String> {
 
             statement.setString(1, title);
             statement.executeUpdate();
-
+            
+            connection.close();
         }
     }
 

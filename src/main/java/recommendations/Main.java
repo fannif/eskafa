@@ -6,7 +6,7 @@ import recommendations.dao.LinkDao;
 import recommendations.services.LinkService;
 import recommendations.ui.CommandLineUI;
 import recommendations.services.BookService;
-import recommendations.dao.bookDao;
+import recommendations.dao.BookDao;
 import java.util.Scanner;
 import recommendations.dao.Database;
 
@@ -17,7 +17,7 @@ public class Main {
         Database db = new Database("jdbc:sqlite:recommendations.db");
         
         Scanner reader = new Scanner(System.in);
-        bookDao bookdao = new bookDao(db);
+        BookDao bookdao = new BookDao(db);
         LinkDao linkDao = new LinkDao(db);
         //BookService service = new BookService(new fileDao());
         BookService service = new BookService(bookdao);

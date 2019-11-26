@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import recommendations.domain.Book;
 
-public class bookDao implements readerDao<Book, String> {
+public class BookDao implements readerDao<Book, String> {
     
     private Database database;
     
-    public bookDao(Database database) {
+    public BookDao(Database database) {
         this.database = database;
     }
     
@@ -31,9 +31,12 @@ public class bookDao implements readerDao<Book, String> {
             }   book = new Book(results.getInt("id"), results.getString("author"),
                     results.getString("title"), results.getString("type"),
                     results.getString("ISBN"), new ArrayList<String>(), new ArrayList<String>(), results.getString("comment"));
+            
             // Lisää ArrayListeihin vielä tägit ja kurssit!
+            
             statement.close();
             results.close();
+            connection.close();
         }
 
         return book;
@@ -61,6 +64,7 @@ public class bookDao implements readerDao<Book, String> {
                 
                 books.add(book);
             }
+            connection.close();
         }
         
         return books;
@@ -81,7 +85,9 @@ public class bookDao implements readerDao<Book, String> {
             statement.setString(3, book.getType());
             statement.setString(4, book.getISBN());
             statement.setString(5, book.getComment());
+            
             // Lisää vielä tagien ja kurssien lisäys!
+            
             statement.executeUpdate();
             connection.close();
         }
@@ -94,7 +100,7 @@ public class bookDao implements readerDao<Book, String> {
             
             statement.setString(1, title);
             statement.executeUpdate();
-            
+            connection.close();
         }
     }
     
