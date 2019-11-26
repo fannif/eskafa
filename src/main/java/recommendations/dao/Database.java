@@ -24,6 +24,12 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+        createTableBookTag();
+        createTableLinkTag();
+        createTableCourseBook();
+        createTableCourseLink();
+        createTableTag();
+        createTableCourse();
     }
     
     public Connection getConnection() throws SQLException {
@@ -110,15 +116,15 @@ public class Database {
         }
     }
 
-    public void createTableCourseTag() throws SQLException {
+    public void createTableCourseBook() throws SQLException {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
-                    + "CREATE TABLE IF NOT EXISTS CourseTag"
+                    + "CREATE TABLE IF NOT EXISTS CourseBook"
                     + " (id SERIAL,"
                     + " course_id INTEGER,"
-                    + " tag_id INTEGER,"
-                    + "FOREIGN KEY (course_id) REFERENCES Book(id),"
-                    + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
+                    + " book_id INTEGER,"
+                    + "FOREIGN KEY (course_id) REFERENCES Course(id),"
+                    + "FOREIGN KEY (book_id) REFERENCES Book(id))");
             stmt.executeUpdate();
             stmt.close();
         }
