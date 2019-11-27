@@ -85,7 +85,7 @@ public class BookDao implements ReaderDao<Book, String> {
             
                 
             PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = ?");
-            stmt.setInt(1, id);
+            stmt2.setInt(1, id);
             ResultSet courseResults = stmt2.executeQuery();
                 
             while (courseResults.next()) {
@@ -201,10 +201,12 @@ public class BookDao implements ReaderDao<Book, String> {
     
     @Override
     public void delete(String title) throws Exception {
-        try (Connection connection = database.getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?")) {
+        try (Connection connection = database.getConnection()){ 
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?");
             
             statement.setString(1, title);
             statement.executeUpdate();
+            statement.close();
             connection.close();
         }
     }

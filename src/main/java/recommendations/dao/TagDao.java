@@ -41,6 +41,7 @@ public class TagDao implements ReaderDao<Tag, String> {
             tag = new Tag(id, name);
 
             statement.close();
+            connection.close();
         }
         
         return tag;
