@@ -64,7 +64,7 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Book"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " author VARCHAR(72),"
                     + " title VARCHAR(72),"
                     + " type VARCHAR(72),"
@@ -81,7 +81,7 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Link"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " title VARCHAR(72),"
                     + " URL VARCHAR(255),"
                     + " type VARCHAR(72),"
@@ -98,7 +98,7 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Tag"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
@@ -111,7 +111,7 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS Course"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " name VARCHAR(72))");
             stmt.executeUpdate();
             stmt.close();
@@ -124,11 +124,11 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS LinkTag"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " link_id INTEGER,"
                     + " tag_id INTEGER,"
-                    + "FOREIGN KEY (link_id) REFERENCES Link(id),"
-                    + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
+                    + " FOREIGN KEY (link_id) REFERENCES Link(id),"
+                    + " FOREIGN KEY (tag_id) REFERENCES Tag(id))");
             stmt.executeUpdate();
             stmt.close();
             
@@ -140,10 +140,10 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS BookTag"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " book_id INTEGER,"
                     + " tag_id INTEGER,"
-                    + "FOREIGN KEY (book_id) REFERENCES Book(id),"
+                    + "FOREIGN KEY (book_id) REFERENCES Book(id), "
                     + "FOREIGN KEY (tag_id) REFERENCES Tag(id))");
             stmt.executeUpdate();
             stmt.close();
@@ -156,11 +156,11 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS CourseBook"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " course_id INTEGER,"
                     + " book_id INTEGER,"
-                    + "FOREIGN KEY (course_id) REFERENCES Course(id),"
-                    + "FOREIGN KEY (book_id) REFERENCES Book(id))");
+                    + " FOREIGN KEY (course_id) REFERENCES Course(id),"
+                    + " FOREIGN KEY (book_id) REFERENCES Book(id))");
             stmt.executeUpdate();
             stmt.close();
             
@@ -172,11 +172,11 @@ public class Database {
         try (Connection connection = this.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(""
                     + "CREATE TABLE IF NOT EXISTS CourseLink"
-                    + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " course_id INTEGER,"
                     + " link_id INTEGER,"
-                    + "FOREIGN KEY (course_id) REFERENCES Book(id),"
-                    + "FOREIGN KEY (link_id) REFERENCES Link(id))");
+                    + " FOREIGN KEY (course_id) REFERENCES Book(id),"
+                    + " FOREIGN KEY (link_id) REFERENCES Link(id))");
             stmt.executeUpdate();
             stmt.close();
             
