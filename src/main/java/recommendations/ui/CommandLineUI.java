@@ -202,4 +202,13 @@ public class CommandLineUI {
         }
     }
 
+    private void searchByTag() throws SQLException {
+        System.out.println("Added tags: ");
+        listTags();
+        System.out.println("");
+        System.out.println("Please enter the name of the tag to search by: ");
+        String name = reader.nextLine();
+
+    }
+
 }
