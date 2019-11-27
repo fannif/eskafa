@@ -67,8 +67,10 @@ public class CommandLineUI {
                     break;
                 case "6":
                     listTags();
+                    break;
                 case "7":
                     searchByTag();
+                    break;
                 default:
             }
         }
