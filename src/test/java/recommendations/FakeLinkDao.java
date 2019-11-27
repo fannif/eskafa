@@ -12,6 +12,11 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
     List<Link> tips = createTips();
 
     @Override
+    public List<Link> findByTag(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public Link findOne(String title) throws SQLException {
         Link tip = findWanted(title);
         return tip;

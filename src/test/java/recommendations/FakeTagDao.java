@@ -4,6 +4,7 @@ import org.junit.Before;
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Tag;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class FakeTagDao implements ReaderDao<Tag, String> {
         tags.add(new Tag(2, "ohja"));
         tags.add(new Tag(3, "ohtu"));
         return tags;
+    }
+
+    @Override
+    public List<Tag> findByTag(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.;
     }
 
     @Override

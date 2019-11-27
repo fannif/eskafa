@@ -3,6 +3,8 @@ package recommendations;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Book;
 import recommendations.domain.Course;
@@ -11,6 +13,11 @@ import recommendations.domain.Tag;
 public class FakeBookDao implements ReaderDao<Book, String>{
     
     ArrayList<Book> tips = createTipsList();
+
+    @Override
+    public List<Book> findByTag(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public Book findOne(String title) {
