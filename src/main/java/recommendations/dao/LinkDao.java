@@ -20,6 +20,24 @@ public class LinkDao implements ReaderDao<Link, String> {
     public LinkDao(Database database) {
         this.database = database;
     }
+    
+    public ArrayList<Link> findByTag(String tag) {
+        ArrayList<Link> links = new ArrayList<>();
+        
+        try {
+            for (Link link: this.findAll()) {
+                for (Tag linkTag: link.getTags()) {
+                    if (linkTag.getName().equals(tag)) {
+                    links.add(link);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return links;
+    }
 
     @Override
     public Link findOne(String title) throws SQLException {

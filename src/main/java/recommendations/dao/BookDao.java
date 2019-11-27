@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import recommendations.domain.Book;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
@@ -18,6 +20,24 @@ public class BookDao implements ReaderDao<Book, String> {
     
     public BookDao(Database database) {
         this.database = database;
+    }
+    
+    public ArrayList<Book> findByTag(String tag) {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        try {
+            for (Book book: this.findAll()) {
+                for (Tag bookTag: book.getTags()) {
+                    if (bookTag.getName().equals(tag)) {
+                        books.add(book);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return books;
     }
     
     @Override
