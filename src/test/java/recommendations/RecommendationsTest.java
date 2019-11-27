@@ -3,21 +3,31 @@ package recommendations;
 import java.sql.SQLException;
 import java.util.*;
 import org.junit.*;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
+import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
+import recommendations.services.TagService;
 
 public class RecommendationsTest {
     
     ReaderDao readerDaoBook;
     ReaderDao rederDaoLink;
+    ReaderDao readerDaoTag;
 
     BookService service;
+    TagService tagService;
+
     @Before
     public void setUp() {
         readerDaoBook = new FakeBookDao();
         rederDaoLink = new FakeLinkDao();
+        readerDaoTag = new FakeTagDao();
         service = new BookService(readerDaoBook);
+        tagService = new TagService(readerDaoTag);
     }
     
     @Test
@@ -55,6 +65,22 @@ public class RecommendationsTest {
         
         assertEquals(3, service.listBooks().size());
     }
-    
+
+    @Test
+    public void listTagsReturnsListOfAddedTags() throws SQLException {
+        List<Tag> tags = new ArrayList();
+        tags.add(new Tag(1, "ohpe"));
+        tags.add(new Tag(2, "ohja"));
+        tags.add(new Tag(3, "ohtu"));
+        assertThat(tagService.listTags(), is(tags));
+    }
+
+    @Test
+    public void listTagsReturnsEmptyListIfNoTagsAdded() throws Exception {
+        readerDaoTag.delete("ohtu");
+        readerDaoTag.delete("ohpe");
+        readerDaoTag.delete("ohja");
+        assertThat(tagService.listTags().size(), is(0));
+    }
 
 }
