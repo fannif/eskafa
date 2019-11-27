@@ -182,14 +182,47 @@ public class BookDao implements ReaderDao<Book, String> {
             
             for (Tag tag: book.getTags()) {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO BookTag(book_id, tag_id) VALUES (?, ?)");
-                stmt.setInt(1, book.getId());
-                stmt.setInt(2, tag.getId());
+                
+                TagDao tagDao;
+                int tagId = 0;
+                try {
+                    tagDao = new TagDao(new Database("jdbc:sqlite:recommendations.db"));
+                    if (tagDao.findOne(tag.getName()) != null) {
+                        tagId = tagDao.findOne(tag.getName()).getId();
+                    } else {
+                        tagDao.save(tag);
+                        tagId = tagDao.findOne(tag.getName()).getId();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(BookDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                int bookId = this.findOne(book.getTitle()).getId();
+                
+                stmt.setInt(1, bookId);
+                stmt.setInt(2, tagId);
             }
             
             for (Course course: book.getCourses()) {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseBook(book_id, course_id) VALUES (?, ?)");
-                stmt.setInt(1, book.getId());
-                stmt.setInt(2, course.getId());
+                CourseDao courseDao;
+                int courseId = 0;
+                try {
+                    courseDao = new CourseDao(new Database("jdbc:sqlite:recommendations.db"));
+                    if (courseDao.findOne(course.getName()) != null) {
+                        courseId = courseDao.findOne(course.getName()).getId();
+                    } else {
+                        courseDao.save(course);
+                        courseId = courseDao.findOne(course.getName()).getId();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(BookDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                int bookId = this.findOne(book.getTitle()).getId();
+                
+                stmt.setInt(1, bookId);
+                stmt.setInt(2, courseId);
             }
             
             

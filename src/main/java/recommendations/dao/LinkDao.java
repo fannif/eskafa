@@ -188,14 +188,47 @@ public class LinkDao implements ReaderDao<Link, String> {
             
             for (Tag tag: link.getTags()) {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO LinkTag(link_id, tag_id) VALUES (?, ?)");
-                stmt.setInt(1, link.getId());
-                stmt.setInt(2, tag.getId());
+                
+                TagDao tagDao;
+                int tagId = 0;
+                try {
+                    tagDao = new TagDao(new Database("jdbc:sqlite:recommendations.db"));
+                    if (tagDao.findOne(tag.getName()) != null) {
+                        tagId = tagDao.findOne(tag.getName()).getId();
+                    } else {
+                        tagDao.save(tag);
+                        tagId = tagDao.findOne(tag.getName()).getId();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                int linkId = this.findOne(link.getTitle()).getId();
+                
+                stmt.setInt(1, linkId);
+                stmt.setInt(2, tagId);
             }
             
             for (Course course: link.getCourses()) {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseLink(link_id, course_id) VALUES (?, ?)");
-                stmt.setInt(1, link.getId());
-                stmt.setInt(2, course.getId());
+                CourseDao courseDao;
+                int courseId = 0;
+                try {
+                    courseDao = new CourseDao(new Database("jdbc:sqlite:recommendations.db"));
+                    if (courseDao.findOne(course.getName()) != null) {
+                        courseId = courseDao.findOne(course.getName()).getId();
+                    } else {
+                        courseDao.save(course);
+                        courseId = courseDao.findOne(course.getName()).getId();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                int linkId = this.findOne(link.getTitle()).getId();
+                
+                stmt.setInt(1, linkId);
+                stmt.setInt(2, courseId);
             }
             
             connection.close();
