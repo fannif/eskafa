@@ -9,6 +9,7 @@ import recommendations.domain.Book;
 import recommendations.domain.Course;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
+import recommendations.io.IO;
 import recommendations.services.BookService;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
@@ -19,13 +20,14 @@ public class CommandLineUI {
     private BookService bookService;
     private LinkService linkService;
     private TagService tagService;
+    //private IO io;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
+    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService, IO io) {
         this.reader = reader;
         this.bookService = service;
         this.linkService = linkService;
         this.tagService = tagService;
-
+        //this.io = io;
     }
 
     public void start() throws Exception {

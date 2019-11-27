@@ -10,6 +10,7 @@ import recommendations.dao.BookDao;
 import java.util.Scanner;
 import recommendations.dao.Database;
 import recommendations.dao.TagDao;
+import recommendations.io.CommandLineIO;
 import recommendations.services.TagService;
 
 public class Main {
@@ -26,7 +27,8 @@ public class Main {
         BookService service = new BookService(bookdao);
         LinkService linkService = new LinkService(linkDao);
         TagService tagService = new TagService(tagDao, bookdao, linkDao);
-        CommandLineUI ui = new CommandLineUI(reader, service, linkService, tagService);
+        CommandLineIO io = new CommandLineIO(reader);
+        CommandLineUI ui = new CommandLineUI(reader, service, linkService, tagService, io);
 
         ui.start();
 
