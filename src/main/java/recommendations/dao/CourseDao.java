@@ -2,6 +2,7 @@
 package recommendations.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,7 +26,25 @@ public class CourseDao implements ReaderDao<Course, String> {
 
     @Override
     public Course findOne(String title) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Course course = null;    
+        try (Connection connection = database.getConnection()) {
+            String sql = "SELECT * FROM Course WHERE name = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, title);
+            ResultSet results = statement.executeQuery();
+            boolean hasOne = results.next();
+            if (!hasOne) {
+                return null;
+            }
+            int id = results.getInt("id");
+            String name = results.getString("name");
+            
+            course = new Course(id, name);
+
+            statement.close();
+        }
+        
+        return course;
     }
 
     @Override
@@ -50,8 +69,21 @@ public class CourseDao implements ReaderDao<Course, String> {
     
 
     @Override
-    public boolean save(Course tip) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean save(Course course) throws SQLException {
+                
+        if (!(this.findOne(course.getName()) == null)) {
+            return false;
+        }
+        
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO Course (name)"
+                    + " VALUES ( ? )");
+            statement.setString(1, course.getName());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        }
+        return true;
     }
 
     @Override
