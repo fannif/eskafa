@@ -17,7 +17,12 @@ public class CourseDao implements ReaderDao<Course, String> {
     public CourseDao(Database database) {
         this.database = database;
     }
-    
+
+    @Override
+    public List<Course> findByTag(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public Course findOne(String title) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -39,6 +39,7 @@ public class CommandLineUI {
             System.out.println("4 --- List all links");
             System.out.println("5 --- Add a new link");
             System.out.println("6 --- List tags");
+            System.out.println("7 --- Search by tag");
             System.out.println("q --- Quit");
             System.out.println("Select 1, 2, 3, 4, 5, 6 or q");
             String choice = reader.nextLine();
@@ -64,6 +65,8 @@ public class CommandLineUI {
                     break;
                 case "6":
                     listTags();
+                case "7":
+                    searchByTag();
                 default:
             }
         }
@@ -208,7 +211,7 @@ public class CommandLineUI {
         System.out.println("");
         System.out.println("Please enter the name of the tag to search by: ");
         String name = reader.nextLine();
-
+        tagService.findRecommendadtionsByTag(name);
     }
 
 }
