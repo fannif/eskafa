@@ -109,11 +109,10 @@ public class BookDao implements ReaderDao<Book, String> {
     @Override
     public List<Book> findAll() throws SQLException {
         
-        List<Book> books;
+        List<Book> books =new ArrayList<>();
         try (Connection connection = database.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM Book");
-            books = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Book");
+            ResultSet results = statement.executeQuery();
             while (results.next()) {
                 int id = results.getInt("id");
                 String author = results.getString("author");
@@ -122,7 +121,6 @@ public class BookDao implements ReaderDao<Book, String> {
                 String ISBN = results.getString("ISBN");
                 String comment = results.getString("comment");
                 
-                statement.close();
                 
                 ArrayList<Tag> tags = new ArrayList<>();
                 
@@ -156,6 +154,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 books.add(book);
             }
+            statement.close();
             connection.close();
         }
         
@@ -201,12 +200,10 @@ public class BookDao implements ReaderDao<Book, String> {
     
     @Override
     public void delete(String title) throws Exception {
-        try (Connection connection = database.getConnection()){ 
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?");
+        try (Connection connection = database.getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?")) {
             
             statement.setString(1, title);
             statement.executeUpdate();
-            statement.close();
             connection.close();
         }
     }

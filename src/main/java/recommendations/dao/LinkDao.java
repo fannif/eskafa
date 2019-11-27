@@ -21,6 +21,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         this.database = database;
     }
     
+    @Override
     public ArrayList<Link> findByTag(String tag) {
         ArrayList<Link> links = new ArrayList<>();
         
@@ -125,7 +126,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 String metadata = results.getString("metadata");
                 String comment = results.getString("comment");
                 
-                statement.close();
+                
                 
                 ArrayList<Tag> tags = new ArrayList<>();
                 
@@ -159,6 +160,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 Link link = new Link(id, title, URL, type, metadata, tags, courses, comment);
                 links.add(link);
             }
+            statement.close();
             connection.close();
         }
 
@@ -203,8 +205,8 @@ public class LinkDao implements ReaderDao<Link, String> {
 
     @Override
     public void delete(String title) throws Exception {
-        try (Connection connection = database.getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM Link WHERE title = ?")) {
-
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Link WHERE title = ?");
             statement.setString(1, title);
             statement.executeUpdate();
             
