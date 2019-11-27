@@ -15,7 +15,7 @@ import recommendations.services.TagService;
 public class RecommendationsTest {
     
     ReaderDao readerDaoBook;
-    ReaderDao rederDaoLink;
+    ReaderDao readerDaoLink;
     ReaderDao readerDaoTag;
 
     BookService service;
@@ -24,10 +24,10 @@ public class RecommendationsTest {
     @Before
     public void setUp() {
         readerDaoBook = new FakeBookDao();
-        rederDaoLink = new FakeLinkDao();
+        readerDaoLink = new FakeLinkDao();
         readerDaoTag = new FakeTagDao();
         service = new BookService(readerDaoBook);
-        tagService = new TagService(readerDaoTag);
+        tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink);
     }
     
     @Test

@@ -29,6 +29,7 @@ public class Stepdefs {
 
     ReaderDao testDao;
     ReaderDao testDaoLink;
+    ReaderDao testDaoBook;
     ReaderDao testDaoTag;
 
     BookService testService;
@@ -69,9 +70,10 @@ public class Stepdefs {
         TestScanner = new Scanner(input);
         testDao = new FakeBookDao();
         testDaoLink = new FakeLinkDao();
+        testDaoBook = new FakeBookDao();
         testServiceLink = new LinkService(testDaoLink);
         testService = new BookService(testDao);
-        testServiceTag = new TagService(testDaoTag);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
         testUI.start();
@@ -88,8 +90,9 @@ public class Stepdefs {
         testService = new BookService(testDao);
         TestScanner = new Scanner(input);
         testDaoLink = new FakeLinkDao();
+        testDaoBook = new FakeBookDao();
         testServiceLink = new LinkService(testDaoLink);
-        testServiceTag = new TagService(testDaoTag);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
 
@@ -133,8 +136,9 @@ public class Stepdefs {
         testDaoLink = new FakeLinkDao();
         testService = new BookService(testDao);
         testServiceLink = new LinkService(testDaoLink);
+        testDaoBook = new FakeBookDao();
         testService = new BookService(testDao);        
-        testServiceTag = new TagService(testDaoTag);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
         testUI.start();
