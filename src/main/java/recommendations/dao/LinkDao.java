@@ -144,7 +144,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 ArrayList<Course> courses = new ArrayList<>();
                 
-                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN Link ON CourseLink.course_id = Course.id JOIN Link ON CourseBook.link_id = Link.id WHERE Link.id = ?");
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = Link.id WHERE Link.id = ?");
                 stmt2.setInt(1, id);
                 ResultSet courseResults = stmt2.executeQuery();
                 
@@ -199,9 +199,11 @@ public class LinkDao implements ReaderDao<Link, String> {
                         tagDao.save(tag);
                         tagId = tagDao.findOne(tag.getName()).getId();
                     }
+                    
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 
                 int linkId = this.findOne(link.getTitle()).getId();
                 
@@ -259,7 +261,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         try (Connection connection = database.getConnection()) {
             
             
-            
+           
             connection.close();
         }
         return true;
