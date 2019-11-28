@@ -94,8 +94,7 @@ public class CommandLineUI {
     
     private void openLinkInBrowser(Link link) {
         String url = link.getURL();
-        
-        if (Desktop.isDesktopSupported()) {
+       // if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             try {
                 desktop.browse(new URI(url));
@@ -103,15 +102,15 @@ public class CommandLineUI {
                 e.printStackTrace();
             }
             
-        } else {
-            Runtime runtime = Runtime.getRuntime();
-            try {
-                runtime.exec("xdg-open " + url);
-            } catch (IOException e) {
-               
-                e.printStackTrace();
-            }
-        }
+//        } else {
+//            Runtime runtime = Runtime.getRuntime();
+//            try {
+//                runtime.exec("xdg-open " + url);
+//            } catch (IOException e) {
+//               
+//                e.printStackTrace();
+//            }
+//        }
     } 
 
     private void removeRecommendation() throws Exception {
