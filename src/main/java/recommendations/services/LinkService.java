@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,4 +75,23 @@ public class LinkService {
         return links;
     }
 
+    public void remove(String title, Scanner lukija) throws Exception {
+        boolean go = true;
+        Scanner reader = lukija;
+        String input = title;
+        while (go) {
+            if (input.equals("q")) {
+                return;
+            }
+            if (linkDao.findOne(input) == null) {
+                System.out.println("No such link found. Please check the spelling and try again: ");
+                System.out.println("To return back to main menu, enter q");
+                input = reader.nextLine();
+            } else {
+                linkDao.delete(input);
+                go = false;
+            }
+        }
+        System.out.println("The link has been successfully removed");
+    }
 }

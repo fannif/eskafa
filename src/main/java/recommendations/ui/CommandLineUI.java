@@ -37,7 +37,7 @@ public class CommandLineUI {
         while (go) {
             System.out.println("\n1 --- List all recommendations");
             System.out.println("2 --- Add a new book");
-            System.out.println("3 --- Remove a book from recommendations");
+            System.out.println("3 --- Remove a recommendation from the list");
             System.out.println("4 --- List all links");
             System.out.println("5 --- Add a new link");
             System.out.println("6 --- List tags");
@@ -57,7 +57,7 @@ public class CommandLineUI {
                     addBook();
                     break;
                 case "3":
-                    removeBook();
+                    removeRecommendation();
                     break;
                 case "4":
                     listLinks();
@@ -84,10 +84,27 @@ public class CommandLineUI {
         }
     }
 
-    private void removeBook() throws Exception {
-        System.out.println("\nPlease enter the title of the book to be removed: ");
-        String title = reader.nextLine();
-        bookService.remove(title, reader);
+    private void removeRecommendation() throws Exception {
+        System.out.println("\nPlease spesify which recommendation type you would like to remove: book/link");
+        System.out.println("To return back to main menu, enter 'q'");
+        String input = reader.nextLine();
+        String cleanInput = readInput(input);
+        if (cleanInput.equals("book")) {
+            System.out.println("\nPlease enter the title of the book to be removed: ");
+            String title = reader.nextLine();
+            bookService.remove(title, reader);
+        } else if (cleanInput.equals("link")) {
+            System.out.println("\nPlease enter the title of the link to be removed: ");
+            String title = reader.nextLine();
+            linkService.remove(title, reader);
+        } else {
+            System.out.println("Could not recognize given command, please check the spelling.");
+        }
+    }
+
+    private String readInput(String input) {
+        String cleanInput = input.trim().toLowerCase();
+        return cleanInput;
     }
 
     private void listRecommendations() throws SQLException {
