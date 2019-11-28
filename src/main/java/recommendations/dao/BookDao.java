@@ -66,8 +66,6 @@ public class BookDao implements ReaderDao<Book, String> {
                     title, type,
                     ISBN, tags, courses, comment);
 
-            statement.close();
-            
             
                 
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.book_id = Tag.id JOIN Book ON BookTag.book_id = ?");
@@ -89,8 +87,8 @@ public class BookDao implements ReaderDao<Book, String> {
             ResultSet courseResults = stmt2.executeQuery();
                 
             while (courseResults.next()) {
-                int courseId = tagResults.getInt("id");
-                String name = tagResults.getString("name");
+                int courseId = courseResults.getInt("id");
+                String name = courseResults.getString("name");
                 courses.add(new Course(courseId, name));
             }
                 
@@ -143,8 +141,8 @@ public class BookDao implements ReaderDao<Book, String> {
                 ResultSet courseResults = stmt2.executeQuery();
                 
                 while (courseResults.next()) {
-                    int courseId = tagResults.getInt("id");
-                    String name = tagResults.getString("name");
+                    int courseId = courseResults.getInt("id");
+                    String name = courseResults.getString("name");
                     courses.add(new Course(courseId, name));
                 }
                 
@@ -180,10 +178,12 @@ public class BookDao implements ReaderDao<Book, String> {
             statement.executeUpdate();
             statement.close();
             
+            BookTagDao bookTagDao = new BookTagDao(database);
+            TagDao tagDao = new TagDao(database);
+            
             for (Tag tag: book.getTags()) {
                 
-                BookTagDao bookTagDao = new BookTagDao(database);
-                TagDao tagDao = new TagDao(database);
+                
                 int tagId = 0;
                 if (tagDao.findOne(tag.getName()) != null) {
                     tagId = tagDao.findOne(tag.getName()).getId();
@@ -199,9 +199,11 @@ public class BookDao implements ReaderDao<Book, String> {
                 bookTagDao.save(bookId, tagId);
             }
             
+            CourseBookDao courseBookDao = new CourseBookDao(database);
+            CourseDao courseDao = new CourseDao(database);
+            
             for (Course course: book.getCourses()) {
-                CourseBookDao courseBookDao = new CourseBookDao(database);
-                CourseDao courseDao = new CourseDao(database);
+                
                 int courseId = 0;
                 if (courseDao.findOne(course.getName()) != null) {
                     courseId = courseDao.findOne(course.getName()).getId();
