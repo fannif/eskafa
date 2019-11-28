@@ -1,6 +1,9 @@
 package recommendations.ui;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.Scanner;
@@ -81,8 +84,35 @@ public class CommandLineUI {
         ArrayList<Link> links = linkService.list();
         for (Link l : links) {
             System.out.println(l.toString() + "\n");
+            System.out.println("Do you want to open this link in your browser (y/n)?");
+            String opn = reader.nextLine();
+            if (opn.equals("y")) {
+                openLinkInBrowser(l);
+            }
         }
     }
+    
+    private void openLinkInBrowser(Link link) {
+        String url = link.getURL();
+        
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI(url));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+            
+        } else {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("xdg-open " + url);
+            } catch (IOException e) {
+               
+                e.printStackTrace();
+            }
+        }
+    } 
 
     private void removeRecommendation() throws Exception {
         System.out.println("\nPlease spesify which recommendation type you would like to remove: book/link");
@@ -168,8 +198,6 @@ public class CommandLineUI {
     }
 
     private void addLink() throws IOException, SQLException {
-        // Sit ku on metadata toiminto, täytyy poistaa
-       // String metadata = "";
 
         System.out.println("\nAdd a new Link");
         System.out.print("Title: ");

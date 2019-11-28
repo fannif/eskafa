@@ -3,10 +3,10 @@ package recommendations.domain;
 import java.util.ArrayList;
 
 public class Link implements Readable {
-    
+
     private static String RESET = "\u001B[0m";
     private static String CYAN = "\u001B[36m";
-    
+
     private int id;
     private String title;
     private String URL;
@@ -26,8 +26,8 @@ public class Link implements Readable {
         this.courses = courses;
         this.comment = comment;
     }
-    
-     public Link(int id, String title, String URL, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
+
+    public Link(int id, String title, String URL, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
         this.title = title;
         this.URL = URL;
         this.type = type;
@@ -35,7 +35,6 @@ public class Link implements Readable {
         this.courses = courses;
         this.comment = comment;
     }
-    
 
     public String getType() {
         return type;
@@ -100,17 +99,17 @@ public class Link implements Readable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
+
     @Override
     public String toString() {
         String tagString = listToString(this.tags);
         String coursesString = listToString(this.courses);
-        return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: " + CYAN + "<" + this.URL
+        return "\nType: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: " + CYAN + "<" + this.URL
                 + ">" + RESET + "\n\tTags:" + tagString + "\n\tRelated courses:"
                 + coursesString + "\n\t" + this.comment + "\n"
-                + "Description: " + this.metadata;
+                + "\nDescription: " + this.metadata;
     }
-    
+
     public String listToString(ArrayList list) {
         if (!list.isEmpty()) {
             if (list.get(0).equals("")) {
@@ -124,6 +123,6 @@ public class Link implements Readable {
             }
         }
         return "";
-    }    
-    
+    }
+
 }
