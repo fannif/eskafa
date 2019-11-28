@@ -22,7 +22,7 @@ public class CommandLineUI {
     private TagService tagService;
     //private IO io;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService, IO io) {
+    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
         this.reader = reader;
         this.bookService = service;
         this.linkService = linkService;

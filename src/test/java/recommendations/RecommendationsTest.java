@@ -1,5 +1,6 @@
 package recommendations;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import org.junit.*;
@@ -7,9 +8,12 @@ import org.junit.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import recommendations.domain.Course;
+import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
+import recommendations.services.LinkService;
 import recommendations.services.TagService;
 
 public class RecommendationsTest {
@@ -20,6 +24,7 @@ public class RecommendationsTest {
 
     BookService service;
     TagService tagService;
+    LinkService linkService;
 
     @Before
     public void setUp() {
@@ -28,6 +33,7 @@ public class RecommendationsTest {
         readerDaoTag = new FakeTagDao();
         service = new BookService(readerDaoBook);
         tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink);
+        linkService = new LinkService(readerDaoLink);
     }
     
     @Test
@@ -83,4 +89,21 @@ public class RecommendationsTest {
         assertThat(tagService.listTags().size(), is(0));
     }
 
+    @Test
+    public void addLinkWorksCorrectly() throws SQLException, IOException {
+        ArrayList<Tag> tags = new ArrayList();
+        tags.add(new Tag(3,"bubble_sort"));
+        ArrayList<Course> courses = new ArrayList();
+        courses.add(new Course(6,"Tira"));
+        linkService.addLink(new Link(5,
+                "Bubble sort algorithm",
+                "https://www.youtube.com/watch?v=TzeBrDU",
+                "Url",
+                "metadata",
+                tags,
+                courses,
+                "Bubble sort"));
+
+        assertThat(linkService.list().size(), is(3));
+    }
 }
