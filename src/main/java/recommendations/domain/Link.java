@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Link implements Readable {
     
+    private static String RESET = "\u001B[0m";
+    private static String CYAN = "\u001B[36m";
+    
     private int id;
     private String title;
     private String URL;
@@ -102,8 +105,8 @@ public class Link implements Readable {
     public String toString() {
         String tagString = listToString(this.tags);
         String coursesString = listToString(this.courses);
-        return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: <" + this.URL
-                + ">\n\tTags:" + tagString + "\n\tRelated courses:"
+        return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: " + CYAN + "<" + this.URL
+                + ">" + RESET + "\n\tTags:" + tagString + "\n\tRelated courses:"
                 + coursesString + "\n\t" + this.comment + "\n"
                 + "Description: " + this.metadata;
     }
