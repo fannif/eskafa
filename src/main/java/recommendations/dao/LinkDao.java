@@ -130,7 +130,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 ArrayList<Tag> tags = new ArrayList<>();
                 
-                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.tag_id = Tag.id JOIN Book ON BookTag.book_id = ?");
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.tag_id = Tag.id JOIN Link ON LinkTag.link_id = Link.id WHERE Link.id = ?");
                 stmt.setInt(1, id);
                 ResultSet tagResults = stmt.executeQuery();
                 
@@ -144,7 +144,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 ArrayList<Course> courses = new ArrayList<>();
                 
-                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = ?");
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN Link ON CourseLink.course_id = Course.id JOIN Link ON CourseBook.link_id = Link.id WHERE Link.id = ?");
                 stmt2.setInt(1, id);
                 ResultSet courseResults = stmt2.executeQuery();
                 
@@ -207,6 +207,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 stmt.setInt(1, linkId);
                 stmt.setInt(2, tagId);
+                stmt.executeUpdate();
             }
             
             for (Course course: link.getCourses()) {
@@ -229,6 +230,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 stmt.setInt(1, linkId);
                 stmt.setInt(2, courseId);
+                stmt.executeUpdate();
             }
             
             connection.close();

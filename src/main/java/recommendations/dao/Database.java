@@ -159,8 +159,8 @@ public class Database {
                     + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " course_id INTEGER,"
                     + " book_id INTEGER,"
-                    + " FOREIGN KEY (course_id) REFERENCES Course(id),"
-                    + " FOREIGN KEY (book_id) REFERENCES Book(id))");
+                    + " FOREIGN KEY (book_id) REFERENCES Book(id),"
+                    + " FOREIGN KEY (course_id) REFERENCES Course(id))");
             stmt.executeUpdate();
             stmt.close();
             
@@ -175,8 +175,8 @@ public class Database {
                     + " (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                     + " course_id INTEGER,"
                     + " link_id INTEGER,"
-                    + " FOREIGN KEY (course_id) REFERENCES Book(id),"
-                    + " FOREIGN KEY (link_id) REFERENCES Link(id))");
+                    + " FOREIGN KEY (link_id) REFERENCES Link(id),"
+                    + " FOREIGN KEY (course_id) REFERENCES Course(id))");
             stmt.executeUpdate();
             stmt.close();
             

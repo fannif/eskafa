@@ -124,7 +124,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 ArrayList<Tag> tags = new ArrayList<>();
                 
-                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.link_id = Tag.id JOIN Link ON LinkTag.link_id = ?");
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.tag_id = Tag.id JOIN Book ON BookTag.Book_id = Book.id WHERE Book.id = ?");
                 stmt.setInt(1, id);
                 ResultSet tagResults = stmt.executeQuery();
                 
@@ -138,7 +138,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 ArrayList<Course> courses = new ArrayList<>();
                 
-                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = ?");
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = Book.id WHERE Book.id = ?");
                 stmt2.setInt(1, id);
                 ResultSet courseResults = stmt2.executeQuery();
                 
@@ -201,6 +201,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 stmt.setInt(1, bookId);
                 stmt.setInt(2, tagId);
+                stmt.executeUpdate();
             }
             
             for (Course course: book.getCourses()) {
@@ -223,6 +224,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 stmt.setInt(1, bookId);
                 stmt.setInt(2, courseId);
+                stmt.executeUpdate();
             }
             
             
@@ -233,7 +235,8 @@ public class BookDao implements ReaderDao<Book, String> {
     
     @Override
     public void delete(String title) throws Exception {
-        try (Connection connection = database.getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?")) {
+        try (Connection connection = database.getConnection()) { 
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Book WHERE title = ?");
             
             statement.setString(1, title);
             statement.executeUpdate();
