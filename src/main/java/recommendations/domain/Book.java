@@ -16,6 +16,7 @@ public class Book implements Readable {
     private String comment;
 
     public Book(int id, String author, String title, String type, String ISBN, ArrayList<Tag> tags, ArrayList<Course> relatedCourses, String comment) {
+        this.id = id;
         this.author = author;
         this.title = title;
         this.type = type;

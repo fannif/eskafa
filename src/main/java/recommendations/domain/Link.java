@@ -14,6 +14,7 @@ public class Link implements Readable {
     private String comment;
 
     public Link(int id, String title, String URL, String type, String metadata, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
+        this.id = id;
         this.title = title;
         this.URL = URL;
         this.type = type;
