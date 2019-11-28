@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Link implements Readable {
 
-    private static String RESET = "\u001B[0m";
-    private static String CYAN = "\u001B[36m";
+    private final static String RESET = "\u001B[0m";
+    private final static String CYAN = "\u001B[36m";
 
     private int id;
     private String title;

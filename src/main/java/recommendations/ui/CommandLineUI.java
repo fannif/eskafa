@@ -2,8 +2,11 @@ package recommendations.ui;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.Scanner;
@@ -79,9 +82,9 @@ public class CommandLineUI {
         }
         System.out.println("\nThanks for using Recommendations! Have a nice day!");
     }
-    
+
     private void listLinks() throws SQLException {
-        ArrayList<Link> links = linkService.list();
+        ArrayList<Link> links = linkService.listLinks();
         for (Link l : links) {
             System.out.println(l.toString() + "\n");
             System.out.println("Do you want to open this link in your browser (y/n)?");
@@ -91,17 +94,17 @@ public class CommandLineUI {
             }
         }
     }
-    
+
     private void openLinkInBrowser(Link link) {
         String url = link.getURL();
-       // if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            try {
-                desktop.browse(new URI(url));
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            
+        // if (Desktop.isDesktopSupported()) {
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
 //        } else {
 //            Runtime runtime = Runtime.getRuntime();
 //            try {
@@ -111,7 +114,7 @@ public class CommandLineUI {
 //                e.printStackTrace();
 //            }
 //        }
-    } 
+    }
 
     private void removeRecommendation() throws Exception {
         System.out.println("\nPlease spesify which recommendation type you would like to remove: book/link");
@@ -120,7 +123,7 @@ public class CommandLineUI {
         String cleanInput = readInput(input);
         if (cleanInput.equals("q")) {
             return;
-        } else if (cleanInput.equals("book")){
+        } else if (cleanInput.equals("book")) {
             System.out.println("\nPlease enter the title of the book to be removed: ");
             String title = reader.nextLine();
             bookService.remove(title, reader);
@@ -148,7 +151,7 @@ public class CommandLineUI {
         for (Link link : linkService.listLinks()) {
             recommendations.add(link);
         }
-       
+
         if (recommendations.isEmpty()) {
             System.out.println("No recommendations yet. Be the first one to contribute!");
         } else {
@@ -199,13 +202,27 @@ public class CommandLineUI {
         System.out.println("A new book recommendation was added successfully!");
     }
 
-    private void addLink() throws IOException, SQLException {
+    private void addLink() throws IOException, SQLException, MalformedURLException, URISyntaxException {
 
         System.out.println("\nAdd a new Link");
-        System.out.print("Title: ");
-        String title = reader.nextLine();
         System.out.print("Url: ");
         String url = reader.nextLine();
+
+        if (!validateUrl(url)) {
+            System.out.println("Url validation failed! Remember to include a protocol and check for typos.");
+            return;
+        }
+
+        if (!checkConnection(url)) {
+            System.out.println("Do you want to continue? (y/n)");
+            String opt = reader.nextLine();
+            if (opt.endsWith("n")) {
+                return;
+            }
+        }
+
+        System.out.print("Title: ");
+        String title = reader.nextLine();
         System.out.print("Type: ");
         String type = reader.nextLine();
         ArrayList<Tag> tags = new ArrayList();
@@ -235,12 +252,11 @@ public class CommandLineUI {
         System.out.print("Add a comment: ");
         String comment = reader.nextLine();
 
-        // linkService.addLink(new Link(0, title, url, type, metadata, tags, courses, comment));
-        Boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
+        boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
         if (createNew) {
             System.out.println("A new link recommendation was added successfully!");
         } else {
-            System.out.println("Error error");
+            System.out.println("Please, check your input and try again!");
         }
     }
 
@@ -263,6 +279,33 @@ public class CommandLineUI {
         System.out.println("Please enter the name of the tag to search by: ");
         String name = reader.nextLine();
         tagService.findRecommendadtionsByTag(name);
+    }
+
+    public boolean checkConnection(String url) {
+        try {
+            URL check = new URL(url);
+            URLConnection connection = check.openConnection();
+            connection.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            System.out.println("No internet connection");
+            return false;
+        } catch (IOException e) {
+            System.out.println("No internet connection");
+            return false;
+        }
+
+    }
+
+    public boolean validateUrl(String url) {
+
+        try {
+            URL check = new URL(url);
+            check.toURI();
+            return true;
+        } catch (URISyntaxException | MalformedURLException e) {
+            return false;
+        }
     }
 
 }
