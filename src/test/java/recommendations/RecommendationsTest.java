@@ -1,6 +1,9 @@
 package recommendations;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.*;
 import org.junit.*;
@@ -17,7 +20,7 @@ import recommendations.services.LinkService;
 import recommendations.services.TagService;
 
 public class RecommendationsTest {
-    
+
     ReaderDao readerDaoBook;
     ReaderDao readerDaoLink;
     ReaderDao readerDaoTag;
@@ -35,25 +38,24 @@ public class RecommendationsTest {
         tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink);
         linkService = new LinkService(readerDaoLink);
     }
-    
+
     @Test
     public void listBooksReturnsBookList() throws SQLException {
         assertEquals(3, service.listBooks().size());
     }
-    
+
     @Test
     public void listBooksReturnsBookListInRightForm() throws SQLException {
         assertEquals("Type: Book\n\tTitle: Clean Code\n\tAuthor: Robert C. Martin\n\tISBN: 978-0-13-235088-4\n\tTags:"
-                + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n" ,service.listBooks().get(0).toString());
+                + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n", service.listBooks().get(0).toString());
     }
-    
+
     @Test
     public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() throws SQLException {
         assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
-                + "|Security|Popular|\n\tRelated courses:\n\t\n" ,service.listBooks().get(2).toString());
+                + "|Security|Popular|\n\tRelated courses:\n\t\n", service.listBooks().get(2).toString());
     }
-     
-    
+
     @Test
     public void removeBookRemovesBookIfBookExistsInList() throws Exception {
         String title = "Beyond Fear";
@@ -62,13 +64,13 @@ public class RecommendationsTest {
         assertEquals(2, service.listBooks().size());
         assertEquals(null, readerDaoBook.findOne("Beyond Fear"));
     }
-    
+
     @Test
     public void removeBookDoesNothingIfBookNotInList() throws Exception {
         String title = "Hello world";
         Scanner lukija = new Scanner("q");
         service.remove(title, lukija);
-        
+
         assertEquals(3, service.listBooks().size());
     }
 
@@ -90,20 +92,24 @@ public class RecommendationsTest {
     }
 
     @Test
-    public void addLinkWorksCorrectly() throws SQLException, IOException {
+    public void addLinkWorksCorrectly() throws SQLException, IOException, URISyntaxException {
+        String input = "testDescription";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        linkService = new LinkService(readerDaoLink);
+
         ArrayList<Tag> tags = new ArrayList();
-        tags.add(new Tag(3,"bubble_sort"));
+        tags.add(new Tag(3, "bubble_sort"));
         ArrayList<Course> courses = new ArrayList();
-        courses.add(new Course(6,"Tira"));
-        linkService.addLink(new Link(5,
+        courses.add(new Course(6, "Tira"));
+        linkService.addLinkWithMeta(5,
                 "Bubble sort algorithm",
                 "https://www.youtube.com/watch?v=TzeBrDU",
                 "Url",
-                "metadata",
                 tags,
                 courses,
-                "Bubble sort"));
+                "Bubble sort");
 
-        assertThat(linkService.list().size(), is(3));
+        assertThat(linkService.listLinks().size(), is(3));
     }
 }

@@ -56,12 +56,12 @@ public class LinkTest {
     @Test
     public void toStringReturnsRightInformation() {
         assertThat(link.toString(), is(
-                "Type: Url" +
+                "\nType: Url" +
                         "\n\tTitle: Merge sort algorithm" +
-                        "\n\tURL: <https://www.youtube.com/watch?v=TzeBrDU-JaY" +
-                        ">\n\tTags:|algorithms|tira|" +
+                        "\n\tURL: \u001B[36m<https://www.youtube.com/watch?v=TzeBrDU-JaY" +
+                        ">\u001B[0m\n\tTags:|algorithms|tira|" +
                         "\n\tRelated courses:|TKT20001 Tietorakenteet ja algoritmit|TKT21012 Algoritmit ongelmanratkaisussa|" +
                         "\n\tHyvä selitys merge sortin toiminnasta esimerkin avulla"  + "\n"
-                        + "Description: metadata"));
+                        + "\nDescription: metadata"));
     }
 }

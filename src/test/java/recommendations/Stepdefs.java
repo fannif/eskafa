@@ -81,7 +81,7 @@ public class Stepdefs {
 
     @When("User has filled in the title {string} and this book is in memory")
     public void userTriesToRemoveBookThatIsInMemory(String title) throws Throwable {
-
+        inputLines.add("book");
         inputLines.add(title);
         inputLines.add("q");
         makeInputString(inputLines);
