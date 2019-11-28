@@ -169,12 +169,12 @@ public class LinkDao implements ReaderDao<Link, String> {
 
     @Override
     public boolean save(Link link) throws SQLException {
-
-        if (!(this.findOne(link.getTitle()) == null)) {
-            return false;
-        }
-        
         try (Connection connection = database.getConnection()) {
+        
+            if (!(this.findOne(link.getTitle()) == null)) {
+                return false;
+            }
+        
             PreparedStatement statement = connection.prepareStatement("INSERT INTO Link(title, URL, type, metadata, comment)"
                     + " VALUES ( ? , ? , ? , ? , ?)");
             statement.setString(1, link.getTitle());
@@ -191,17 +191,12 @@ public class LinkDao implements ReaderDao<Link, String> {
                 
                 TagDao tagDao;
                 int tagId = 0;
-                try {
-                    tagDao = new TagDao(new Database("jdbc:sqlite:recommendations.db"));
-                    if (tagDao.findOne(tag.getName()) != null) {
-                        tagId = tagDao.findOne(tag.getName()).getId();
-                    } else {
-                        tagDao.save(tag);
-                        tagId = tagDao.findOne(tag.getName()).getId();
-                    }
-                    
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+                tagDao = new TagDao(database);
+                if (tagDao.findOne(tag.getName()) != null) {
+                    tagId = tagDao.findOne(tag.getName()).getId();
+                } else {
+                    tagDao.save(tag);
+                    tagId = tagDao.findOne(tag.getName()).getId();
                 }
                 
                 
@@ -216,16 +211,12 @@ public class LinkDao implements ReaderDao<Link, String> {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseLink(link_id, course_id) VALUES (?, ?)");
                 CourseDao courseDao;
                 int courseId = 0;
-                try {
-                    courseDao = new CourseDao(new Database("jdbc:sqlite:recommendations.db"));
-                    if (courseDao.findOne(course.getName()) != null) {
-                        courseId = courseDao.findOne(course.getName()).getId();
-                    } else {
-                        courseDao.save(course);
-                        courseId = courseDao.findOne(course.getName()).getId();
-                    }
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+                courseDao = new CourseDao(database);
+                if (courseDao.findOne(course.getName()) != null) {
+                    courseId = courseDao.findOne(course.getName()).getId();
+                } else {
+                    courseDao.save(course);
+                    courseId = courseDao.findOne(course.getName()).getId();
                 }
                 
                 int linkId = this.findOne(link.getTitle()).getId();

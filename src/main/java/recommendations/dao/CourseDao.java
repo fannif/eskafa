@@ -32,8 +32,8 @@ public class CourseDao implements ReaderDao<Course, String> {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, title);
             ResultSet results = statement.executeQuery();
-            boolean hasOne = results.next();
-            if (!hasOne) {
+            
+            if (!results.next()) {
                 return null;
             }
             int id = results.getInt("id");
