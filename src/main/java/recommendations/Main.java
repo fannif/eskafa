@@ -28,7 +28,7 @@ public class Main {
         LinkService linkService = new LinkService(linkDao);
         TagService tagService = new TagService(tagDao, bookdao, linkDao);
         CommandLineIO io = new CommandLineIO(reader);
-        CommandLineUI ui = new CommandLineUI(reader, service, linkService, tagService, io);
+        CommandLineUI ui = new CommandLineUI(reader, service, linkService, tagService);
 
         ui.start();
 

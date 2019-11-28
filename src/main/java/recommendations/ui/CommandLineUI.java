@@ -25,7 +25,7 @@ public class CommandLineUI {
     private TagService tagService;
     //private IO io;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService, IO io) {
+    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
         this.reader = reader;
         this.bookService = service;
         this.linkService = linkService;
@@ -119,7 +119,9 @@ public class CommandLineUI {
         System.out.println("To return back to main menu, enter 'q'");
         String input = reader.nextLine();
         String cleanInput = readInput(input);
-        if (cleanInput.equals("book")) {
+        if (cleanInput.equals("q")) {
+            return;
+        } else if (cleanInput.equals("book")){
             System.out.println("\nPlease enter the title of the book to be removed: ");
             String title = reader.nextLine();
             bookService.remove(title, reader);
@@ -129,6 +131,7 @@ public class CommandLineUI {
             linkService.remove(title, reader);
         } else {
             System.out.println("Could not recognize given command, please check the spelling.");
+            removeRecommendation();
         }
     }
 
