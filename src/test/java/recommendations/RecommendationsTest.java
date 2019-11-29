@@ -16,6 +16,8 @@ import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
+import recommendations.io.CommandLineIO;
+import recommendations.io.IO;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
 
@@ -25,6 +27,9 @@ public class RecommendationsTest {
     ReaderDao readerDaoLink;
     ReaderDao readerDaoTag;
 
+    Scanner testScanner;
+    CommandLineIO io;
+    
     BookService service;
     TagService tagService;
     LinkService linkService;
@@ -34,9 +39,10 @@ public class RecommendationsTest {
         readerDaoBook = new FakeBookDao();
         readerDaoLink = new FakeLinkDao();
         readerDaoTag = new FakeTagDao();
-        service = new BookService(readerDaoBook);
-        tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink);
-        linkService = new LinkService(readerDaoLink);
+        this.io = new CommandLineIO(testScanner);
+        service = new BookService(readerDaoBook, io);
+        tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink, io);
+        linkService = new LinkService(readerDaoLink, io);
     }
 
     @Test
@@ -60,7 +66,7 @@ public class RecommendationsTest {
     public void removeBookRemovesBookIfBookExistsInList() throws Exception {
         String title = "Beyond Fear";
         Scanner lukija = new Scanner(System.in);
-        service.remove(title, lukija);
+        service.remove(title);
         assertEquals(2, service.listBooks().size());
         assertEquals(null, readerDaoBook.findOne("Beyond Fear"));
     }
@@ -69,7 +75,7 @@ public class RecommendationsTest {
     public void removeBookDoesNothingIfBookNotInList() throws Exception {
         String title = "Hello world";
         Scanner lukija = new Scanner("q");
-        service.remove(title, lukija);
+        service.remove(title);
 
         assertEquals(3, service.listBooks().size());
     }
@@ -96,7 +102,7 @@ public class RecommendationsTest {
         String input = "testDescription";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        linkService = new LinkService(readerDaoLink);
+        linkService = new LinkService(readerDaoLink, this.io);
 
         ArrayList<Tag> tags = new ArrayList();
         tags.add(new Tag(3, "bubble_sort"));

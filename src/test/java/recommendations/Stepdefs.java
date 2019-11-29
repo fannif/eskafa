@@ -21,7 +21,6 @@ import recommendations.io.StubIO;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
 
-
 public class Stepdefs {
 
     ArrayList<String> inputLines = new ArrayList<>();
@@ -70,14 +69,14 @@ public class Stepdefs {
         makeInputString(inputLines);
 
         TestScanner = new Scanner(input);
+        io = new StubIO(inputLines);
         testDao = new FakeBookDao();
         testDaoLink = new FakeLinkDao();
         testDaoBook = new FakeBookDao();
-        testServiceLink = new LinkService(testDaoLink);
-        testService = new BookService(testDao);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
+        testServiceLink = new LinkService(testDaoLink, io);
+        testService = new BookService(testDao, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
 
-        io = new StubIO(inputLines);
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
         testUI.start();
     }
@@ -90,14 +89,14 @@ public class Stepdefs {
         makeInputString(inputLines);
 
         testDao = new FakeBookDao();
-        testService = new BookService(testDao);
+        io = new StubIO(inputLines);
+        testService = new BookService(testDao, io);
         TestScanner = new Scanner(input);
         testDaoLink = new FakeLinkDao();
         testDaoBook = new FakeBookDao();
-        testServiceLink = new LinkService(testDaoLink);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
+        testServiceLink = new LinkService(testDaoLink, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
 
-        io = new StubIO(inputLines);
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
 
         testUI.start();
@@ -136,22 +135,22 @@ public class Stepdefs {
         makeInputString(inputLines);
 
         TestScanner = new Scanner(input);
+        io = new StubIO(inputLines);
         testDao = new FakeBookDao();
         testDaoLink = new FakeLinkDao();
-        testService = new BookService(testDao);
-        testServiceLink = new LinkService(testDaoLink);
+        testService = new BookService(testDao, io);
+        testServiceLink = new LinkService(testDaoLink, io);
         testDaoBook = new FakeBookDao();
-        testService = new BookService(testDao);        
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
+        testService = new BookService(testDao, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
 
-        io = new StubIO(inputLines);
         testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
         testUI.start();
     }
 
     @Then("system responds with a list of books containing a book titled {string}")
     public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
-        assertTrue(testDao.findAll().contains(new Book(0,"", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
+        assertTrue(testDao.findAll().contains(new Book(0, "", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
     }
 
 }
