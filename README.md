@@ -43,36 +43,6 @@ komento, joka käynnistää sovelluksen:
 Ensimmäisellä käynnistyskerralla ohjelma luo recommendations.db-nimisen tiedoston projektin juurikansioon
 lukuvinkkien tallentamista varten. Ohjelman oikea toiminta edellyttää, että koneelle on asennettu Java.   
 
-### Lukuvinkkikirjaston käyttö
+### [Lukuvinkkikirjaston käyttö](https://github.com/fannif/eskafa/blob/master/kayttoohje.md)
 
-Ohjelma sisältää seuraavia toimintoja: 
 
-#### 1. Kirjavinkkien listaaminen
-
-Sovellukseen lisättyjä kirjavinkkejä pääsee selailemaan valitsemalla komennon  
-
-`1 --- List all recommended books`,
-
-joka palauttaa listan kaikista lisätyistä kirjoista.
-
-#### 2. Kirjavinkin lisääminen
-
-Uuden kirjavinkin lisääminen onnistuu valitsemalla vaihtoehdon
-
-`2 --- Add a new book`
- 
-Tämän jälkeen ohjelma kysyy lisättävän kirjan tiedot ja tallentaa ne tiedostoon.  
-
-#### 3. Kirjavinkin poistaminen
-
-Kirjavinkin poistaminen onnistuu komennolla 
-
-`3 --- Remove a book from recommendations`
-
-Ohjelma etsii teoksen nimen perusteella ja poistaa sen tiedot lukuvinkkien listalta. 
-
-#### 4. Ohjelman sulkeminen
-
-Ohjelman voi sulkea komennolla 
-
-`q --- quit`
