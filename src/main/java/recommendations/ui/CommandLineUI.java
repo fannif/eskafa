@@ -22,14 +22,12 @@ import recommendations.services.TagService;
 
 public class CommandLineUI {
 
-    private Scanner reader;
     private BookService bookService;
     private LinkService linkService;
     private TagService tagService;
     private IO io;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService, IO io) {
-        this.reader = reader;
+    public CommandLineUI(BookService service, LinkService linkService, TagService tagService, IO io) {
         this.bookService = service;
         this.linkService = linkService;
         this.tagService = tagService;
