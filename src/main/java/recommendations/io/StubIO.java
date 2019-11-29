@@ -21,8 +21,8 @@ public class StubIO  implements IO{
 
     @Override
     public String read() {
-        if (i < inputs.size()) {
-            return inputs.get(i++);
+        if (i < this.inputs.size()) {
+            return this.inputs.get(i++);
         }
         return "";
     }

@@ -10,11 +10,10 @@ import java.sql.SQLException;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Course;
+import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.io.StubIO;
 
@@ -24,8 +23,6 @@ import recommendations.services.TagService;
 public class Stepdefs {
 
     ArrayList<String> inputLines = new ArrayList<>();
-    String input;
-    Scanner TestScanner;
 
     ReaderDao testDao;
     ReaderDao testDaoLink;
@@ -38,13 +35,8 @@ public class Stepdefs {
     StubIO io;
     CommandLineUI testUI;
 
-    public void makeInputString(final List<String> inputLines) {
-        this.input = "";
-        for (int i = 0; i < inputLines.size(); i++) {
-            input = input + inputLines.get(i) + "\n";
-        }
-    }
 
+    //Add book
 
     @Given("Command add is selected")
     public void commandAddIsSelected() throws Throwable {
@@ -83,17 +75,20 @@ public class Stepdefs {
         assertTrue(found.getISBN().equals(isbn));
     }
 
-    @Given("Command remove is selected")
+
+    // Remove book
+
+    @Given("Command remove book is selected")
     public void commandRemoveSelected() throws Throwable {
         inputLines.add("3");
     }
+    
 
     @When("User has filled in the title {string} and this book is in memory")
-    public void userTriesToRemoveBookThatIsInMemory(String title) throws Throwable {
+    public void userTriesToRemoveBookThatIsInMemory(final String title) throws Throwable {
         inputLines.add("book");
         inputLines.add(title);
         inputLines.add("q");
-
 
         testDao = new FakeBookDao();
         io = new StubIO(inputLines);
@@ -110,12 +105,14 @@ public class Stepdefs {
     }
 
     @Then("Memory should not contain a book called {string}")
-    public void memoryShouldNotContainTheBook(String title) throws Throwable {
+    public void memoryShouldNotContainTheBook(final String title) throws Throwable {
         assertNull(testDao.findOne(title));
     }
 
+    // list books
+
     @Given("book titled {string} has been added")
-    public void bookTitledHasBeenAdded(String title) {
+    public void bookTitledHasBeenAdded(final String title) {
         inputLines.add("2");
         inputLines.add(title);
         inputLines.add("");
@@ -145,39 +142,65 @@ public class Stepdefs {
     }
 
     @Then("system responds with a list of books containing a book titled {string}")
-    public void systemRespondsWithAListOfBooksContainingABookTitled(String title) throws SQLException {
-        assertTrue(testDao.findAll().contains(new Book(0, "", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
+    public void systemRespondsWithAListOfBooksContainingABookTitled(final String title) throws SQLException {
+        assertTrue(testDao.findAll()
+                .contains(new Book(0, "", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
     }
+
+    // add link
 
     @Given("Command add a new link is selected")
     public void commandAddANewLinkIsSelected() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+        inputLines.add("5");
     }
 
-    @When("User has filled in title {string}, url {string} and type {string}")
-    public void userHasFilledInTitleUrlAndType(String string, String string2, String string3) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    @When("User has filled in url {string}, title {string} and type {string}")
+    public void userHasFilledInTitleUrlAndType(final String url, final String title, final String type)
+            throws Exception {
+        inputLines.add(url);
+        inputLines.add(title);
+        inputLines.add(type);
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("q");
+
+        io = new StubIO(inputLines);
+        testDao = new FakeBookDao();
+        testDaoLink = new FakeLinkDao();
+        testService = new BookService(testDao, io);
+        testServiceLink = new LinkService(testDaoLink, io);
+        testDaoBook = new FakeBookDao();
+        testService = new BookService(testDao, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
+
+        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
+        testUI.start();
     }
 
     @Then("Memory should contain a link with title {string} and url {string}")
-    public void memoryShouldContainALinkWithTitleAndUrl(String string, String string2) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    public void memoryShouldContainALinkWithTitleAndUrl(final String title, final String url) throws SQLException {
+        final Link found = (Link) testDaoLink.findOne(title);
+        assertTrue(found.getTitle().equals(title));
+        assertTrue(found.getURL().equals(url));
     }
 
+    // add only one link with same url
+
     @When("a link with url {string} is already in the memory")
-    public void aLinkWithUrlIsAlreadyInTheMemory(String string) {
+    public void aLinkWithUrlIsAlreadyInTheMemory(final String string) {
         // Write code here that turns the phrase above into concrete actions
         throw new cucumber.api.PendingException();
     }
 
     @Then("Memory should contain only one link with url {string}")
-    public void memoryShouldContainOnlyOneLinkWithUrl(String string) {
+    public void memoryShouldContainOnlyOneLinkWithUrl(final String string) {
         // Write code here that turns the phrase above into concrete actions
         throw new cucumber.api.PendingException();
     }
+
+    // no internet connection
 
     @Given("Given command add a new link is selected and there is no internet connection")
     public void givenCommandAddANewLinkIsSelectedAndThereIsNoInternetConnection() {
@@ -186,7 +209,7 @@ public class Stepdefs {
     }
 
     @Then("Program should respond with {string}")
-    public void programShouldRespondWith(String string) {
+    public void programShouldRespondWith(final String string) {
         // Write code here that turns the phrase above into concrete actions
         throw new cucumber.api.PendingException();
     }
