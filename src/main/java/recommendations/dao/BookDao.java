@@ -68,7 +68,7 @@ public class BookDao implements ReaderDao<Book, String> {
 
             
                 
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.book_id = Tag.id JOIN Book ON BookTag.book_id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.Tag_id = Tag.id JOIN Book ON BookTag.book_id = Book.id WHERE Book.id = ?");
             stmt.setInt(1, id);
             ResultSet tagResults = stmt.executeQuery();
                 
@@ -82,7 +82,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
             
                 
-            PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = ?");
+            PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = Book.id WHERE Book.id = ?");
             stmt2.setInt(1, id);
             ResultSet courseResults = stmt2.executeQuery();
                 

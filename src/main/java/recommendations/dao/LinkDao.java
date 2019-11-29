@@ -66,7 +66,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                     URL, type,
                     metadata, tags, courses, comment);
 
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.link_id = Tag.id JOIN Link ON LinkTag.link_id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.tag_id = Tag.id JOIN Link ON LinkTag.link_id = Link.id WHERE Link.id = ?");
             stmt.setInt(1, id);
             ResultSet tagResults = stmt.executeQuery();
 
@@ -78,7 +78,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
             stmt.close();
 
-            PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = ?");
+            PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = Link.id WHERE Link.id = ?");
             stmt2.setInt(1, id);
             ResultSet courseResults = stmt2.executeQuery();
 
