@@ -16,8 +16,8 @@ import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
-import recommendations.io.CommandLineIO;
 import recommendations.io.IO;
+import recommendations.io.StubIO;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
 
@@ -28,7 +28,8 @@ public class RecommendationsTest {
     ReaderDao readerDaoTag;
 
     Scanner testScanner;
-    CommandLineIO io;
+    ArrayList<String> inputLines;
+    StubIO io;
     
     BookService service;
     TagService tagService;
@@ -39,7 +40,8 @@ public class RecommendationsTest {
         readerDaoBook = new FakeBookDao();
         readerDaoLink = new FakeLinkDao();
         readerDaoTag = new FakeTagDao();
-        this.io = new CommandLineIO(testScanner);
+        inputLines = new ArrayList<>();
+        io = new StubIO(inputLines);
         service = new BookService(readerDaoBook, io);
         tagService = new TagService(readerDaoTag, readerDaoBook, readerDaoLink, io);
         linkService = new LinkService(readerDaoLink, io);
@@ -65,7 +67,8 @@ public class RecommendationsTest {
     @Test
     public void removeBookRemovesBookIfBookExistsInList() throws Exception {
         String title = "Beyond Fear";
-        Scanner lukija = new Scanner(System.in);
+        //Scanner lukija = new Scanner(System.in);
+        inputLines.add("q");
         service.remove(title);
         assertEquals(2, service.listBooks().size());
         assertEquals(null, readerDaoBook.findOne("Beyond Fear"));
@@ -74,7 +77,8 @@ public class RecommendationsTest {
     @Test
     public void removeBookDoesNothingIfBookNotInList() throws Exception {
         String title = "Hello world";
-        Scanner lukija = new Scanner("q");
+        //Scanner lukija = new Scanner("q");
+        inputLines.add("q");
         service.remove(title);
 
         assertEquals(3, service.listBooks().size());
