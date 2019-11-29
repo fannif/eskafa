@@ -21,14 +21,15 @@ import recommendations.domain.Tag;
 
 import java.net.URL;
 import java.net.URLConnection;
+import recommendations.io.IO;
 
 public class LinkService {
 
-    private Scanner reader;
+    private IO io;
     private ReaderDao linkDao;
 
-    public LinkService(ReaderDao dao) {
-        this.reader = new Scanner(System.in);
+    public LinkService(ReaderDao dao, IO io) {
+        this.io = io;
         this.linkDao = dao;
     }
 
@@ -71,37 +72,36 @@ public class LinkService {
             String description = document.select("meta[name=description]").get(0).attr("content");
             return description;
         } catch (IndexOutOfBoundsException ex) {
-            System.out.println("Metadata description not found!");
+            io.print("Metadata description not found!");
         }
 
         String desc = askForDescription();
         return desc;
     }
 
-    public void remove(String title, Scanner lukija) throws Exception {
+    public void remove(String title) throws Exception {
         boolean go = true;
-        Scanner reader = lukija;
         String input = title;
         while (go) {
             if (input.equals("q")) {
                 return;
             }
             if (linkDao.findOne(input) == null) {
-                System.out.println("No such link found. Please check the spelling and try again: ");
-                System.out.println("To return back to main menu, enter q");
-                input = reader.nextLine();
+                io.print("No such link found. Please check the spelling and try again: ");
+                io.print("To return back to main menu, enter q");
+                input = io.read();
             } else {
                 linkDao.delete(input);
                 go = false;
             }
         }
-        System.out.println("The link has been successfully removed");
+        io.print("The link has been successfully removed");
     }
 
     public String askForDescription() {
-        System.out.println("Metadata description not found!");
-        System.out.println("Enter description manually or press enter for no description:");
-        String descr = reader.nextLine();
+        io.print("Metadata description not found!");
+        io.print("Enter description manually or press enter for no description:");
+        String descr = io.read();
         return descr;
 
     }

@@ -7,12 +7,15 @@ import java.util.Scanner;
 
 import recommendations.domain.Book;
 import recommendations.dao.ReaderDao;
+import recommendations.io.IO;
 
 public class BookService {
 
+    private IO io;
     private ReaderDao bookDao;
 
-    public BookService(ReaderDao dao) {
+    public BookService(ReaderDao dao, IO io) {
+        this.io = io;
         this.bookDao = dao;
     }
 
@@ -26,23 +29,22 @@ public class BookService {
         return books;
     }
 
-    public void remove(String title, Scanner lukija) throws Exception {
+    public void remove(String title) throws Exception {
         boolean go = true;
-        Scanner reader = lukija;
         String input = title;
         while (go) {
             if (input.equals("q")) {
                 return;
             }
             if (bookDao.findOne(input) == null) {
-                System.out.println("No such book found. Please check the spelling and try again: ");
-                System.out.println("To return back to main menu, enter q");
-                input = reader.nextLine();
+                io.print("No such book found. Please check the spelling and try again: ");
+                io.print("To return back to main menu, enter q");
+                input = io.read();
             } else {
                 bookDao.delete(input);
                 go = false;
             }
         }
-        System.out.println("The book has been successfully removed");
+        io.print("The book has been successfully removed");
     }
 }

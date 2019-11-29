@@ -7,16 +7,19 @@ import recommendations.dao.ReaderDao;
 import recommendations.domain.Book;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
+import recommendations.io.IO;
 
 public class TagService {
     private ReaderDao tagDao;
     private ReaderDao bookDao;
     private ReaderDao linkDao;
+    private IO io;
 
-    public TagService(ReaderDao tagDao, ReaderDao bookDao, ReaderDao linkDao) {
+    public TagService(ReaderDao tagDao, ReaderDao bookDao, ReaderDao linkDao, IO io) {
         this.tagDao = tagDao;
         this.bookDao = bookDao;
         this.linkDao = linkDao;
+        this.io = io;
     }
     
     public List<Tag> listTags() throws SQLException {
@@ -27,21 +30,21 @@ public class TagService {
         List<Book> books = bookDao.findByTag(tagName);
         List<Link> links = linkDao.findByTag(tagName);
         if (!books.isEmpty()) {
-            System.out.println("Books found by tag " + tagName + ": ");
+            io.print("Books found by tag " + tagName + ": ");
             for (Book book : books) {
-                System.out.println(book);
+                io.print(book.toString());
             }
         } else {
-            System.out.println("No books found by tag " + tagName);
+            io.print("No books found by tag " + tagName);
         }
-        System.out.println("");
+        io.print("");
         if (!links.isEmpty()) {
-            System.out.println("Links found by tag " + tagName + ": ");
+            io.print("Links found by tag " + tagName + ": ");
             for (Link link : links) {
-                System.out.println(link);
+                io.print(link.toString());
             }
         } else {
-            System.out.println("No links found by tag " + tagName + ": ");
+            io.print("No links found by tag " + tagName + ": ");
         }
     }
 }

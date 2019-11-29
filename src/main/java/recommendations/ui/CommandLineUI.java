@@ -126,11 +126,11 @@ public class CommandLineUI {
         } else if (cleanInput.equals("book")) {
             io.print("\nPlease enter the title of the book to be removed: ");
             String title = io.read();
-            bookService.remove(title, reader);
+            bookService.remove(title);
         } else if (cleanInput.equals("link")) {
             io.print("\nPlease enter the title of the link to be removed: ");
             String title = io.read();
-            linkService.remove(title, reader);
+            linkService.remove(title);
         } else {
             io.print("Could not recognize given command, please check the spelling.");
             removeRecommendation();
