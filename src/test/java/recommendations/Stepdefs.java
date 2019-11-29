@@ -16,6 +16,7 @@ import java.util.Scanner;
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
+import recommendations.io.StubIO;
 
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
@@ -23,7 +24,7 @@ import recommendations.services.TagService;
 
 public class Stepdefs {
 
-    List<String> inputLines = new ArrayList<>();
+    ArrayList<String> inputLines = new ArrayList<>();
     String input;
     Scanner TestScanner;
 
@@ -35,6 +36,7 @@ public class Stepdefs {
     BookService testService;
     LinkService testServiceLink;
     TagService testServiceTag;
+    StubIO io;
     CommandLineUI testUI;
 
     public void makeInputString(final List<String> inputLines) {
@@ -75,7 +77,8 @@ public class Stepdefs {
         testService = new BookService(testDao);
         testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
+        io = new StubIO(inputLines);
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
         testUI.start();
     }
 
@@ -94,7 +97,8 @@ public class Stepdefs {
         testServiceLink = new LinkService(testDaoLink);
         testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
+        io = new StubIO(inputLines);
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
 
         testUI.start();
 
@@ -140,7 +144,8 @@ public class Stepdefs {
         testService = new BookService(testDao);        
         testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink);
 
-        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag);
+        io = new StubIO(inputLines);
+        testUI = new CommandLineUI(TestScanner, testService, testServiceLink, testServiceTag, io);
         testUI.start();
     }
 

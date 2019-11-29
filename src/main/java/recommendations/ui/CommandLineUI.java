@@ -26,31 +26,31 @@ public class CommandLineUI {
     private BookService bookService;
     private LinkService linkService;
     private TagService tagService;
-    //private IO io;
+    private IO io;
 
-    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService) {
+    public CommandLineUI(Scanner reader, BookService service, LinkService linkService, TagService tagService, IO io) {
         this.reader = reader;
         this.bookService = service;
         this.linkService = linkService;
         this.tagService = tagService;
-        //this.io = io;
+        this.io = io;
     }
 
     public void start() throws Exception {
 
-        System.out.println("Welcome!");
+        io.print("Welcome!");
         boolean go = true;
         while (go) {
-            System.out.println("\n1 --- List all recommendations");
-            System.out.println("2 --- Add a new book");
-            System.out.println("3 --- Remove a recommendation from the list");
-            System.out.println("4 --- List all links");
-            System.out.println("5 --- Add a new link");
-            System.out.println("6 --- List tags");
-            System.out.println("7 --- Search by tag");
-            System.out.println("q --- Quit");
-            System.out.println("Select 1, 2, 3, 4, 5, 6 or q");
-            String choice = reader.nextLine();
+            io.print("\n1 --- List all recommendations");
+            io.print("2 --- Add a new book");
+            io.print("3 --- Remove a recommendation from the list");
+            io.print("4 --- List all links");
+            io.print("5 --- Add a new link");
+            io.print("6 --- List tags");
+            io.print("7 --- Search by tag");
+            io.print("q --- Quit");
+            io.print("Select 1, 2, 3, 4, 5, 6 or q");
+            String choice = io.read();
 
             switch (choice) {
                 case "q":
@@ -80,15 +80,15 @@ public class CommandLineUI {
                 default:
             }
         }
-        System.out.println("\nThanks for using Recommendations! Have a nice day!");
+        io.print("\nThanks for using Recommendations! Have a nice day!");
     }
 
     private void listLinks() throws SQLException {
         ArrayList<Link> links = linkService.listLinks();
         for (Link l : links) {
-            System.out.println(l.toString() + "\n");
-            System.out.println("Do you want to open this link in your browser (y/n)?");
-            String opn = reader.nextLine();
+            io.print(l.toString() + "\n");
+            io.print("Do you want to open this link in your browser (y/n)?");
+            String opn = io.read();
             if (opn.equals("y")) {
                 openLinkInBrowser(l);
             }
@@ -117,22 +117,22 @@ public class CommandLineUI {
     }
 
     private void removeRecommendation() throws Exception {
-        System.out.println("\nPlease spesify which recommendation type you would like to remove: book/link");
-        System.out.println("To return back to main menu, enter 'q'");
-        String input = reader.nextLine();
+        io.print("\nPlease spesify which recommendation type you would like to remove: book/link");
+        io.print("To return back to main menu, enter 'q'");
+        String input = io.read();
         String cleanInput = readInput(input);
         if (cleanInput.equals("q")) {
             return;
         } else if (cleanInput.equals("book")) {
-            System.out.println("\nPlease enter the title of the book to be removed: ");
-            String title = reader.nextLine();
+            io.print("\nPlease enter the title of the book to be removed: ");
+            String title = io.read();
             bookService.remove(title, reader);
         } else if (cleanInput.equals("link")) {
-            System.out.println("\nPlease enter the title of the link to be removed: ");
-            String title = reader.nextLine();
+            io.print("\nPlease enter the title of the link to be removed: ");
+            String title = io.read();
             linkService.remove(title, reader);
         } else {
-            System.out.println("Could not recognize given command, please check the spelling.");
+            io.print("Could not recognize given command, please check the spelling.");
             removeRecommendation();
         }
     }
@@ -143,7 +143,7 @@ public class CommandLineUI {
     }
 
     private void listRecommendations() throws SQLException {
-        System.out.println("\nRecommendations:\n");
+        io.print("\nRecommendations:\n");
         ArrayList<Readable> recommendations = new ArrayList<>();
         for (Book book : bookService.listBooks()) {
             recommendations.add(book);
@@ -153,131 +153,131 @@ public class CommandLineUI {
         }
 
         if (recommendations.isEmpty()) {
-            System.out.println("No recommendations yet. Be the first one to contribute!");
+            io.print("No recommendations yet. Be the first one to contribute!");
         } else {
             for (Readable recommendation : recommendations) {
-                System.out.println("\t" + recommendation);
+                io.print("\t" + recommendation);
             }
         }
     }
 
     private void addBook() throws IOException, SQLException {
-        System.out.println("\nAdd a new Book");
-        System.out.print("Title: ");
-        String title = reader.nextLine();
-        System.out.print("Author: ");
-        String author = reader.nextLine();
-        System.out.print("ISBN: ");
-        String isbn = reader.nextLine();
-        System.out.print("Type: ");
-        String type = reader.nextLine();
+        io.print("\nAdd a new Book");
+        io.print("Title: ");
+        String title = io.read();
+        io.print("Author: ");
+        String author = io.read();
+        io.print("ISBN: ");
+        String isbn = io.read();
+        io.print("Type: ");
+        String type = io.read();
         ArrayList<Tag> tags = new ArrayList();
         ArrayList<Course> courses = new ArrayList();
-        System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
+        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
 
         while (true) {
-            String tag = reader.nextLine();
+            String tag = io.read();
             if (tag.equals("")) {
                 break;
             }
             Tag newTag = new Tag(0, tag);
             tags.add(newTag);
         }
-        System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
 
         while (true) {
-            String course = reader.nextLine();
+            String course = io.read();
             if (course.equals("")) {
                 break;
             }
             Course newCourse = new Course(0, course);
             courses.add(newCourse);
         }
-        System.out.print("Add a comment: ");
-        String comment = reader.nextLine();
+        io.print("Add a comment: ");
+        String comment = io.read();
 
         bookService.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
-        System.out.println("A new book recommendation was added successfully!");
+        io.print("A new book recommendation was added successfully!");
     }
 
     private void addLink() throws IOException, SQLException, MalformedURLException, URISyntaxException {
 
-        System.out.println("\nAdd a new Link");
-        System.out.print("Url: ");
-        String url = reader.nextLine();
+        io.print("\nAdd a new Link");
+        io.print("Url: ");
+        String url = io.read();
 
         if (!validateUrl(url)) {
-            System.out.println("Url validation failed! Remember to include a protocol and check for typos.");
+            io.print("Url validation failed! Remember to include a protocol and check for typos.");
             return;
         }
 
         if (!checkConnection(url)) {
-            System.out.println("Do you want to continue? (y/n)");
-            String opt = reader.nextLine();
+            io.print("Do you want to continue? (y/n)");
+            String opt = io.read();
             if (opt.endsWith("n")) {
                 return;
             }
         }
 
-        System.out.print("Title: ");
-        String title = reader.nextLine();
-        System.out.print("Type: ");
-        String type = reader.nextLine();
+        io.print("Title: ");
+        String title = io.read();
+        io.print("Type: ");
+        String type = io.read();
         ArrayList<Tag> tags = new ArrayList();
         ArrayList<Course> courses = new ArrayList();
-        System.out.println("Add zero or more tags. Enter tags one at a time. Press 'enter'"
+        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                 + "to continue: ");
 
         while (true) {
-            String tag = reader.nextLine();
+            String tag = io.read();
             if (tag.equals("")) {
                 break;
             }
             Tag newTag = new Tag(0, tag);
             tags.add(newTag);
         }
-        System.out.println("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                 + "to continue: ");
 
         while (true) {
-            String course = reader.nextLine();
+            String course = io.read();
             if (course.equals("")) {
                 break;
             }
             Course newCourse = new Course(0, course);
             courses.add(newCourse);
         }
-        System.out.print("Add a comment: ");
-        String comment = reader.nextLine();
+        io.print("Add a comment: ");
+        String comment = io.read();
 
         boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
         if (createNew) {
-            System.out.println("A new link recommendation was added successfully!");
+            io.print("A new link recommendation was added successfully!");
         } else {
-            System.out.println("Please, check your input and try again!");
+            io.print("Please, check your input and try again!");
         }
     }
 
     private void listTags() throws SQLException {
         if (tagService.listTags().isEmpty()) {
-            System.out.println("No added tags.");
+            io.print("No added tags.");
         } else {
-            System.out.println("\nTags:\n");
+            io.print("\nTags:\n");
             List<Tag> tags = tagService.listTags();
             tags.forEach(tag -> {
-                System.out.println("\t" + tag.toString());
+                io.print("\t" + tag.toString());
             });
         }
     }
 
     private void searchByTag() throws SQLException {
-        System.out.println("Added tags: ");
+        io.print("Added tags: ");
         listTags();
-        System.out.println("");
-        System.out.println("Please enter the name of the tag to search by: ");
-        String name = reader.nextLine();
+        io.print("");
+        io.print("Please enter the name of the tag to search by: ");
+        String name = io.read();
         tagService.findRecommendadtionsByTag(name);
     }
 
@@ -288,10 +288,10 @@ public class CommandLineUI {
             connection.connect();
             return true;
         } catch (MalformedURLException e) {
-            System.out.println("No internet connection");
+            io.print("No internet connection");
             return false;
         } catch (IOException e) {
-            System.out.println("No internet connection");
+            io.print("No internet connection");
             return false;
         }
 
