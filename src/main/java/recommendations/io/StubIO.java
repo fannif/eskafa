@@ -27,4 +27,7 @@ public class StubIO  implements IO{
         return "";
     }
 
+    public ArrayList<String> getOutputs() {
+        return outputs;
+    }
 }

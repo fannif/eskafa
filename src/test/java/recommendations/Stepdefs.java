@@ -34,7 +34,7 @@ public class Stepdefs {
     TagService testServiceTag;
     StubIO io;
     CommandLineUI testUI;
-
+    
 
     //Add book
 
@@ -127,24 +127,19 @@ public class Stepdefs {
     public void commandListIsSelected() throws Throwable {
         inputLines.add("1");
         inputLines.add("q");
-
-        io = new StubIO(inputLines);
-        testDao = new FakeBookDao();
-        testDaoLink = new FakeLinkDao();
-        testService = new BookService(testDao, io);
-        testServiceLink = new LinkService(testDaoLink, io);
-        testDaoBook = new FakeBookDao();
-        testService = new BookService(testDao, io);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
-
-        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
-        testUI.start();
+        start();
     }
 
     @Then("system responds with a list of books containing a book titled {string}")
     public void systemRespondsWithAListOfBooksContainingABookTitled(final String title) throws SQLException {
-        assertTrue(testDao.findAll()
-                .contains(new Book(0, "", title, "Book", "", new ArrayList<Tag>(), new ArrayList<Course>(), "")));
+        String expected = "Type: Book\n\tTitle: " + title;
+        boolean found = false;
+        for (String output : io.getOutputs()) {
+            if (output.contains(expected)) {
+                found = true;
+            }
+        }
+        assertTrue(found);
     }
 
     // add link
@@ -213,6 +208,52 @@ public class Stepdefs {
         // Write code here that turns the phrase above into concrete actions
         throw new cucumber.api.PendingException();
     }
+    
+    // list tags
+    
+     @Given("there are saved tags")
+    public void thereAreSavedTags() {
+        
+    }
 
+    @When("command list tags is selected")
+    public void commandListTagsIsSelected() throws Exception {
+        inputLines.add("6");
+        inputLines.add("q");
+        start();
+    }
 
+    @Then("program responds with list of tags")
+    public void programRespondsWithListOfTags() {
+        assertTrue(io.getOutputs().contains("\nTags:\n"));      
+    }
+    
+    @Given("tag {string} has been saved")
+    public void tagHasBeenSaved(String string) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new cucumber.api.PendingException();
+    }
+
+    @Then("program responds with list including tag {string}")
+    public void programRespondsWithListIncludingTag(String string) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new cucumber.api.PendingException();
+    }
+
+    
+    private void start() throws Exception {
+        io = new StubIO(inputLines);
+        
+        testDaoBook = new FakeBookDao();
+        testDaoLink = new FakeLinkDao();
+        testDaoTag = new FakeTagDao();
+        
+        testService = new BookService(testDaoBook, io);
+        testServiceLink = new LinkService(testDaoLink, io);
+        testService = new BookService(testDaoBook, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
+
+        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
+        testUI.start();
+    }
 }

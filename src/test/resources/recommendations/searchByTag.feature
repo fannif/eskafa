@@ -1,0 +1,1 @@
+Feature: As a user I can search reading recommendations by tag
