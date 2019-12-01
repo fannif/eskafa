@@ -52,21 +52,12 @@ public class Stepdefs {
         inputLines.add("comment");
         inputLines.add("q");
 
-        io = new StubIO(inputLines);
-        testDao = new FakeBookDao();
-        testDaoLink = new FakeLinkDao();
-        testDaoBook = new FakeBookDao();
-        testServiceLink = new LinkService(testDaoLink, io);
-        testService = new BookService(testDao, io);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
-
-        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
-        testUI.start();
+        start();
     }
 
     @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
     public void memoryContainsBook(final String title, final String author, final String isbn) throws SQLException {
-        final Book found = (Book) testDao.findOne(title);
+        final Book found = (Book) testDaoBook.findOne(title);
         assertTrue(found.getTitle().equals(title));
         assertTrue(found.getAuthor().equals(author));
         assertTrue(found.getISBN().equals(isbn));
@@ -83,24 +74,12 @@ public class Stepdefs {
         inputLines.add("book");
         inputLines.add(title);
         inputLines.add("q");
-
-        testDao = new FakeBookDao();
-        io = new StubIO(inputLines);
-        testService = new BookService(testDao, io);
-        testDaoLink = new FakeLinkDao();
-        testDaoBook = new FakeBookDao();
-        testServiceLink = new LinkService(testDaoLink, io);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
-
-        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
-
-        testUI.start();
-
+        start();
     }
 
     @Then("Memory should not contain a book called {string}")
     public void memoryShouldNotContainTheBook(final String title) throws Throwable {
-        assertNull(testDao.findOne(title));
+        assertNull(testDaoBook.findOne(title));
     }
 
     @Given("book titled {string} has been added")
@@ -150,18 +129,7 @@ public class Stepdefs {
         inputLines.add("");
         inputLines.add("");
         inputLines.add("q");
-
-        io = new StubIO(inputLines);
-        testDao = new FakeBookDao();
-        testDaoLink = new FakeLinkDao();
-        testService = new BookService(testDao, io);
-        testServiceLink = new LinkService(testDaoLink, io);
-        testDaoBook = new FakeBookDao();
-        testService = new BookService(testDao, io);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
-
-        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
-        testUI.start();
+        start();
     }
 
     @Then("Memory should contain a link with title {string} and url {string}")
@@ -183,17 +151,7 @@ public class Stepdefs {
         inputLines.add("");
         inputLines.add("q");
 
-        io = new StubIO(inputLines);
-        testDao = new FakeBookDao();
-        testDaoLink = new FakeLinkDao();
-        testService = new BookService(testDao, io);
-        testServiceLink = new LinkService(testDaoLink, io);
-        testDaoBook = new FakeBookDao();
-        testService = new BookService(testDao, io);
-        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
-
-        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
-        testUI.start();
+        start();
     }
 
     @Then("System should respond with {string}")
