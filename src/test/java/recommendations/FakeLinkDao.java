@@ -37,6 +37,9 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
 
     @Override
     public boolean save(Link tip) throws SQLException {
+        if (this.findOne(tip.getTitle()) != null) {
+            return false;
+        }
         tips.add(tip);
         return true;
     }
@@ -72,7 +75,7 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Course> courses2 = new ArrayList<>();
         courses2.add(new Course (1,"Ohjelmistotuotanto"));
-        linkTips.add(new Link(1, "Kaleva", "www.kaleva.fi", "Link", "", tags, courses, "news"));
+        linkTips.add(new Link(1, "Kaleva", "http://www.kaleva.fi", "Link", "", tags, courses, "news"));
         linkTips.add(new Link(2, "", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, ""));
         return linkTips;
     }

@@ -108,7 +108,7 @@ public class RecommendationsTest {
         assertEquals("Links found by tag news: ", io.getOutputs().get(2));
         String expected = "\nType: Link"
                 + "\n\tTitle: Kaleva"
-                + "\n\tURL: \u001B[36m<www.kaleva.fi"
+                + "\n\tURL: \u001B[36m<http://www.kaleva.fi"
                 + ">\u001B[0m\n\tTags:|news|"
                 + "\n\tRelated courses:"
                 + "\n\tnews" + "\n"

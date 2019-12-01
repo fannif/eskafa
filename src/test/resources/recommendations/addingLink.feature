@@ -7,9 +7,8 @@ Feature: As a user I can add a link as recommendation
 
   Scenario: A link with same url can only be added once
     Given Command add a new link is selected
-    When User has filled in url "http://www.kaleva.fi", title "kaleva" and type "link"
-    And a link with url "http://www.kaleva.fi" is already in the memory
-    Then Memory should contain only one link with url "http://www.kaleva.fi"
+    When User tries to add url that is already in memory
+    Then System should respond with "Please, check your input and try again!"
 
   Scenario: If metadata cannot be loaded, the program should ask if user wants to add the link without metadata
    Given Given command add a new link is selected and there is no internet connection

@@ -34,9 +34,6 @@ public class Stepdefs {
     TagService testServiceTag;
     StubIO io;
     CommandLineUI testUI;
-    
-
-    //Add book
 
     @Given("Command add is selected")
     public void commandAddIsSelected() throws Throwable {
@@ -75,9 +72,6 @@ public class Stepdefs {
         assertTrue(found.getISBN().equals(isbn));
     }
 
-
-    // Remove book
-
     @Given("Command remove book is selected")
     public void commandRemoveSelected() throws Throwable {
         inputLines.add("3");
@@ -109,8 +103,6 @@ public class Stepdefs {
         assertNull(testDao.findOne(title));
     }
 
-    // list books
-
     @Given("book titled {string} has been added")
     public void bookTitledHasBeenAdded(final String title) {
         inputLines.add("2");
@@ -141,8 +133,6 @@ public class Stepdefs {
         }
         assertTrue(found);
     }
-
-    // add link
 
     @Given("Command add a new link is selected")
     public void commandAddANewLinkIsSelected() {
@@ -181,18 +171,35 @@ public class Stepdefs {
         assertTrue(found.getURL().equals(url));
     }
 
-    // add only one link with same url
+    
+    @When("User tries to add url that is already in memory")
+    public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable{
+        inputLines.add("http://www.kaleva.fi");
+        inputLines.add("Kaleva");
+        inputLines.add("Link");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("");
+        inputLines.add("q");
 
-    @When("a link with url {string} is already in the memory")
-    public void aLinkWithUrlIsAlreadyInTheMemory(final String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+        io = new StubIO(inputLines);
+        testDao = new FakeBookDao();
+        testDaoLink = new FakeLinkDao();
+        testService = new BookService(testDao, io);
+        testServiceLink = new LinkService(testDaoLink, io);
+        testDaoBook = new FakeBookDao();
+        testService = new BookService(testDao, io);
+        testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
+
+        testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);
+        testUI.start();
     }
 
-    @Then("Memory should contain only one link with url {string}")
-    public void memoryShouldContainOnlyOneLinkWithUrl(final String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    @Then("System should respond with {string}")
+    public void memoryShouldContainOnlyOneLinkWithUrl(String respond) throws Throwable {
+        ArrayList<String> outputs = io.getOutputs();
+        assertTrue(outputs.contains(respond));
     }
 
     // no internet connection
