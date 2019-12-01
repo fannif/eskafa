@@ -172,7 +172,7 @@ public class Stepdefs {
     }
 
     
-    @When("User tries to add url that is already in memory")
+    @When("User tries to add link that is already in memory")
     public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable{
         inputLines.add("http://www.kaleva.fi");
         inputLines.add("Kaleva");

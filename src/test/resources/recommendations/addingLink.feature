@@ -5,9 +5,9 @@ Feature: As a user I can add a link as recommendation
     When User has filled in url "http://www.google.com", title "google" and type "link"
     Then Memory should contain a link with title "google" and url "http://www.google.com"
 
-  Scenario: A link with same url can only be added once
+  Scenario: A link with same title can only be added once
     Given Command add a new link is selected
-    When User tries to add url that is already in memory
+    When User tries to add link that is already in memory
     Then System should respond with "Please, check your input and try again!"
 
   Scenario: If metadata cannot be loaded, the program should ask if user wants to add the link without metadata
