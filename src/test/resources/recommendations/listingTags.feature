@@ -5,10 +5,6 @@ Feature: As a user I can list all saved tags
     When command list tags is selected
     Then program responds with list of tags
 
-  Scenario: Saved tag is included in list
-    Given tag "testTag" has been saved
-    When command list tags is selected
-    Then program responds with list including tag "testTag"
 
 
 

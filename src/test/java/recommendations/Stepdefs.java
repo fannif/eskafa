@@ -219,19 +219,30 @@ public class Stepdefs {
         assertTrue(io.getOutputs().contains("\nTags:\n"));      
     }
     
-    @Given("tag {string} has been saved")
-    public void tagHasBeenSaved(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+     @Given("command search by tag is selected")
+    public void commandSearchByTagIsSelected() {
+        inputLines.add("7");
     }
 
-    @Then("program responds with list including tag {string}")
-    public void programRespondsWithListIncludingTag(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+    @When("user selects existing tag {string}")
+    public void userSelectsExistingTag(String tag) throws Exception {
+        inputLines.add(tag);
+        inputLines.add("q");
+        start();
     }
 
-    
+    @Then("recommendations with given tag are listed")
+    public void recommendationsWithGivenTagAreListed() {
+        String expected = "\nType: Link"
+                + "\n\tTitle: Kaleva"
+                + "\n\tURL: \u001B[36m<http://www.kaleva.fi"
+                + ">\u001B[0m\n\tTags:|news|"
+                + "\n\tRelated courses:"
+                + "\n\tnews" + "\n"
+                + "\nDescription: ";
+        assertTrue(io.getOutputs().contains(expected));
+    }
+ 
     private void start() throws Exception {
         io = new StubIO(inputLines);
         
