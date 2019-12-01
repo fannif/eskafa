@@ -30,7 +30,7 @@ public class RecommendationsTest {
     Scanner testScanner;
     ArrayList<String> inputLines;
     StubIO io;
-    
+
     BookService service;
     TagService tagService;
     LinkService linkService;
@@ -99,6 +99,21 @@ public class RecommendationsTest {
         readerDaoTag.delete("ohpe");
         readerDaoTag.delete("ohja");
         assertThat(tagService.listTags().size(), is(0));
+    }
+
+    @Test
+    public void searchByTagGivesCorrectResult() throws SQLException {
+        tagService.findRecommendadtionsByTag("news");
+        assertEquals("No books found by tag news", io.getOutputs().get(0));
+        assertEquals("Links found by tag news: ", io.getOutputs().get(2));
+        String expected = "\nType: Link"
+                + "\n\tTitle: Kaleva"
+                + "\n\tURL: \u001B[36m<www.kaleva.fi"
+                + ">\u001B[0m\n\tTags:|news|"
+                + "\n\tRelated courses:"
+                + "\n\tnews" + "\n"
+                + "\nDescription: ";
+        assertEquals(expected, io.getOutputs().get(3));
     }
 
     @Test

@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 import recommendations.domain.Book;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
+import static org.hamcrest.CoreMatchers.is;
 
 
 public class BookDaoTest {
@@ -63,6 +64,44 @@ public class BookDaoTest {
         assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
                 + "|Security|\n\tRelated courses:\n\t\n" ,bookDao.findOne("Secrets & Lies").toString());
     }
+    
+    @Test
+    public void findByTagReturnsCorrectResult() throws SQLException {
+        ArrayList<Tag> tags1 = new ArrayList<>();
+        ArrayList<Tag> tags2 = new ArrayList<>();
+        tags1.add(new Tag(1,"clean code"));
+        tags2.add(new Tag(2,"Security"));
+        tags2.add(new Tag(3,"Popular"));
+        ArrayList<Course> courses1 = new ArrayList<>();
+        ArrayList<Course> courses2 = new ArrayList<>();
+        courses1.add(new Course(1,"Ohjelmistotuotanto"));
+        courses1.add(new Course(2,"OhJa"));
+        Book book1 = new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!");
+        Book book2 = new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, "");
+        Book book3 = new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, "");
+        bookDao.save(book1);
+        bookDao.save(book2);
+        bookDao.save(book3);
+        
+        ArrayList<Book> expected = new ArrayList<>();
+        expected.add(book2);
+        expected.add(book3);
+        
+        assertThat(bookDao.findByTag("Security"), is(expected));
+    }
+    
+    @Test
+    public void findByTagReturnsCorrectResultWhenNoMatches() throws SQLException {
+        ArrayList<Tag> tags1 = new ArrayList<>();
+        tags1.add(new Tag(1,"clean code"));
+        ArrayList<Course> courses1 = new ArrayList<>();
+        courses1.add(new Course(1,"Ohjelmistotuotanto"));
+        courses1.add(new Course(2,"OhJa"));
+        bookDao.save(new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
+        
+        assertEquals(0, bookDao.findByTag("coding").size());
+    }
+    
     @After
     public void tearDown() throws SQLException {
         String sql = "DROP TABLE Book";

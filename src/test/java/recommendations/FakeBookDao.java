@@ -15,8 +15,16 @@ public class FakeBookDao implements ReaderDao<Book, String>{
     ArrayList<Book> tips = createTipsList();
 
     @Override
-    public List<Book> findByTag(String title) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Book> findByTag(String tag) throws SQLException {
+        ArrayList<Book> found = new ArrayList<>();
+        for (Book book : tips) {
+            for (Tag t : book.getTags()) {
+                if (t.getName().equals(tag)) {
+                    found.add(book);
+                }
+            }
+        }
+        return found;
     }
 
     @Override

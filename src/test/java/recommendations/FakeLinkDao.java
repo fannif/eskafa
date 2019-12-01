@@ -12,8 +12,16 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
     List<Link> tips = createTips();
 
     @Override
-    public List<Link> findByTag(String title) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Link> findByTag(String tag) throws SQLException {
+        ArrayList<Link> found = new ArrayList<>();
+        for (Link link : tips) {
+            for (Tag t : link.getTags()) {
+                if (t.getName().equals(tag)) {
+                    found.add(link);
+                }
+            }
+        }
+        return found;
     }
 
     @Override

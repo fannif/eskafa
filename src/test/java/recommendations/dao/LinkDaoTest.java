@@ -50,6 +50,31 @@ public class LinkDaoTest {
         assertEquals("Kaleva", linkDao.findAll().get(0).getTitle());
     }
     
+    @Test
+    public void findByTagReturnsCorrectResult() throws SQLException {
+        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<Tag> tags2 = new ArrayList<>();
+        tags.add(new Tag(1,"news"));
+        ArrayList<Course> courses = new ArrayList<>();
+        ArrayList<Course> courses2 = new ArrayList<>();
+        courses2.add(new Course (1,"Ohjelmistotuotanto"));
+        linkDao.save(new Link(0, "Kaleva", "https://www.kaleva.fi", "Link", "", tags, courses, "news"));
+        linkDao.save(new Link(0, "Ohtu", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, ""));
+        
+        assertEquals(1, linkDao.findByTag("news").size());
+        assertEquals("Kaleva", linkDao.findByTag("news").get(0).getTitle());
+    }
+    
+    @Test
+    public void findByTagReturnsCorrectResultWhenNoMatches() throws SQLException {
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(1,"news"));
+        ArrayList<Course> courses = new ArrayList<>();
+        linkDao.save(new Link(0, "Kaleva", "https://www.kaleva.fi", "Link", "", tags, courses, "news"));
+        
+        assertEquals(0, linkDao.findByTag("coding").size());
+    }
+    
     @After
     public void tearDown() throws SQLException {
         String sql = "DROP TABLE Link";
