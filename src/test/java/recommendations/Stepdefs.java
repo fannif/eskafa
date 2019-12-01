@@ -201,22 +201,6 @@ public class Stepdefs {
         ArrayList<String> outputs = io.getOutputs();
         assertTrue(outputs.contains(respond));
     }
-
-    // no internet connection
-
-    @Given("Given command add a new link is selected and there is no internet connection")
-    public void givenCommandAddANewLinkIsSelectedAndThereIsNoInternetConnection() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
-    }
-
-    @Then("Program should respond with {string}")
-    public void programShouldRespondWith(final String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
-    }
-    
-    // list tags
     
      @Given("there are saved tags")
     public void thereAreSavedTags() {
