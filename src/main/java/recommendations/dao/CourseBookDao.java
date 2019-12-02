@@ -29,4 +29,15 @@ public class CourseBookDao {
         }
     }
     
+    public void deleteByBook(int id) throws Exception {
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM CourseBook "
+                    + "WHERE book_id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        }
+    }
+    
 }

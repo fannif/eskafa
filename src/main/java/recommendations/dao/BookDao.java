@@ -243,7 +243,66 @@ public class BookDao implements ReaderDao<Book, String> {
         
         try (Connection connection = database.getConnection()) {
             
-            connection.close();
+           PreparedStatement statement = connection.prepareStatement("UPDATE Book SET title = ?, author = ?, comment = ? WHERE id = ?");
+            
+           statement.setString(1, book.getTitle());
+           statement.setString(2, book.getAuthor());
+           statement.setString(3, book.getComment());
+           statement.setInt(4, book.getId());
+           statement.executeUpdate();
+           
+            BookTagDao bookTagDao = new BookTagDao(database);
+            TagDao tagDao = new TagDao(database);
+            
+            try {
+                bookTagDao.deleteByBook(book.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(BookDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            for (Tag tag: book.getTags()) {
+                
+                
+                int tagId = 0;
+                if (tagDao.findOne(tag.getName()) != null) {
+                    tagId = tagDao.findOne(tag.getName()).getId();
+                } else {
+                    tagDao.save(tag);
+                    tagId = tagDao.findOne(tag.getName()).getId();
+                }
+                
+                
+
+                int bookId = this.findOne(book.getTitle()).getId();
+                
+                bookTagDao.save(bookId, tagId);
+            }
+            
+            CourseBookDao courseBookDao = new CourseBookDao(database);
+            CourseDao courseDao = new CourseDao(database);
+            
+            try {
+                courseBookDao.deleteByBook(book.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(BookDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            for (Course course: book.getCourses()) {
+                
+                int courseId = 0;
+                if (courseDao.findOne(course.getName()) != null) {
+                    courseId = courseDao.findOne(course.getName()).getId();
+                } else {
+                    courseDao.save(course);
+                    courseId = courseDao.findOne(course.getName()).getId();
+                }
+                
+                int bookId = this.findOne(book.getTitle()).getId();
+                
+                courseBookDao.save(bookId, courseId);
+            }
+           
+           connection.close();
         }
         return true;
         

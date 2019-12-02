@@ -238,7 +238,68 @@ public class LinkDao implements ReaderDao<Link, String> {
         }
 
         try (Connection connection = database.getConnection()) {
+            
+            PreparedStatement statement = connection.prepareStatement("UPDATE Link SET title = ?, type = ?, comment = ? WHERE id = ?");
+            
+           statement.setString(1, link.getTitle());
+           statement.setString(2, link.getType());
+           statement.setString(3, link.getComment());
+           statement.setInt(4, link.getId());
+           statement.executeUpdate();
+           
+           LinkTagDao linkTagDao = new LinkTagDao(database);
+            try {
+                linkTagDao.deleteByLink(link.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+           for (Tag tag : link.getTags()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO LinkTag(link_id, tag_id) VALUES (?, ?)");
 
+                TagDao tagDao;
+                int tagId = 0;
+                tagDao = new TagDao(database);
+                if (tagDao.findOne(tag.getName()) != null) {
+                    tagId = tagDao.findOne(tag.getName()).getId();
+                } else {
+                    tagDao.save(tag);
+                    tagId = tagDao.findOne(tag.getName()).getId();
+                }
+
+                int linkId = this.findOne(link.getTitle()).getId();
+
+                stmt.setInt(1, linkId);
+                stmt.setInt(2, tagId);
+                stmt.executeUpdate();
+            }
+           
+            CourseLinkDao courseLinkDao = new CourseLinkDao(database);
+            try {
+                courseLinkDao.deleteByLink(link.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            for (Course course : link.getCourses()) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseLink(link_id, course_id) VALUES (?, ?)");
+                CourseDao courseDao;
+                int courseId = 0;
+                courseDao = new CourseDao(database);
+                if (courseDao.findOne(course.getName()) != null) {
+                    courseId = courseDao.findOne(course.getName()).getId();
+                } else {
+                    courseDao.save(course);
+                    courseId = courseDao.findOne(course.getName()).getId();
+                }
+
+                int linkId = this.findOne(link.getTitle()).getId();
+
+                stmt.setInt(1, linkId);
+                stmt.setInt(2, courseId);
+                stmt.executeUpdate();
+            }
+            
             connection.close();
         }
         return true;

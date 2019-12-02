@@ -5,19 +5,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
-public class BookTagDao {
+public class LinkTagDao {
     
     private Database database;
     
-    public BookTagDao(Database database) {
+    public LinkTagDao(Database database) {
         this.database = database;
     }
     
-    public void save(int bookId, int tagId) {
+    public void save(int linkId, int tagId) {
         
         try (Connection connection = database.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO BookTag(book_id, tag_id) VALUES (?, ?)")) {
-                statement.setInt(1, bookId);
+            try (PreparedStatement statement = connection.prepareStatement("INSERT INTO LinkTag(link_id, tag_id) VALUES (?, ?)")) {
+                statement.setInt(1, linkId);
                 statement.setInt(2, tagId);
                 
                 statement.executeUpdate();
@@ -29,10 +29,10 @@ public class BookTagDao {
         }
     }
     
-    public void deleteByBook(int id) throws Exception {
+    public void deleteByLink(int id) throws Exception {
         try (Connection connection = database.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM BookTag "
-                    + "WHERE book_id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM LinkTag "
+                    + "WHERE link_id = ?");
             statement.setInt(1, id);
             statement.executeUpdate();
             statement.close();
