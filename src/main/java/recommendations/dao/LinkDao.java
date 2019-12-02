@@ -196,7 +196,7 @@ public class LinkDao implements ReaderDao<Link, String> {
             }
 
             for (Course course : link.getCourses()) {
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO CourseLink(link_id, course_id) VALUES (?, ?)");
+                CourseLinkDao courseLinkDao = new CourseLinkDao(database);
                 CourseDao courseDao;
                 int courseId = 0;
                 courseDao = new CourseDao(database);
@@ -209,9 +209,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 int linkId = this.findOne(link.getTitle()).getId();
 
-                stmt.setInt(1, linkId);
-                stmt.setInt(2, courseId);
-                stmt.executeUpdate();
+                courseLinkDao.save(linkId, courseId);
             }
 
             connection.close();
@@ -267,7 +265,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                     tagId = tagDao.findOne(tag.getName()).getId();
                 }
 
-                int linkId = this.findOne(link.getTitle()).getId();
+                int linkId = link.getId();
 
                 stmt.setInt(1, linkId);
                 stmt.setInt(2, tagId);
@@ -293,7 +291,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                     courseId = courseDao.findOne(course.getName()).getId();
                 }
 
-                int linkId = this.findOne(link.getTitle()).getId();
+                int linkId = link.getId();
 
                 stmt.setInt(1, linkId);
                 stmt.setInt(2, courseId);

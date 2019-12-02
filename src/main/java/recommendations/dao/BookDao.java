@@ -194,7 +194,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 
 
-                int bookId = this.findOne(book.getTitle()).getId();
+                int bookId = book.getId();
                 
                 bookTagDao.save(bookId, tagId);
             }
@@ -212,7 +212,7 @@ public class BookDao implements ReaderDao<Book, String> {
                     courseId = courseDao.findOne(course.getName()).getId();
                 }
                 
-                int bookId = this.findOne(book.getTitle()).getId();
+                int bookId = book.getId();
                 
                 courseBookDao.save(bookId, courseId);
             }
