@@ -12,8 +12,8 @@ public class Link implements Readable {
     private String URL;
     private String type;
     private String metadata;
-    private ArrayList<Tag> tags; //Switch to Tag object when possible
-    private ArrayList<Course> courses; //Switch to Course object when possible
+    private ArrayList<Tag> tags;
+    private ArrayList<Course> courses;
     private String comment;
 
     public Link(int id, String title, String URL, String type, String metadata, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {

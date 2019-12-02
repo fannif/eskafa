@@ -12,7 +12,6 @@ public class Book implements Readable {
     private String ISBN;
     private ArrayList<Tag> tags;
     private ArrayList<Course> relatedCourses;
-//    private String description;
     private String comment;
 
     public Book(int id, String author, String title, String type, String ISBN, ArrayList<Tag> tags, ArrayList<Course> relatedCourses, String comment) {
