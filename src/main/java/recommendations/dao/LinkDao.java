@@ -232,7 +232,7 @@ public class LinkDao implements ReaderDao<Link, String> {
     @Override
     public boolean edit(Link link) throws SQLException {
 
-        if (this.findOne(link.getTitle()) != null) {
+        if ((this.findOne(link.getTitle()) != null) && this.findOne(link.getTitle()).getId() != link.getId()) {
             return false;
         }
 

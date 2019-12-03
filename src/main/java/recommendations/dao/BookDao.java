@@ -237,7 +237,7 @@ public class BookDao implements ReaderDao<Book, String> {
     @Override
     public boolean edit(Book book) throws SQLException {
         
-        if (this.findOne(book.getTitle()) != null) {
+        if ((this.findOne(book.getTitle()) != null) && this.findOne(book.getTitle()).getId() != book.getId()) {
             return false;
         }
         
