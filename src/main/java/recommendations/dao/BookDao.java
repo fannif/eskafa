@@ -181,6 +181,8 @@ public class BookDao implements ReaderDao<Book, String> {
             BookTagDao bookTagDao = new BookTagDao(database);
             TagDao tagDao = new TagDao(database);
             
+            int bookId = this.findOne(book.getTitle()).getId();
+            
             for (Tag tag: book.getTags()) {
                 
                 
@@ -191,10 +193,6 @@ public class BookDao implements ReaderDao<Book, String> {
                     tagDao.save(tag);
                     tagId = tagDao.findOne(tag.getName()).getId();
                 }
-                
-                
-
-                int bookId = book.getId();
                 
                 bookTagDao.save(bookId, tagId);
             }
@@ -211,8 +209,6 @@ public class BookDao implements ReaderDao<Book, String> {
                     courseDao.save(course);
                     courseId = courseDao.findOne(course.getName()).getId();
                 }
-                
-                int bookId = book.getId();
                 
                 courseBookDao.save(bookId, courseId);
             }
