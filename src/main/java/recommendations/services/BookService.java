@@ -137,10 +137,11 @@ public class BookService {
         return book;
     }
 
-    private Book fetchBookDetailsByIsbn(String isbn) {
+    public Book fetchBookDetailsByIsbn(String isbn) {
         
         String cleanIsbn = isbn.replaceAll("[\\-\\s]", "");
         String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + cleanIsbn;
+        io.print("here we are");
 
         try {
             String jsonData = Request.Get(url).execute().returnContent().asString();

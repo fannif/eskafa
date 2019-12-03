@@ -9,16 +9,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.Scanner;
 import recommendations.domain.Readable;
 import recommendations.domain.Book;
 import recommendations.domain.Course;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.io.IO;
-import recommendations.services.BookService;
-import recommendations.services.LinkService;
-import recommendations.services.TagService;
+import recommendations.services.*;
 
 public class CommandLineUI {
 
@@ -188,42 +185,42 @@ public class CommandLineUI {
 
     private void addBook() throws IOException, SQLException {
         io.print("\nAdd a new Book");
-        io.print("Title: ");
-        String title = io.read();
-        io.print("Author: ");
-        String author = io.read();
+        io.print("By giving ISBN, Title and Autor(s) are fetched automativcally, if exists");
+        io.print("If you want to skip this, just press enter without adding anything");
+        String title ="";
+        String author ="";
         io.print("ISBN: ");
         String isbn = io.read();
-        io.print("Type: ");
-        String type = io.read();
-        ArrayList<Tag> tags = new ArrayList();
-        ArrayList<Course> courses = new ArrayList();
-        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                + "to continue: ");
-
-        while (true) {
-            String tag = io.read();
-            if (tag.equals("")) {
-                break;
+        if (!isbn.isEmpty()) {
+            Book book = bookService.fetchBookDetailsByIsbn(isbn);
+            if (book != null) {
+                title = book.getTitle();
+                author = book.getAuthor();
+                io.print("Title: " + title);
+                io.print("Author(s): " + author);
+            } else {
+                io.print("Title: ");
+                title = io.read();
+                io.print("Author(s): ");
+                author = io.read();               
             }
-            Tag newTag = new Tag(0, tag);
-            tags.add(newTag);
+            
         }
-        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                + "to continue: ");
+        if (isbn.equals("")) {
+            io.print("Title: ");
+            title = io.read();
+            io.print("Author(s): ");
+            author = io.read();
+        }
+        
+        ArrayList<Tag> tags = askForTags();
 
-        while (true) {
-            String course = io.read();
-            if (course.equals("")) {
-                break;
-            }
-            Course newCourse = new Course(0, course);
-            courses.add(newCourse);
-        }
+        ArrayList<Course> courses = askForCourses();
+        
         io.print("Add a comment: ");
         String comment = io.read();
 
-        bookService.addBook(new Book(0, author, title, type, isbn, tags, courses, comment));
+        bookService.addBook(new Book(0, author, title, "Book", isbn, tags, courses, comment));
         io.print("A new book recommendation was added successfully!");
     }
 
@@ -331,6 +328,36 @@ public class CommandLineUI {
         } catch (URISyntaxException | MalformedURLException e) {
             return false;
         }
+    }
+
+    private ArrayList<Tag> askForTags() {
+        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
+        + "to continue: ");
+        ArrayList<Tag> tags = new ArrayList<>();
+            while (true) {
+                String tag = io.read();
+                if (tag.equals("")) {
+                    break;
+                }
+                Tag newTag = new Tag(0, tag);
+                tags.add(newTag);
+            }
+        return tags;    
+    }
+
+    private ArrayList<Course> askForCourses() {
+        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                + "to continue: ");
+        ArrayList<Course> courses = new ArrayList<>();
+        while (true) {
+            String course = io.read();
+            if (course.equals("")) {
+                break;
+            }
+            Course newCourse = new Course(0, course);
+            courses.add(newCourse);
+        }
+        return courses;
     }
 
 }
