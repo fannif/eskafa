@@ -304,4 +304,48 @@ public class BookDao implements ReaderDao<Book, String> {
         
     }
     
+    public Book findByWord(String word) {
+        
+        Book book = null;
+        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<Course> courses = new ArrayList<>();
+        
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * From Book WHERE"
+                    + " author LIKE '%?%' OR title LIKE '%?%' "
+                    + "OR comment LIKE '%?%'");
+            statement.setString(1, word);
+            statement.setString(2, word);
+            statement.setString(3, word);
+            
+            ResultSet results = statement.executeQuery();
+            
+            int id = results.getInt("id");
+            String author = results.getString("author");
+            String title = results.getString("title");
+            String type = results.getString("type");
+            String ISBN = results.getString("ISBN");
+            String comment = results.getString("comment");
+            
+            book = new Book(id, author,
+                    title, type,
+                    ISBN, tags, courses, comment);
+            
+            statement.close();
+            
+            
+            // Toteuta tageista ja kursseista haku
+            
+            
+            
+            connection.close();
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+        return book;
+    }
+    
 }

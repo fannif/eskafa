@@ -297,5 +297,51 @@ public class LinkDao implements ReaderDao<Link, String> {
         }
         return true;
     }
+    
+    public Link findByWord(String word) {
+        
+        Link link = null;
+        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<Course> courses = new ArrayList<>();
+        
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT * From Link WHERE"
+                    + " title LIKE '%?%' OR metadata LIKE '%?%' "
+                    + "OR comment LIKE '%?%' OR url LIKE '%?%'"
+                    + " OR type LIKE '%?%'");
+            statement.setString(1, word);
+            statement.setString(2, word);
+            statement.setString(3, word);
+            statement.setString(4, word);
+            
+            ResultSet results = statement.executeQuery();
+            
+            int id = results.getInt("id");
+            String metadata = results.getString("metadata");
+            String title = results.getString("title");
+            String type = results.getString("type");
+            String url = results.getString("url");
+            String comment = results.getString("comment");
+            
+            link = new Link(id, title,
+                    url, type,
+                    metadata, tags, courses, comment);
+            
+            statement.close();
+            
+            
+            // Toteuta tageista ja kursseista haku
+            
+            
+            
+            connection.close();
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+        return link;
+    }
 
 }
