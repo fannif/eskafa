@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import recommendations.domain.Book;
 import recommendations.domain.Link;
 
 import java.io.IOException;
@@ -117,5 +118,86 @@ public class LinkService {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public void edit(String name) throws SQLException {
+        boolean go = true;
+        String input = name;
+        Link link;
+        while (go) {
+            link = (Link) linkDao.findOne(input);
+            if (input.equals("q")) {
+                return;
+            }
+            if (link == null) {
+                io.print("No such link found. Please check the spelling and try again: ");
+                io.print("To return back to main menu, enter q");
+                input = io.read();
+            } else {
+                System.out.println("Please update a field or fields. Press enter to skip the field.");
+                io.print("Title: ");
+                String title = io.read();
+                io.print("Type: ");
+                String type = io.read();
+                ArrayList<Tag> tags = new ArrayList();
+                ArrayList<Course> courses = new ArrayList();
+                io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                        + "to continue: ");
+
+                while (true) {
+                    String tag = io.read();
+                    if (tag.equals("")) {
+                        break;
+                    }
+                    Tag newTag = new Tag(0, tag);
+                    tags.add(newTag);
+                }
+                io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                        + "to continue: ");
+
+                while (true) {
+                    String course = io.read();
+                    if (course.equals("")) {
+                        break;
+                    }
+                    Course newCourse = new Course(0, course);
+                    courses.add(newCourse);
+                }
+                io.print("Add a comment: ");
+                String comment = io.read();
+
+                Link updated = updateLinkInformation(link, title, type, tags, courses, comment);
+                if (linkDao.edit(updated)) {
+                    io.print("The link information has been successfully updated.");
+                } else {
+                    System.out.println("Oops, something went wrong.");
+                }
+                go = false;
+            }
+        }
+    }
+
+    private Link updateLinkInformation(Link link, String title, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
+        if (!title.isEmpty()) {
+            link.setTitle(title);
+        }
+
+        if (!type.isEmpty()) {
+            link.setType(type);
+        }
+
+        if (!tags.isEmpty()) {
+            link.setTags(tags);
+        }
+
+        if(!courses.isEmpty()) {
+            link.getCourses();
+        }
+
+        if(!comment.isEmpty()) {
+            link.setComment(comment);
+        }
+
+        return link;
     }
 }

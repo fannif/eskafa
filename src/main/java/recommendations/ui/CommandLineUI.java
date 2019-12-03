@@ -46,8 +46,9 @@ public class CommandLineUI {
             io.print("5 --- Add a new link");
             io.print("6 --- List tags");
             io.print("7 --- Search by tag");
+            io.print("8 --- Edit recommendation");
             io.print("q --- Quit");
-            io.print("Select 1, 2, 3, 4, 5, 6 or q");
+            io.print("Please enter the number corresponding to the command (i.e. 1, 2, ..., 8) or q to stop the application.");
             String choice = io.read();
 
             switch (choice) {
@@ -75,11 +76,37 @@ public class CommandLineUI {
                 case "7":
                     searchByTag();
                     break;
+                case "8":
+                    editRecommendation();
+                    break;
                 default:
             }
         }
         io.print("\nThanks for using Recommendations! Have a nice day!");
     }
+
+
+    private void editRecommendation() throws SQLException {
+        io.print("\nPlease spesify which recommendation type you would like to edit: book/link");
+        io.print("To return back to main menu, enter 'q'");
+        String input = io.read();
+        String cleanInput = readInput(input);
+        if (cleanInput.equals("q")) {
+            return;
+        } else if (cleanInput.equals("book")) {
+            io.print("\nPlease enter the title of the book to be modified: ");
+            String title = io.read();
+            bookService.edit(title);
+        } else if (cleanInput.equals("link")) {
+            io.print("\nPlease enter the title of the link to be modified: ");
+            String title = io.read();
+            linkService.edit(title);
+        } else {
+            io.print("Could not recognize given command, please check the spelling.");
+            editRecommendation();
+        }
+    }
+
 
     private void listLinks() throws SQLException {
         ArrayList<Link> links = linkService.listLinks();
