@@ -3,13 +3,19 @@ package recommendations.services;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import recommendations.domain.Book;
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
 import recommendations.io.IO;
+
+import org.apache.http.client.fluent.Request;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class BookService {
 
@@ -120,14 +126,51 @@ public class BookService {
             book.setTags(tags);
         }
 
-        if(!courses.isEmpty()) {
+        if (!courses.isEmpty()) {
             book.getCourses();
         }
 
-        if(!comment.isEmpty()) {
+        if (!comment.isEmpty()) {
             book.setComment(comment);
         }
 
         return book;
+    }
+
+    private Book fetchBookDetailsByIsbn(String isbn) {
+        
+        String cleanIsbn = isbn.replaceAll("[\\-\\s]", "");
+        String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + cleanIsbn;
+
+        try {
+            String jsonData = Request.Get(url).execute().returnContent().asString();
+            JSONObject obj = new JSONObject(jsonData);
+            JSONArray arr = obj.getJSONArray("items");
+            JSONObject obj2 = arr.getJSONObject(0);
+            JSONObject info = obj2.getJSONObject("volumeInfo");
+            String title = (String) info.get("title");
+
+            JSONArray authors = info.getJSONArray("authors");
+            String author = authorsToString(authors);
+
+            return new Book(author, title);
+
+        } catch (JSONException e) {
+            io.print("Book not found");
+            return null;
+        } catch (IOException ex) {
+            io.print("Could not retrieve information. Check your Internet connection.");
+            return null;
+        }
+    }
+
+    private String authorsToString(JSONArray authors) {
+
+        ArrayList<String> list = new ArrayList<>();
+        for (Object item : authors) {
+            list.add(item.toString());
+        }
+        String authorsAsString = String.join(", ", list);
+        return authorsAsString;
     }
 }

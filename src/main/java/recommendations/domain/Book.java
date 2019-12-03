@@ -24,6 +24,11 @@ public class Book implements Readable {
         this.relatedCourses = relatedCourses;
         this.comment = comment;
     }
+    
+    public Book(String author, String title) {
+        this.author = author;
+        this.title = title;
+    }
 
     @Override
     public String getTitle() {
