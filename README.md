@@ -10,7 +10,7 @@
 
 [Menneet sprintit](https://github.com/fannif/eskafa/blob/master/documentation/kirjanpito.md)
 
-[Sprintti 2](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
+[Sprintti 3](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
 
 
 #### CircleCI
