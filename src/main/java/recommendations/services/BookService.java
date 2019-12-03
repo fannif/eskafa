@@ -141,7 +141,6 @@ public class BookService {
         
         String cleanIsbn = isbn.replaceAll("[\\-\\s]", "");
         String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + cleanIsbn;
-        io.print("here we are");
 
         try {
             String jsonData = Request.Get(url).execute().returnContent().asString();
