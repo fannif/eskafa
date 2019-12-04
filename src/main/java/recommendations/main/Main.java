@@ -1,4 +1,4 @@
-package recommendations;
+package recommendations.main;
 
 import java.io.IOException;
 

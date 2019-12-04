@@ -160,7 +160,7 @@ public class LinkService {
                 if (linkDao.edit(updated)) {
                     io.print("The link information has been successfully updated.");
                 } else {
-                    System.out.println("Oops, something went wrong.");
+                    System.out.println("The link you are trying to add is already in the database.");
                 }
                 go = false;
             }

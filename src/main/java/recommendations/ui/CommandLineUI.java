@@ -86,7 +86,7 @@ public class CommandLineUI {
         io.print("\nThanks for using Recommendations! Have a nice day!");
     }
 
-    private void findRecommendationByWord() {
+    private void findRecommendationByWord() throws SQLException {
         System.out.println("Word: ");
         String word = io.read();
         List<Book> books = bookService.findByWord(word);

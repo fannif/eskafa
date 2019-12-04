@@ -43,7 +43,7 @@ test {
     systemProperties System.getProperties()
 }
 
-mainClassName = 'recommendations.Main'
+mainClassName = 'recommendations.main.Main'
 
 run {
     standardInput = System.in
@@ -63,7 +63,7 @@ jacocoTestReport {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'recommendations.Main'
+        attributes 'Main-Class': 'recommendations.main.Main'
     }
     archiveName 'recommendations.jar'
 }
