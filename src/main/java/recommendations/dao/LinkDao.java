@@ -28,7 +28,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         try {
             for (Link link : this.findAll()) {
                 for (Tag linkTag : link.getTags()) {
-                    if (linkTag.getName().equals(tag)) {
+                    if (linkTag.getName().toLowerCase().contains(tag.toLowerCase())) {
                         links.add(link);
                     }
                 }
@@ -39,7 +39,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
         return links;
     }
-    
+
     @Override
     public ArrayList<Link> findByCourse(String course) {
         ArrayList<Link> links = new ArrayList<>();
@@ -47,7 +47,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         try {
             for (Link link : this.findAll()) {
                 for (Course linkCourse : link.getCourses()) {
-                    if (linkCourse.getName().equals(course)) {
+                    if (linkCourse.getName().toLowerCase().contains(course.toLowerCase())) {
                         links.add(link);
                     }
                 }
@@ -193,11 +193,11 @@ public class LinkDao implements ReaderDao<Link, String> {
 
             statement.executeUpdate();
             statement.close();
-            
+
             LinkTagDao linkTagDao = new LinkTagDao(database);
 
             for (Tag tag : link.getTags()) {
-                
+
                 TagDao tagDao;
                 int tagId = 0;
                 tagDao = new TagDao(database);
@@ -212,11 +212,11 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 linkTagDao.save(linkId, tagId);
             }
-            
+
             CourseLinkDao courseLinkDao = new CourseLinkDao(database);
 
             for (Course course : link.getCourses()) {
-                
+
                 CourseDao courseDao;
                 int courseId = 0;
                 courseDao = new CourseDao(database);
@@ -256,24 +256,24 @@ public class LinkDao implements ReaderDao<Link, String> {
         }
 
         try (Connection connection = database.getConnection()) {
-            
+
             PreparedStatement statement = connection.prepareStatement("UPDATE Link SET title = ?, type = ?, comment = ? WHERE id = ?");
-            
-           statement.setString(1, link.getTitle());
-           statement.setString(2, link.getType());
-           statement.setString(3, link.getComment());
-           statement.setInt(4, link.getId());
-           statement.executeUpdate();
-           
-           LinkTagDao linkTagDao = new LinkTagDao(database);
+
+            statement.setString(1, link.getTitle());
+            statement.setString(2, link.getType());
+            statement.setString(3, link.getComment());
+            statement.setInt(4, link.getId());
+            statement.executeUpdate();
+
+            LinkTagDao linkTagDao = new LinkTagDao(database);
             try {
                 linkTagDao.deleteByLink(link.getId());
             } catch (Exception ex) {
                 Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
-           for (Tag tag : link.getTags()) {
-                
+
+            for (Tag tag : link.getTags()) {
+
                 TagDao tagDao;
                 int tagId = 0;
                 tagDao = new TagDao(database);
@@ -288,7 +288,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 linkTagDao.save(linkId, tagId);
             }
-           
+
             CourseLinkDao courseLinkDao = new CourseLinkDao(database);
             try {
                 courseLinkDao.deleteByLink(link.getId());
@@ -311,42 +311,38 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 courseLinkDao.save(linkId, courseId);
             }
-            
+
             connection.close();
         }
         return true;
     }
-    
+
     @Override
     public List<Link> findByWord(String word) throws SQLException {
-        
+
         List<Link> links = new ArrayList<>();
-        
+
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Link WHERE"
                     + " title LIKE ? OR metadata LIKE ? "
                     + "OR comment LIKE ? OR url LIKE ?"
                     + " OR type LIKE ?");
-            statement.setString(1, "%"+word+"%");
-            statement.setString(2, "%"+word+"%");
-            statement.setString(3, "%"+word+"%");
-            statement.setString(4, "%"+word+"%");
-            
+            statement.setString(1, "%" + word + "%");
+            statement.setString(2, "%" + word + "%");
+            statement.setString(3, "%" + word + "%");
+            statement.setString(4, "%" + word + "%");
+
             ResultSet results = statement.executeQuery();
-            
-            while(results.next()) {
-            
-            int id = results.getInt("id");
+
+            while (results.next()) {
+
+                int id = results.getInt("id");
                 String metadata = results.getString("metadata");
                 String title = results.getString("title");
                 String type = results.getString("type");
                 String url = results.getString("url");
                 String comment = results.getString("comment");
-            
-                
-            
-                
-                
+
                 ArrayList<Tag> tags = new ArrayList<>();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.tag_id = Tag.id JOIN Link ON LinkTag.link_id = Link.id WHERE Link.id = ?");
                 stmt.setInt(1, id);
@@ -357,9 +353,9 @@ public class LinkDao implements ReaderDao<Link, String> {
                     String name = tagResults.getString("name");
                     tags.add(new Tag(tagId, name));
                 }
-                
+
                 stmt.close();
-                
+
                 ArrayList<Course> courses = new ArrayList<>();
 
                 PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = Link.id WHERE Link.id = ?");
@@ -373,33 +369,31 @@ public class LinkDao implements ReaderDao<Link, String> {
                 }
 
                 stmt2.close();
-                
+
                 Link link = new Link(id, title,
-                    url, type,
-                    metadata, tags, courses, comment);
-            
+                        url, type,
+                        metadata, tags, courses, comment);
+
                 links.add(link);
             }
-            
-            
-            for (Link l: this.findByTag(word)) {
-                if (!links.isEmpty() && !links.contains(l)) {
+
+            for (Link l : this.findByTag(word)) {
+                if (!links.contains(l)) {
                     links.add(l);
                 }
             }
-            
-            for (Link l: this.findByCourse(word)) {
-                if (!links.isEmpty() && !links.contains(l)) {
+
+            for (Link l : this.findByCourse(word)) {
+                if (!links.contains(l)) {
                     links.add(l);
                 }
             }
-            
+
             statement.close();
             connection.close();
-            
-        } 
-        
-        
+
+        }
+
         return links;
     }
 

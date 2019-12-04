@@ -3,7 +3,6 @@ package recommendations.services;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,9 +28,13 @@ public class BookService {
         this.bookDao = dao;
     }
 
-    public void addBook(Book book) throws IOException, SQLException {
-        bookDao.save(book);
-
+    public boolean addBook(Book book) throws IOException, SQLException {
+        return bookDao.save(book);
+    }
+    
+    public Book findBookWithTitle(String title) throws SQLException {
+        Book book = (Book) bookDao.findOne(title);
+        return book;
     }
 
     public ArrayList<Book> listBooks() throws SQLException {
