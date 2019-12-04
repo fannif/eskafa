@@ -330,11 +330,11 @@ public class BookDao implements ReaderDao<Book, String> {
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Book WHERE"
-                    + " author LIKE '%?%' OR title LIKE '%?%' "
-                    + "OR comment LIKE '%?%'");
-            statement.setString(1, word);
-            statement.setString(2, word);
-            statement.setString(3, word);
+                    + " (author LIKE ?) OR (title LIKE ?) "
+                    + "OR (comment LIKE ?)");
+            statement.setString(1, "%"+word+"%");
+            statement.setString(2, "%"+word+"%");
+            statement.setString(3, "%"+word+"%");
             
             ResultSet results = statement.executeQuery();
             
