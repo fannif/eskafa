@@ -44,8 +44,9 @@ public class CommandLineUI {
             io.print("6 --- List tags");
             io.print("7 --- Search by tag");
             io.print("8 --- Edit recommendation");
+            io.print("9 --- Find a recommendation by word");
             io.print("q --- Quit");
-            io.print("Please enter the number corresponding to the command (i.e. 1, 2, ..., 8) or q to stop the application.");
+            io.print("Please enter the number corresponding to the command (i.e. 1, 2, ..., 9) or q to stop the application.");
             String choice = io.read();
 
             switch (choice) {
@@ -76,10 +77,22 @@ public class CommandLineUI {
                 case "8":
                     editRecommendation();
                     break;
+                case "9":
+                    findRecommendationByWord();
+                    break;
                 default:
             }
         }
         io.print("\nThanks for using Recommendations! Have a nice day!");
+    }
+
+    private void findRecommendationByWord() {
+        System.out.println("Word: ");
+        String word = io.read();
+        List<Book> books = bookService.findByWord(word);
+        for (Book book : books) {
+            System.out.println(book);
+        }
     }
 
     private void editRecommendation() throws SQLException {

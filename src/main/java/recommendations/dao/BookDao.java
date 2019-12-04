@@ -325,10 +325,10 @@ public class BookDao implements ReaderDao<Book, String> {
     }
     
     @Override
-    public ArrayList<Book> findByWord(String word) {
+    public List<Book> findByWord(String word) {
         
-        ArrayList<Book> books = new ArrayList<>();
-        Book book = null;
+        List<Book> books = new ArrayList<>();
+        Book book;
         
         
         try (Connection connection = database.getConnection()) {
