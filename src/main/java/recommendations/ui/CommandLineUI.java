@@ -196,6 +196,9 @@ public class CommandLineUI {
 
     private void addBook() throws IOException, SQLException {
         io.print("\nAdd a new Book");
+        io.print("Please note, that the system allows only unique titles. Existing titles:\n");
+        listTitles("book");
+        
         io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
         io.print("If you want to skip this, just press enter without adding anything");
         String title = "";
@@ -208,7 +211,16 @@ public class CommandLineUI {
                 title = book.getTitle();
                 author = book.getAuthor();
                 io.print("Title: " + title);
-                io.print("Author(s): " + author);
+                io.print("Author(s): " + author + "\n");
+                Book existingBook = bookService.findBookWithTitle(title);
+                if (existingBook != null) {
+                    io.print("There is already one book with same title. Please modify the title a little\n");
+                    io.print("Title: ");
+                    title = io.read();
+                    if (title.equals("")) {
+                        title = book.getTitle();  
+                    }
+                }
             } else {
                 io.print("Title: ");
                 title = io.read();
@@ -231,8 +243,12 @@ public class CommandLineUI {
         io.print("Add a comment: ");
         String comment = io.read();
 
-        bookService.addBook(new Book(0, author, title, "Book", isbn, tags, courses, comment));
-        io.print("A new book recommendation was added successfully!");
+        Boolean isAdded = bookService.addBook(new Book(0, author, title, "Book", isbn, tags, courses, comment));
+        if (isAdded == true) {
+            io.print("A new book recommendation was added successfully!");
+        } else {
+            io.print("Your book recommendation was not added. Another book with same title exists already");
+        }
     }
 
     private void addLink() throws IOException, SQLException, MalformedURLException, URISyntaxException {
@@ -264,30 +280,10 @@ public class CommandLineUI {
 
         io.print("Type: ");
         String type = io.read();
-        ArrayList<Tag> tags = new ArrayList();
-        ArrayList<Course> courses = new ArrayList();
-        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                + "to continue: ");
+        ArrayList<Tag> tags = askForTags();
 
-        while (true) {
-            String tag = io.read();
-            if (tag.equals("")) {
-                break;
-            }
-            Tag newTag = new Tag(0, tag);
-            tags.add(newTag);
-        }
-        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                + "to continue: ");
+        ArrayList<Course> courses = askForCourses();
 
-        while (true) {
-            String course = io.read();
-            if (course.equals("")) {
-                break;
-            }
-            Course newCourse = new Course(0, course);
-            courses.add(newCourse);
-        }
         io.print("Add a comment: ");
         String comment = io.read();
 
