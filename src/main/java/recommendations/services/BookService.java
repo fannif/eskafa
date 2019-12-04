@@ -176,9 +176,14 @@ public class BookService {
     }
 
     public List<Book> findByWord(String word) {
-        if (bookDao.findByWord(word).isEmpty()) {
-            System.out.println("Is EMPTY!");
+        try {
+            if (bookDao.findByWord(word).size() == 0) {
+                System.out.println("Is EMPTY!");
+            }
+            return bookDao.findByWord(word);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return bookDao.findByWord(word);
+        return new ArrayList<>();
     }
 }
