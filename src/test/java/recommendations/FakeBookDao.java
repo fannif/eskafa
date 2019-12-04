@@ -75,6 +75,7 @@ public class FakeBookDao implements ReaderDao<Book, String>{
         tipList.add(new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
         tipList.add(new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
         tipList.add(new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
+        tipList.add(new Book(4, "Imaginary Writer", "JavaScript", "Book", "111", tags2, courses2, "Code with javascript"));
         return tipList;
     }
 
