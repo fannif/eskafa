@@ -3,6 +3,7 @@ package recommendations.services;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -172,5 +173,9 @@ public class BookService {
         }
         String authorsAsString = String.join(", ", list);
         return authorsAsString;
+    }
+
+    public List<Book> findByWord(String word) {
+        return bookDao.findByWord(word);
     }
 }
