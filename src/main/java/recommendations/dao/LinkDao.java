@@ -40,6 +40,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         return links;
     }
     
+    @Override
     public ArrayList<Link> findByCourse(String course) {
         ArrayList<Link> links = new ArrayList<>();
 
@@ -316,6 +317,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         return true;
     }
     
+    @Override
     public ArrayList<Link> findByWord(String word) {
         
         ArrayList<Link> links = new ArrayList<>();

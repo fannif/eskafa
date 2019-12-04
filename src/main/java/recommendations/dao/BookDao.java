@@ -22,6 +22,7 @@ public class BookDao implements ReaderDao<Book, String> {
         this.database = database;
     }
     
+    @Override
     public ArrayList<Book> findByTag(String tag) {
         ArrayList<Book> books = new ArrayList<>();
         
@@ -40,6 +41,7 @@ public class BookDao implements ReaderDao<Book, String> {
         return books;
     }
     
+    @Override
     public ArrayList<Book> findByCourse(String course) {
         ArrayList<Book> books = new ArrayList<>();
         
@@ -322,6 +324,7 @@ public class BookDao implements ReaderDao<Book, String> {
         
     }
     
+    @Override
     public ArrayList<Book> findByWord(String word) {
         
         ArrayList<Book> books = new ArrayList<>();
