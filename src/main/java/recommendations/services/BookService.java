@@ -178,7 +178,7 @@ public class BookService {
 
     public List<Book> findByWord(String word) {
         try {
-            if (bookDao.findByWord(word).size() == 0) {
+            if (bookDao.findByWord(word).isEmpty()) {
                 System.out.println("Is EMPTY!");
             }
             return bookDao.findByWord(word);
