@@ -321,8 +321,6 @@ public class LinkDao implements ReaderDao<Link, String> {
     public List<Link> findByWord(String word) {
         
         List<Link> links = new ArrayList<>();
-        Link link;
-        
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Link WHERE"
@@ -347,7 +345,7 @@ public class LinkDao implements ReaderDao<Link, String> {
             
                 
             
-                statement.close();
+                
                 
                 ArrayList<Tag> tags = new ArrayList<>();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.tag_id = Tag.id JOIN Link ON LinkTag.link_id = Link.id WHERE Link.id = ?");
@@ -376,7 +374,7 @@ public class LinkDao implements ReaderDao<Link, String> {
 
                 stmt2.close();
                 
-                link = new Link(id, title,
+                Link link = new Link(id, title,
                     url, type,
                     metadata, tags, courses, comment);
             
@@ -396,6 +394,7 @@ public class LinkDao implements ReaderDao<Link, String> {
                 }
             }
             
+            statement.close();
             connection.close();
             
         } catch (Exception e) {
