@@ -28,7 +28,7 @@ public class BookDao implements ReaderDao<Book, String> {
         try {
             for (Book book: this.findAll()) {
                 for (Tag bookTag: book.getTags()) {
-                    if (bookTag.getName().toLowerCase().equals(tag.toLowerCase())) {
+                    if (bookTag.getName().toLowerCase().contains(tag.toLowerCase())) {
                         books.add(book);
                     }
                 }
@@ -47,7 +47,7 @@ public class BookDao implements ReaderDao<Book, String> {
         try {
             for (Book book: this.findAll()) {
                 for (Course bookCourse: book.getCourses()) {
-                    if (bookCourse.getName().toLowerCase().equals(course.toLowerCase())) {
+                    if (bookCourse.getName().toLowerCase().contains(course.toLowerCase())) {
                         books.add(book);
                     }
                 }
@@ -385,13 +385,13 @@ public class BookDao implements ReaderDao<Book, String> {
             
             
             for (Book b: this.findByTag(word)) {
-                if (!books.isEmpty() && !books.contains(b)) {
+                if (books.isEmpty() && !books.contains(b)) {
                     books.add(b);
                 }
             }
             
             for (Book b: this.findByCourse(word)) {
-                if (!books.isEmpty() && !books.contains(b)) {
+                if (books.isEmpty() && !books.contains(b)) {
                     books.add(b);
                 }
             }

@@ -28,7 +28,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         try {
             for (Link link : this.findAll()) {
                 for (Tag linkTag : link.getTags()) {
-                    if (linkTag.getName().toLowerCase().equals(tag.toLowerCase())) {
+                    if (linkTag.getName().toLowerCase().contains(tag.toLowerCase())) {
                         links.add(link);
                     }
                 }
@@ -47,7 +47,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         try {
             for (Link link : this.findAll()) {
                 for (Course linkCourse : link.getCourses()) {
-                    if (linkCourse.getName().toLowerCase().equals(course.toLowerCase())) {
+                    if (linkCourse.getName().toLowerCase().contains(course.toLowerCase())) {
                         links.add(link);
                     }
                 }
@@ -383,13 +383,13 @@ public class LinkDao implements ReaderDao<Link, String> {
             
             
             for (Link l: this.findByTag(word)) {
-                if (!links.isEmpty() && !links.contains(l)) {
+                if (links.isEmpty() && !links.contains(l)) {
                     links.add(l);
                 }
             }
             
             for (Link l: this.findByCourse(word)) {
-                if (!links.isEmpty() && !links.contains(l)) {
+                if (links.isEmpty() && !links.contains(l)) {
                     links.add(l);
                 }
             }
