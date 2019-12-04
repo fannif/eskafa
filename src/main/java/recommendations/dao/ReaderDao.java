@@ -1,9 +1,7 @@
 
 package recommendations.dao;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ReaderDao<T, K> {
@@ -14,5 +12,5 @@ public interface ReaderDao<T, K> {
     boolean save(T tip) throws SQLException;
     void delete(K title) throws Exception;
     boolean edit(T tip) throws SQLException;
-    List<T> findByWord(K word);
+    List<T> findByWord(K word) throws SQLException;
 }

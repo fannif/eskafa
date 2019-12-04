@@ -190,4 +190,14 @@ public class LinkService {
         
         return link;
     }
+
+    public String listLinkTitles() throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Added links:"+"\n");
+        sb.append("\n");
+        for (Link link : this.listLinks()) {
+            sb.append(String.format("%-5s %-5s\n", " ", link.getTitle()));
+        }
+        return sb.toString();
+    }
 }

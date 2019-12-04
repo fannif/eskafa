@@ -3,6 +3,7 @@ package recommendations.services;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -176,9 +177,24 @@ public class BookService {
     }
 
     public List<Book> findByWord(String word) {
-        if (bookDao.findByWord(word).isEmpty()) {
-            System.out.println("Is EMPTY!");
+        try {
+            if (bookDao.findByWord(word).isEmpty()) {
+                System.out.println("Is EMPTY!");
+            }
+            return bookDao.findByWord(word);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return bookDao.findByWord(word);
+        return new ArrayList<>();
+    }
+
+    public String listBookTitles() throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Added books:"+"\n");
+        sb.append("\n");
+        for (Book book : this.listBooks()) {
+            sb.append(String.format("%-5s %-5s\n", " ", book.getTitle()));
+        }
+        return sb.toString();
     }
 }
