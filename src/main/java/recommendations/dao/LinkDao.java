@@ -383,13 +383,13 @@ public class LinkDao implements ReaderDao<Link, String> {
             
             
             for (Link l: this.findByTag(word)) {
-                if (!links.contains(l)) {
+                if (!links.isEmpty() && !links.contains(l)) {
                     links.add(l);
                 }
             }
             
             for (Link l: this.findByCourse(word)) {
-                if (!links.contains(l)) {
+                if (!links.isEmpty() && !links.contains(l)) {
                     links.add(l);
                 }
             }

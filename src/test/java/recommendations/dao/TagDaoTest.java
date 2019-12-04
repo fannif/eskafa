@@ -1,15 +1,10 @@
 
 package recommendations.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.sql.*;
+import org.junit.*;
 import static org.junit.Assert.*;
 import recommendations.domain.Tag;
-
 
 public class TagDaoTest {
     Database testDatabase;
