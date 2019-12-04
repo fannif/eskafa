@@ -79,5 +79,15 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
         linkTips.add(new Link(2, "", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, ""));
         return linkTips;
     }
+
+    @Override
+    public List<Link> findByWord(String word) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Link> findByCourse(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

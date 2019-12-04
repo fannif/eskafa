@@ -69,6 +69,16 @@ public class FakeTagDao implements ReaderDao<Tag, String> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<Tag> findByWord(String word) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Tag> findByCourse(String title) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 
 }
