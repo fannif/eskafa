@@ -198,7 +198,7 @@ public class CommandLineUI {
         io.print("\nAdd a new Book");
         io.print("Please note, that the system allows only unique titles. Existing titles:\n");
         listTitles("book");
-        
+
         io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
         io.print("If you want to skip this, just press enter without adding anything");
         String title = "";
@@ -218,7 +218,7 @@ public class CommandLineUI {
                     io.print("Title: ");
                     title = io.read();
                     if (title.equals("")) {
-                        title = book.getTitle();  
+                        title = book.getTitle();
                     }
                 }
             } else {
