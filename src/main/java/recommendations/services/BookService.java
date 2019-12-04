@@ -176,6 +176,9 @@ public class BookService {
     }
 
     public List<Book> findByWord(String word) {
+        if (bookDao.findByWord(word).isEmpty()) {
+            System.out.println("Is EMPTY!");
+        }
         return bookDao.findByWord(word);
     }
 }
