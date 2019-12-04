@@ -82,7 +82,6 @@ public class CommandLineUI {
         io.print("\nThanks for using Recommendations! Have a nice day!");
     }
 
-
     private void editRecommendation() throws SQLException {
         io.print("\nPlease spesify which recommendation type you would like to edit: book/link");
         io.print("To return back to main menu, enter 'q'");
@@ -103,7 +102,6 @@ public class CommandLineUI {
             editRecommendation();
         }
     }
-
 
     private void listLinks() throws SQLException {
         ArrayList<Link> links = linkService.listLinks();
@@ -126,20 +124,10 @@ public class CommandLineUI {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-
-//        } else {
-//            Runtime runtime = Runtime.getRuntime();
-//            try {
-//                runtime.exec("xdg-open " + url);
-//            } catch (IOException e) {
-//               
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     private void removeRecommendation() throws Exception {
-        io.print("\nPlease spesify which recommendation type you would like to remove: book/link");
+        io.print("\nPlease specify which recommendation type you would like to remove: book/link");
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
@@ -187,8 +175,8 @@ public class CommandLineUI {
         io.print("\nAdd a new Book");
         io.print("By giving ISBN, Title and Autor(s) are fetched automativcally, if exists");
         io.print("If you want to skip this, just press enter without adding anything");
-        String title ="";
-        String author ="";
+        String title = "";
+        String author = "";
         io.print("ISBN: ");
         String isbn = io.read();
         if (!isbn.isEmpty()) {
@@ -202,9 +190,9 @@ public class CommandLineUI {
                 io.print("Title: ");
                 title = io.read();
                 io.print("Author(s): ");
-                author = io.read();               
+                author = io.read();
             }
-            
+
         }
         if (isbn.equals("")) {
             io.print("Title: ");
@@ -212,11 +200,11 @@ public class CommandLineUI {
             io.print("Author(s): ");
             author = io.read();
         }
-        
+
         ArrayList<Tag> tags = askForTags();
 
         ArrayList<Course> courses = askForCourses();
-        
+
         io.print("Add a comment: ");
         String comment = io.read();
 
@@ -243,8 +231,14 @@ public class CommandLineUI {
             }
         }
 
-        io.print("Title: ");
-        String title = io.read();
+        String title = linkService.fetchTitle(url);
+        if (title.isEmpty()) {
+            io.print("Title: ");
+            title = io.read();
+        } else {
+            title = modifyTitle(title);
+        }
+
         io.print("Type: ");
         String type = io.read();
         ArrayList<Tag> tags = new ArrayList();
@@ -332,17 +326,17 @@ public class CommandLineUI {
 
     private ArrayList<Tag> askForTags() {
         io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
-        + "to continue: ");
+                + "to continue: ");
         ArrayList<Tag> tags = new ArrayList<>();
-            while (true) {
-                String tag = io.read();
-                if (tag.equals("")) {
-                    break;
-                }
-                Tag newTag = new Tag(0, tag);
-                tags.add(newTag);
+        while (true) {
+            String tag = io.read();
+            if (tag.equals("")) {
+                break;
             }
-        return tags;    
+            Tag newTag = new Tag(0, tag);
+            tags.add(newTag);
+        }
+        return tags;
     }
 
     private ArrayList<Course> askForCourses() {
@@ -358,6 +352,17 @@ public class CommandLineUI {
             courses.add(newCourse);
         }
         return courses;
+    }
+
+    private String modifyTitle(String title) {
+        io.print("Title: " + title);
+        io.print("Do you want to modify the title? (y/n)");
+        if (io.read().equals("n")) {
+            return title;
+        }
+        io.print("Title: ");
+        title = io.read();
+        return title;
     }
 
 }
