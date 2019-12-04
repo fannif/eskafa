@@ -90,16 +90,6 @@ public class Book implements Readable {
         this.relatedCourses = relatedCourses;
     }
 
-//    @Override
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    @Override
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-
     @Override
     public String getComment() {
         return comment;
