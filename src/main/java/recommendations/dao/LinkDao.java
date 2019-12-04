@@ -39,6 +39,24 @@ public class LinkDao implements ReaderDao<Link, String> {
 
         return links;
     }
+    
+    public ArrayList<Link> findByCourse(String course) {
+        ArrayList<Link> links = new ArrayList<>();
+
+        try {
+            for (Link link : this.findAll()) {
+                for (Course linkCourse : link.getCourses()) {
+                    if (linkCourse.getName().equals(course)) {
+                        links.add(link);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return links;
+    }
 
     @Override
     public Link findOne(String title) throws SQLException {
@@ -298,11 +316,11 @@ public class LinkDao implements ReaderDao<Link, String> {
         return true;
     }
     
-    public Link findByWord(String word) {
+    public ArrayList<Link> findByWord(String word) {
         
+        ArrayList<Link> links = new ArrayList<>();
         Link link = null;
-        ArrayList<Tag> tags = new ArrayList<>();
-        ArrayList<Course> courses = new ArrayList<>();
+        
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Link WHERE"
@@ -316,23 +334,65 @@ public class LinkDao implements ReaderDao<Link, String> {
             
             ResultSet results = statement.executeQuery();
             
-            int id = results.getInt("id");
-            String metadata = results.getString("metadata");
-            String title = results.getString("title");
-            String type = results.getString("type");
-            String url = results.getString("url");
-            String comment = results.getString("comment");
+            while(results.next()) {
             
-            link = new Link(id, title,
+            int id = results.getInt("id");
+                String metadata = results.getString("metadata");
+                String title = results.getString("title");
+                String type = results.getString("type");
+                String url = results.getString("url");
+                String comment = results.getString("comment");
+            
+                
+            
+                statement.close();
+                
+                ArrayList<Tag> tags = new ArrayList<>();
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN LinkTag ON LinkTag.tag_id = Tag.id JOIN Link ON LinkTag.link_id = Link.id WHERE Link.id = ?");
+                stmt.setInt(1, id);
+                ResultSet tagResults = stmt.executeQuery();
+
+                while (tagResults.next()) {
+                    int tagId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    tags.add(new Tag(tagId, name));
+                }
+                
+                stmt.close();
+                
+                ArrayList<Course> courses = new ArrayList<>();
+
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseLink ON CourseLink.course_id = Course.id JOIN Link ON CourseLink.link_id = Link.id WHERE Link.id = ?");
+                stmt2.setInt(1, id);
+                ResultSet courseResults = stmt2.executeQuery();
+
+                while (courseResults.next()) {
+                    int courseId = courseResults.getInt("id");
+                    String name = courseResults.getString("name");
+                    courses.add(new Course(courseId, name));
+                }
+
+                stmt2.close();
+                
+                link = new Link(id, title,
                     url, type,
                     metadata, tags, courses, comment);
             
-            statement.close();
+                links.add(link);
+            }
             
             
-            // Toteuta tageista ja kursseista haku
+            for (Link l: this.findByTag(word)) {
+                if (!links.contains(l)) {
+                    links.add(l);
+                }
+            }
             
-            
+            for (Link l: this.findByCourse(word)) {
+                if (!links.contains(l)) {
+                    links.add(l);
+                }
+            }
             
             connection.close();
             
@@ -341,7 +401,7 @@ public class LinkDao implements ReaderDao<Link, String> {
         }
         
         
-        return link;
+        return links;
     }
 
 }

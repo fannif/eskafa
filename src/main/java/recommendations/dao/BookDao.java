@@ -40,6 +40,24 @@ public class BookDao implements ReaderDao<Book, String> {
         return books;
     }
     
+    public ArrayList<Book> findByCourse(String course) {
+        ArrayList<Book> books = new ArrayList<>();
+        
+        try {
+            for (Book book: this.findAll()) {
+                for (Course bookCourse: book.getCourses()) {
+                    if (bookCourse.getName().equals(course)) {
+                        books.add(book);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return books;
+    }
+    
     @Override
     public Book findOne(String title) throws SQLException {
         Book book;
@@ -304,11 +322,11 @@ public class BookDao implements ReaderDao<Book, String> {
         
     }
     
-    public Book findByWord(String word) {
+    public ArrayList<Book> findByWord(String word) {
         
+        ArrayList<Book> books = new ArrayList<>();
         Book book = null;
-        ArrayList<Tag> tags = new ArrayList<>();
-        ArrayList<Course> courses = new ArrayList<>();
+        
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Book WHERE"
@@ -320,21 +338,64 @@ public class BookDao implements ReaderDao<Book, String> {
             
             ResultSet results = statement.executeQuery();
             
-            int id = results.getInt("id");
-            String author = results.getString("author");
-            String title = results.getString("title");
-            String type = results.getString("type");
-            String ISBN = results.getString("ISBN");
-            String comment = results.getString("comment");
+            while(results.next()) {
             
-            book = new Book(id, author,
+                int id = results.getInt("id");
+                String author = results.getString("author");
+                String title = results.getString("title");
+                String type = results.getString("type");
+                String ISBN = results.getString("ISBN");
+                String comment = results.getString("comment");
+            
+                ArrayList<Tag> tags = new ArrayList<>();
+                
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Tag JOIN BookTag ON BookTag.tag_id = Tag.id JOIN Book ON BookTag.Book_id = Book.id WHERE Book.id = ?");
+                stmt.setInt(1, id);
+                ResultSet tagResults = stmt.executeQuery();
+                
+                while (tagResults.next()) {
+                    int tagId = tagResults.getInt("id");
+                    String name = tagResults.getString("name");
+                    tags.add(new Tag(tagId, name));
+                }
+                
+                stmt.close();
+                
+                ArrayList<Course> courses = new ArrayList<>();
+                
+                PreparedStatement stmt2 = connection.prepareStatement("SELECT * FROM Course JOIN CourseBook ON CourseBook.course_id = Course.id JOIN Book ON CourseBook.book_id = Book.id WHERE Book.id = ?");
+                stmt2.setInt(1, id);
+                ResultSet courseResults = stmt2.executeQuery();
+                
+                while (courseResults.next()) {
+                    int courseId = courseResults.getInt("id");
+                    String name = courseResults.getString("name");
+                    courses.add(new Course(courseId, name));
+                }
+                
+                stmt2.close();
+                
+                book = new Book(id, author,
                     title, type,
                     ISBN, tags, courses, comment);
             
+                books.add(book);
+            
+            }
+            
             statement.close();
             
+            for (Book b: this.findByTag(word)) {
+                if (!books.contains(b)) {
+                    books.add(b);
+                }
+            }
             
-            // Toteuta tageista ja kursseista haku
+            for (Book b: this.findByCourse(word)) {
+                if (!books.contains(b)) {
+                    books.add(b);
+                }
+            }
             
             
             
@@ -345,7 +406,7 @@ public class BookDao implements ReaderDao<Book, String> {
         }
         
         
-        return book;
+        return books;
     }
     
 }
