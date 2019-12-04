@@ -324,13 +324,13 @@ public class LinkDao implements ReaderDao<Link, String> {
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Link WHERE"
-                    + " title LIKE '%?%' OR metadata LIKE '%?%' "
-                    + "OR comment LIKE '%?%' OR url LIKE '%?%'"
-                    + " OR type LIKE '%?%'");
-            statement.setString(1, word);
-            statement.setString(2, word);
-            statement.setString(3, word);
-            statement.setString(4, word);
+                    + " title LIKE ? OR metadata LIKE ? "
+                    + "OR comment LIKE ? OR url LIKE ?"
+                    + " OR type LIKE ?");
+            statement.setString(1, "%"+word+"%");
+            statement.setString(2, "%"+word+"%");
+            statement.setString(3, "%"+word+"%");
+            statement.setString(4, "%"+word+"%");
             
             ResultSet results = statement.executeQuery();
             
