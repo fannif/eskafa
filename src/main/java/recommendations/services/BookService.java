@@ -111,7 +111,7 @@ public class BookService {
                 if (bookDao.edit(updated)) {
                     io.print("The book information has been successfully updated.");
                 } else {
-                    System.out.println("Oops, something went wrong.");
+                    System.out.println("The book you are trying to add is already in the database.");
                 }
                 go = false;
             }
@@ -178,7 +178,7 @@ public class BookService {
         String authorsAsString = String.join(", ", list);
         return authorsAsString;
     }
-
+    
     public List<Book> findByWord(String word) {
         try {
             if (bookDao.findByWord(word).isEmpty()) {
@@ -187,6 +187,7 @@ public class BookService {
             return bookDao.findByWord(word);
         } catch (SQLException ex) {
             Logger.getLogger(BookService.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return new ArrayList<>();
     }
