@@ -318,10 +318,10 @@ public class LinkDao implements ReaderDao<Link, String> {
     }
     
     @Override
-    public ArrayList<Link> findByWord(String word) {
+    public List<Link> findByWord(String word) {
         
-        ArrayList<Link> links = new ArrayList<>();
-        Link link = null;
+        List<Link> links = new ArrayList<>();
+        Link link;
         
         
         try (Connection connection = database.getConnection()) {
