@@ -147,16 +147,26 @@ public class CommandLineUI {
         if (cleanInput.equals("q")) {
             return;
         } else if (cleanInput.equals("book")) {
+            listTitles(input);
             io.print("\nPlease enter the title of the book to be removed: ");
             String title = io.read();
             bookService.remove(title);
         } else if (cleanInput.equals("link")) {
+            listTitles(input);
             io.print("\nPlease enter the title of the link to be removed: ");
             String title = io.read();
             linkService.remove(title);
         } else {
             io.print("Could not recognize given command, please check the spelling.");
             removeRecommendation();
+        }
+    }
+
+    private void listTitles(String input) throws SQLException {
+        if (input.equals("book")) {
+            io.print(bookService.listBookTitles());
+        } else if (input.equals("link")) {
+            io.print(linkService.listLinkTitles());
         }
     }
 
@@ -186,7 +196,7 @@ public class CommandLineUI {
 
     private void addBook() throws IOException, SQLException {
         io.print("\nAdd a new Book");
-        io.print("By giving ISBN, Title and Autor(s) are fetched automativcally, if exists");
+        io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
         io.print("If you want to skip this, just press enter without adding anything");
         String title = "";
         String author = "";
