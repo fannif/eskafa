@@ -385,13 +385,13 @@ public class BookDao implements ReaderDao<Book, String> {
             
             
             for (Book b: this.findByTag(word)) {
-                if (!books.contains(b)) {
+                if (!books.isEmpty() && !books.contains(b)) {
                     books.add(b);
                 }
             }
             
             for (Book b: this.findByCourse(word)) {
-                if (!books.contains(b)) {
+                if (!books.isEmpty() && !books.contains(b)) {
                     books.add(b);
                 }
             }
