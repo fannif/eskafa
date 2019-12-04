@@ -1,44 +1,26 @@
 
 package recommendations.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.sql.*;
+import java.util.*;
+import org.junit.*;
 import static org.junit.Assert.*;
-import recommendations.domain.Book;
-import recommendations.domain.Course;
-import recommendations.domain.Tag;
+import recommendations.domain.*;
 import static org.hamcrest.CoreMatchers.is;
 
 
 public class BookDaoTest {
     Database testDatabase;
     BookDao bookDao;
+    Book book1;
+    Book book2;
+    Book book3;
+            
     
     @Before
     public void setUp() throws ClassNotFoundException {
         testDatabase = new Database("jdbc:sqlite:recommendationsTest.db");
         bookDao = new BookDao(testDatabase);
-    }
-    
-    @Test
-    public void bookCanBeCreated() throws SQLException {
-        ArrayList<Tag> tags1 = new ArrayList<>();
-        tags1.add(new Tag(1,"clean code"));
-        ArrayList<Course> courses1 = new ArrayList<>();
-        courses1.add(new Course(1,"Ohjelmistotuotanto"));
-        
-        Book book = new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!");
-        assertTrue(bookDao.save(book));
-        assertEquals(book, bookDao.findOne("Clean Code"));
-    }
-    
-    @Test 
-    public void listAllListsAllBooks() throws SQLException {
         ArrayList<Tag> tags1 = new ArrayList<>();
         ArrayList<Tag> tags2 = new ArrayList<>();
         tags1.add(new Tag(1,"clean code"));
@@ -48,37 +30,36 @@ public class BookDaoTest {
         ArrayList<Course> courses2 = new ArrayList<>();
         courses1.add(new Course(1,"Ohjelmistotuotanto"));
         courses1.add(new Course(2,"OhJa"));
-        bookDao.save(new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
-        bookDao.save(new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, ""));
-        bookDao.save(new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
+        courses2.add(new Course(3,"Cypersecurity"));
+        book1 = new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!");
+        book2 = new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, "");
+        book3 = new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, "");
+    }
+    
+    @Test
+    public void bookCanBeCreated() throws SQLException {
+        assertTrue(bookDao.save(book1));
+        assertEquals(book1, bookDao.findOne("Clean Code"));
+    }
+    
+    @Test 
+    public void listAllListsAllBooks() throws SQLException {
+        bookDao.save(book1);
+        bookDao.save(book2);
+        bookDao.save(book3);
         
         assertEquals(3, bookDao.findAll().size());
         assertEquals("Beyond Fear", bookDao.findAll().get(1).getTitle());
     }
     @Test
-    public void findeOneReturnsRightBookInRightFormWithEmptyCoursesField() throws SQLException {
-        ArrayList<Tag> tags2 = new ArrayList<>();
-        tags2.add(new Tag(0,"Security"));
-        ArrayList<Course> courses2 = new ArrayList<>(); 
-        bookDao.save(new Book(0, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, ""));
+    public void findeOneReturnsRightBookInRightForm() throws SQLException {
+        bookDao.save(book3);
         assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
-                + "|Security|\n\tRelated courses:\n\t\n" ,bookDao.findOne("Secrets & Lies").toString());
+                + "|Security|Popular|\n\tRelated courses:|Cypersecurity|\n\t\n" ,bookDao.findOne("Secrets & Lies").toString());
     }
     
     @Test
     public void findByTagReturnsCorrectResult() throws SQLException {
-        ArrayList<Tag> tags1 = new ArrayList<>();
-        ArrayList<Tag> tags2 = new ArrayList<>();
-        tags1.add(new Tag(1,"clean code"));
-        tags2.add(new Tag(2,"Security"));
-        tags2.add(new Tag(3,"Popular"));
-        ArrayList<Course> courses1 = new ArrayList<>();
-        ArrayList<Course> courses2 = new ArrayList<>();
-        courses1.add(new Course(1,"Ohjelmistotuotanto"));
-        courses1.add(new Course(2,"OhJa"));
-        Book book1 = new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!");
-        Book book2 = new Book(2, "Bruce Schneier", "Beyond Fear", "Book", "0-387-02620-79781119092438", tags2, courses2, "");
-        Book book3 = new Book(3, "Bruce Schneier", "Secrets & Lies", "Book", "0-387-02620-7", tags2, courses2, "");
         bookDao.save(book1);
         bookDao.save(book2);
         bookDao.save(book3);
@@ -92,42 +73,47 @@ public class BookDaoTest {
     
     @Test
     public void findByTagReturnsCorrectResultWhenNoMatches() throws SQLException {
-        ArrayList<Tag> tags1 = new ArrayList<>();
-        tags1.add(new Tag(1,"clean code"));
-        ArrayList<Course> courses1 = new ArrayList<>();
-        courses1.add(new Course(1,"Ohjelmistotuotanto"));
-        courses1.add(new Course(2,"OhJa"));
-        bookDao.save(new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!"));
+        bookDao.save(book1);
         
         assertEquals(0, bookDao.findByTag("coding").size());
     }
     
+    @Test
+    public void bookCanBeRemovedWithCorrectName() throws SQLException, Exception{
+        bookDao.save(book1);
+        bookDao.save(book2);
+        bookDao.save(book3);
+        
+        bookDao.delete("Clean Code");
+        assertEquals(null, bookDao.findOne("Clean Code"));
+    }
+    @Test
+    public void noBookIsRemovedWithNonExistingTitle() throws SQLException, Exception {
+        bookDao.save(book1);
+        bookDao.save(book2);
+        bookDao.save(book3);
+        List<Book> expected = new ArrayList<>();
+        expected.add(book1);
+        expected.add(book2);
+        expected.add(book3);
+        bookDao.delete("Clean Horse");
+        assertThat(bookDao.findAll(), is(expected));        
+    }
+    
     @After
     public void tearDown() throws SQLException {
-        String sql = "DROP TABLE Book";
         Connection connection = testDatabase.getConnection(); 
         Statement stmt = connection.createStatement();
-        stmt.execute(sql);
-        stmt.close();
-        connection.close();
-        sql = "DROP TABLE Tag";
-        connection = testDatabase.getConnection(); 
+        stmt.execute("DROP TABLE Book");
         stmt = connection.createStatement();
-        stmt.execute(sql);
+        stmt.execute("DROP TABLE Tag");
+        stmt = connection.createStatement();
+        stmt.execute("DROP TABLE BookTag");
+        stmt = connection.createStatement();
+        stmt.execute("DROP TABLE CourseBook");
+        stmt = connection.createStatement();
+        stmt.execute("DROP TABLE Course");
         stmt.close();
         connection.close();        
-        sql = "DROP TABLE BookTag";
-        connection = testDatabase.getConnection(); 
-        stmt = connection.createStatement();
-        stmt.execute(sql);
-        stmt.close();
-        connection.close();
-        sql = "DROP TABLE CourseBook";
-        connection = testDatabase.getConnection(); 
-        stmt = connection.createStatement();
-        stmt.execute(sql);
-        stmt.close();
-        connection.close();        
-        
     }
 }
