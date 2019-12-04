@@ -13,8 +13,6 @@ public interface Readable {
     void setCourses(ArrayList<Course> courses);
     String getComment();
     void setComment(String comment);
-//    String getDescription();
-//    void setDescription(String description);
     String toString();
 
     /* Class-spesific methods:
