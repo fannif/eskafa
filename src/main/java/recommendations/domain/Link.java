@@ -127,58 +127,16 @@ public class Link implements Readable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + this.id;
-        hash = 37 * hash + Objects.hashCode(this.title);
-        hash = 37 * hash + Objects.hashCode(this.URL);
-        hash = 37 * hash + Objects.hashCode(this.type);
-        hash = 37 * hash + Objects.hashCode(this.metadata);
-        hash = 37 * hash + Objects.hashCode(this.tags);
-        hash = 37 * hash + Objects.hashCode(this.courses);
-        hash = 37 * hash + Objects.hashCode(this.comment);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Link link = (Link) o;
+        return Objects.equals(title, link.title) &&
+                Objects.equals(URL, link.URL);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Link other = (Link) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.title, other.title)) {
-            return false;
-        }
-        if (!Objects.equals(this.URL, other.URL)) {
-            return false;
-        }
-        if (!Objects.equals(this.type, other.type)) {
-            return false;
-        }
-        if (!Objects.equals(this.metadata, other.metadata)) {
-            return false;
-        }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
-        if (!Objects.equals(this.tags, other.tags)) {
-            return false;
-        }
-        if (!Objects.equals(this.courses, other.courses)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(title, URL);
     }
-    
-    
-
 }
