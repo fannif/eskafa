@@ -12,5 +12,5 @@ public interface ReaderDao<T, K> {
     boolean save(T tip) throws SQLException;
     void delete(K title) throws Exception;
     boolean edit(T tip) throws SQLException;
-    List<T> findByWord(K word);
+    List<T> findByWord(K word) throws SQLException;
 }

@@ -324,7 +324,7 @@ public class BookDao implements ReaderDao<Book, String> {
     }
     
     @Override
-    public List<Book> findByWord(String word) {
+    public List<Book> findByWord(String word) throws SQLException {
         
         List<Book> books = new ArrayList<>();
         
@@ -400,9 +400,7 @@ public class BookDao implements ReaderDao<Book, String> {
             statement.close();
             connection.close();
             
-        } catch (Exception e) {
-            
-        }
+        } 
         
         
         return books;

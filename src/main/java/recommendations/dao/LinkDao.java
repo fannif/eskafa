@@ -318,7 +318,7 @@ public class LinkDao implements ReaderDao<Link, String> {
     }
     
     @Override
-    public List<Link> findByWord(String word) {
+    public List<Link> findByWord(String word) throws SQLException {
         
         List<Link> links = new ArrayList<>();
         
@@ -397,9 +397,7 @@ public class LinkDao implements ReaderDao<Link, String> {
             statement.close();
             connection.close();
             
-        } catch (Exception e) {
-            
-        }
+        } 
         
         
         return links;
