@@ -87,12 +87,10 @@ public class CommandLineUI {
     }
 
     private void findRecommendationByWord() throws SQLException {
-        System.out.println("Word: ");
+        System.out.println("Please enter the word to search by: ");
         String word = io.read();
-        List<Book> books = bookService.findByWord(word);
-        for (Book book : books) {
-            System.out.println(book);
-        }
+        System.out.println(bookService.findByWord(word));
+        System.out.println(linkService.findByWord(word));
     }
 
     private void editRecommendation() throws SQLException {

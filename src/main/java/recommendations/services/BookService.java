@@ -175,18 +175,19 @@ public class BookService {
         String authorsAsString = String.join(", ", list);
         return authorsAsString;
     }
-    
-    public List<Book> findByWord(String word) {
-        try {
-            if (bookDao.findByWord(word).isEmpty()) {
-                System.out.println("Is EMPTY!");
-            }
-            return bookDao.findByWord(word);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookService.class.getName()).log(Level.SEVERE, null, ex);
 
+    public String findByWord(String word) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nBooks found by word '"+ word + "':");
+        sb.append("\n");
+        ArrayList<Book> books = (ArrayList<Book>) bookDao.findByWord(word);
+        if (books.isEmpty()) {
+            return sb.append("None :(\nPlease try another word.\n").toString();
         }
-        return new ArrayList<>();
+        for (Book book : books) {
+            sb.append(book.toString());
+        }
+        return sb.toString();
     }
 
     public String listBookTitles() throws SQLException {

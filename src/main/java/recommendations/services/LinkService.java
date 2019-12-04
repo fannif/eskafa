@@ -2,6 +2,7 @@ package recommendations.services;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import recommendations.domain.Book;
 import recommendations.domain.Link;
 
 import java.io.IOException;
@@ -197,6 +198,20 @@ public class LinkService {
         sb.append("\n");
         for (Link link : this.listLinks()) {
             sb.append(String.format("%-5s %-5s\n", " ", link.getTitle()));
+        }
+        return sb.toString();
+    }
+
+    public String findByWord(String word) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nLinks found by word '"+ word + "':");
+        sb.append("\n");
+        ArrayList<Link> links = (ArrayList<Link>) linkDao.findByWord(word);
+        if (links.isEmpty()) {
+            return sb.append("None :(\nPlease try another word.\n").toString();
+        }
+        for (Link link : links) {
+            sb.append(link.toString());
         }
         return sb.toString();
     }
