@@ -12,11 +12,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import recommendations.domain.Course;
-import recommendations.domain.Link;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
-import recommendations.io.IO;
 import recommendations.io.StubIO;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
@@ -49,7 +47,7 @@ public class RecommendationsTest {
 
     @Test
     public void listBooksReturnsBookList() throws SQLException {
-        assertEquals(3, service.listBooks().size());
+        assertEquals(4, service.listBooks().size());
     }
 
     @Test
@@ -70,7 +68,7 @@ public class RecommendationsTest {
         //Scanner lukija = new Scanner(System.in);
         inputLines.add("q");
         service.remove(title);
-        assertEquals(2, service.listBooks().size());
+        assertEquals(3, service.listBooks().size());
         assertEquals(null, readerDaoBook.findOne("Beyond Fear"));
     }
 
@@ -81,7 +79,7 @@ public class RecommendationsTest {
         inputLines.add("q");
         service.remove(title);
 
-        assertEquals(3, service.listBooks().size());
+        assertEquals(4, service.listBooks().size());
     }
 
     @Test
