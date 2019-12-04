@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -325,11 +324,9 @@ public class BookDao implements ReaderDao<Book, String> {
     }
     
     @Override
-    public List<Book> findByWord(String word) {
+    public List<Book> findByWord(String word) throws SQLException {
         
         List<Book> books = new ArrayList<>();
-        Book book;
-        
         
         try (Connection connection = database.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * From Book WHERE"
@@ -378,7 +375,7 @@ public class BookDao implements ReaderDao<Book, String> {
                 
                 stmt2.close();
                 
-                book = new Book(id, author,
+                Book book = new Book(id, author,
                     title, type,
                     ISBN, tags, courses, comment);
             
@@ -386,7 +383,6 @@ public class BookDao implements ReaderDao<Book, String> {
             
             }
             
-            statement.close();
             
             for (Book b: this.findByTag(word)) {
                 if (!books.contains(b)) {
@@ -401,12 +397,10 @@ public class BookDao implements ReaderDao<Book, String> {
             }
             
             
-            
+            statement.close();
             connection.close();
             
-        } catch (Exception e) {
-            
-        }
+        } 
         
         
         return books;

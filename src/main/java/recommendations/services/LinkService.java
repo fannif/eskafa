@@ -2,19 +2,13 @@ package recommendations.services;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import recommendations.domain.Book;
 import recommendations.domain.Link;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import java.util.Scanner;
 
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Course;
@@ -25,49 +19,34 @@ import java.net.URLConnection;
 import recommendations.io.IO;
 
 public class LinkService {
-
+    
     private IO io;
     private ReaderDao linkDao;
-
+    
     public LinkService(ReaderDao dao, IO io) {
         this.io = io;
         this.linkDao = dao;
     }
-
+    
     public boolean addLinkWithMeta(int id, String title, String url, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) throws SQLException, IOException, MalformedURLException, URISyntaxException {
-
+        
         String descriptionMetaData = getDescription(url);
         Link l = new Link(id, title, url, type, descriptionMetaData, tags, courses, comment);
-
+        
         return linkDao.save(l);
     }
-
+    
     public ArrayList<Link> listLinks() throws SQLException {
         return (ArrayList<Link>) linkDao.findAll();
     }
-
-//   Tämän voi poistaa, jos metatiedoista ei käytetä kuin descriptionia
-//
-//    public String getMeta(String url) {
-//        try {
-//            Document document = Jsoup.connect(url).get();
-//            Elements metaData = document.getElementsByTag("meta");
-//            return metaData.toString();
-//
-//        } catch (IOException ex) {
-//            System.out.println("Check internet connection! " + ex.toString());
-//
-//        }
-//        return "";
-//
-//    }
+    
     public String getDescription(String url) throws IOException {
-
+        
         if (!connected(url)) {
             String noConnectionDesc = askForDescription();
             return noConnectionDesc;
         }
-
+        
         try {
             Document document = Jsoup.connect(url).get();
             String description = document.select("meta[name=description]").get(0).attr("content");
@@ -75,11 +54,22 @@ public class LinkService {
         } catch (IndexOutOfBoundsException ex) {
             io.print("Metadata description not found!");
         }
-
+        
         String desc = askForDescription();
         return desc;
     }
-
+    
+    public String fetchTitle(String url) {
+        String title = "";
+        try {
+            Document doc = Jsoup.connect(url).get();
+            title = doc.title();
+        } catch (IOException ex) {
+            io.print("No internet connection");
+        }
+        return title;
+    }
+    
     public void remove(String title) throws Exception {
         boolean go = true;
         String input = title;
@@ -98,15 +88,15 @@ public class LinkService {
         }
         io.print("The link has been successfully removed");
     }
-
+    
     public String askForDescription() {
         io.print("Metadata description not found!");
         io.print("Enter description manually or press enter for no description:");
         String descr = io.read();
         return descr;
-
+        
     }
-
+    
     public boolean connected(String url) {
         try {
             URL check = new URL(url);
@@ -119,7 +109,7 @@ public class LinkService {
             return false;
         }
     }
-
+    
     public void edit(String name) throws SQLException {
         boolean go = true;
         String input = name;
@@ -143,7 +133,7 @@ public class LinkService {
                 ArrayList<Course> courses = new ArrayList();
                 io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
                         + "to continue: ");
-
+                
                 while (true) {
                     String tag = io.read();
                     if (tag.equals("")) {
@@ -154,7 +144,7 @@ public class LinkService {
                 }
                 io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
                         + "to continue: ");
-
+                
                 while (true) {
                     String course = io.read();
                     if (course.equals("")) {
@@ -165,7 +155,7 @@ public class LinkService {
                 }
                 io.print("Add a comment: ");
                 String comment = io.read();
-
+                
                 Link updated = updateLinkInformation(link, title, type, tags, courses, comment);
                 if (linkDao.edit(updated)) {
                     io.print("The link information has been successfully updated.");
@@ -176,28 +166,28 @@ public class LinkService {
             }
         }
     }
-
+    
     private Link updateLinkInformation(Link link, String title, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
         if (!title.isEmpty()) {
             link.setTitle(title);
         }
-
+        
         if (!type.isEmpty()) {
             link.setType(type);
         }
-
+        
         if (!tags.isEmpty()) {
             link.setTags(tags);
         }
-
-        if(!courses.isEmpty()) {
+        
+        if (!courses.isEmpty()) {
             link.getCourses();
         }
-
-        if(!comment.isEmpty()) {
+        
+        if (!comment.isEmpty()) {
             link.setComment(comment);
         }
-
+        
         return link;
     }
 

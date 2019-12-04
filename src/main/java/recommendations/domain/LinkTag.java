@@ -1,6 +1,5 @@
 package recommendations.domain;
 
-import recommendations.domain.Link;
 
 public class LinkTag {
 
