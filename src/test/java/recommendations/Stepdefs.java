@@ -40,13 +40,11 @@ public class Stepdefs {
         inputLines.add("2");
     }
 
-    @When("User has filled in title {string}, author {string}, ISBN {string} and type {string}")
-    public void informationIsFilled(final String title, final String author, final String isbn, final String type) throws Throwable {
-
+    @When("User has filled in title {string} and author {string}")
+    public void informationIsFilled(final String title, final String author) throws Throwable {
+        inputLines.add("");
         inputLines.add(title);
         inputLines.add(author);
-        inputLines.add(isbn);
-        inputLines.add(type);
         inputLines.add("");
         inputLines.add("");
         inputLines.add("comment");
@@ -55,12 +53,11 @@ public class Stepdefs {
         start();
     }
 
-    @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
-    public void memoryContainsBook(final String title, final String author, final String isbn) throws SQLException {
+    @Then("Memory should contain a book with title {string} and author {string}")
+    public void memoryContainsBook(final String title, final String author) throws SQLException {
         final Book found = (Book) testDaoBook.findOne(title);
         assertTrue(found.getTitle().equals(title));
         assertTrue(found.getAuthor().equals(author));
-        assertTrue(found.getISBN().equals(isbn));
     }
 
     @Given("Command remove book is selected")
@@ -85,13 +82,12 @@ public class Stepdefs {
     @Given("book titled {string} has been added")
     public void bookTitledHasBeenAdded(final String title) {
         inputLines.add("2");
+        inputLines.add("");
         inputLines.add(title);
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("Book");
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
+        inputLines.add(""); //author
+        inputLines.add(""); //tags
+        inputLines.add(""); //courses
+        inputLines.add(""); //comment
     }
 
     @When("command list is selected")
@@ -122,6 +118,7 @@ public class Stepdefs {
     public void userHasFilledInTitleUrlAndType(final String url, final String title, final String type)
             throws Exception {
         inputLines.add(url);
+        inputLines.add("y");
         inputLines.add(title);
         inputLines.add(type);
         inputLines.add("");
