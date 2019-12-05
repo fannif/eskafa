@@ -80,8 +80,22 @@ public class FakeBookDao implements ReaderDao<Book, String>{
     }
 
     @Override
-    public boolean edit(Book tip) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean edit(Book book) {
+        boolean found = false;
+        Book foundBook = null;
+        for (Book tip : tips) {
+            if (tip.getId() == book.getId()) {
+                foundBook = tip;
+                found = true;
+                break;
+            }
+        }
+        foundBook.setTitle(book.getTitle());
+        foundBook.setAuthor(book.getAuthor());
+        foundBook.setTags(book.getTags());
+        foundBook.setCourses(book.getCourses());
+        foundBook.setComment(book.getComment());
+        return found;
     } 
 
     @Override

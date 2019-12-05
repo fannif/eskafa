@@ -15,6 +15,8 @@ import recommendations.domain.Course;
 import recommendations.domain.Tag;
 import recommendations.services.BookService;
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Book;
+import recommendations.domain.Link;
 import recommendations.io.StubIO;
 import recommendations.services.LinkService;
 import recommendations.services.TagService;
@@ -134,5 +136,53 @@ public class RecommendationsTest {
                 "Bubble sort");
 
         assertThat(linkService.listLinks().size(), is(3));
+    }
+
+    @Test
+    public void editingBookWorksCorrectly() throws SQLException {
+        inputLines.add("newTitle");
+        inputLines.add("newAuthor");
+        inputLines.add("newTag1");
+        inputLines.add("newTag2");
+        inputLines.add("");
+        inputLines.add("newCourse");
+        inputLines.add("");
+        inputLines.add("newComment");
+        
+        service.edit("Clean Code");
+        
+        Book book = service.findBookWithTitle("newTitle");
+        assertEquals("newAuthor", book.getAuthor());
+        assertTrue(book.getTags().contains(new Tag(0, "newTag1")));
+        assertTrue(book.getTags().contains(new Tag(0, "newTag2")));
+        assertTrue(book.getCourses().contains(new Course(0, "newCourse")));
+        assertEquals(book.getComment(), "newComment");           
+    }
+
+    @Test
+    public void editingLinkWorksCorrectly() throws SQLException {
+        inputLines.add("newTitle");
+        inputLines.add("newType");
+        inputLines.add("newTag1");
+        inputLines.add("newTag2");
+        inputLines.add("");
+        inputLines.add("newCourse");
+        inputLines.add("");
+        inputLines.add("newComment");
+        
+        linkService.edit("Kaleva");
+        
+        Link link = null;
+        for (Link l : linkService.listLinks()) {
+            if (l.getTitle().equals("newTitle")) {
+                link = l;
+            }
+        }
+        assertEquals(link.getType(), "newType");
+        assertTrue(link.getTags().contains(new Tag(0, "newTag1")));
+        assertTrue(link.getTags().contains(new Tag(0, "newTag2")));
+        assertTrue(link.getCourses().contains(new Course(0, "newCourse")));
+        assertEquals(link.getComment(), "newComment");
+        
     }
 }

@@ -53,8 +53,22 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
     }
 
     @Override
-    public boolean edit(Link tip) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean edit(Link link) {
+        boolean found = false;
+        Link foundLink = null;
+        for (Link tip : tips) {
+            if (tip.getId() == link.getId()) {
+                foundLink = tip;
+                found = true;
+                break;
+            }
+        }
+        foundLink.setTitle(link.getTitle());
+        foundLink.setType(link.getType());
+        foundLink.setTags(link.getTags());
+        foundLink.setCourses(link.getCourses());
+        foundLink.setComment(link.getComment());
+        return found;
     }
     
     private Link findWanted(String title) {
