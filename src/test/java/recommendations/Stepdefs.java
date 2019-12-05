@@ -232,6 +232,31 @@ public class Stepdefs {
             assertTrue(testBook.toString().contains("modified"));
         }
     
+    @Given("Command search by word is selected")
+        public void searchByWordSelected() throws Throwable {
+            inputLines.add("9");
+        }
+
+    @When("User has filled in word {string}")
+        public void searchByWord(String word) throws Throwable {
+            inputLines.add(word);
+            inputLines.add("q");
+            start();
+        } 
+
+    @Then("Program should return all books containing the word in their information")
+        public void returnedListCorrect() throws Throwable {
+            int foundBooks = 0;
+            for (String output : io.getOutputs()) {
+                if (output.contains("Clean Code")) {
+                    foundBooks++;
+                }
+                if (output.contains("JavaScript")) {
+                    foundBooks++;
+                }
+            }
+            assertTrue(foundBooks == 2);
+        }
        
     private void addEmpties(int amount) {
         //add empty lines for tags, courses, comments...

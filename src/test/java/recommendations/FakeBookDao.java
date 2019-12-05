@@ -100,12 +100,35 @@ public class FakeBookDao implements ReaderDao<Book, String>{
 
     @Override
     public List<Book> findByWord(String word) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        List<Book> books = new ArrayList<>();
+
+        for (Book book : tips) {
+            if (book.toString().contains(word)) {
+                books.add(book);
+            }
+        }
+
+        return books;
     }
 
     @Override
     public List<Book> findByCourse(String title) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        List<Book> books = new ArrayList<>();
+
+        for (Book book : tips) {
+            ArrayList<String> courseNames = new ArrayList<>();
+            for (Course course : book.getCourses()) {
+                courseNames.add(course.getName());
+            }
+            if (courseNames.contains(title)) {
+                books.add(book);
+            }
+        }
+
+        return books;
+        
     }
    
 }

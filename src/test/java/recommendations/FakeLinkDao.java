@@ -96,12 +96,35 @@ public class FakeLinkDao implements ReaderDao<Link, String> {
 
     @Override
     public List<Link> findByWord(String word) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        List<Link> links = new ArrayList<>();
+
+        for (Link link : tips) {
+            if (link.toString().contains(word)) {
+                links.add(link);
+            }
+        }
+
+        return links;
+
     }
 
     @Override
     public List<Link> findByCourse(String title) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        List<Link> links = new ArrayList<>();
+
+        for (Link link : tips) {
+            ArrayList<String> courseNames = new ArrayList<>();
+            for (Course course : link.getCourses()) {
+                courseNames.add(course.getName());
+            }
+            if (courseNames.contains(title)) {
+                links.add(link);
+            }
+        }
+
+        return links;
     }
     
 }
