@@ -207,9 +207,31 @@ public class Stepdefs {
         }
 
     @Then("The book called {string} is fetched from memory")
-        public void rightBookFound(String title) throws Throwable{
+        public void rightBookFound(String title) throws Throwable {  
             assertTrue(io.getOutputs().contains("Book found: \n\t" + testDaoBook.findOne(title).toString()));
         }
+
+    @Given("The book {string} is chosen for modifying") 
+        public void modifyingCleanCode(String title) throws Throwable {
+            inputLines.add("8");
+            inputLines.add("book");
+            inputLines.add(title);
+        }
+
+    @When("User has filled in modified comment {string}")
+        public void userModifiesComment(String newComment) throws Throwable {
+            addEmpties(4);
+            inputLines.add(newComment);
+            inputLines.add("q");
+            start();
+        }
+
+    @Then("{string} should have a comment {string}")
+        public void commentHasBeenModified(String title, String comment) throws Throwable {
+            Book testBook = (Book) testDaoBook.findOne(title);
+            assertTrue(testBook.toString().contains("modified"));
+        }
+    
        
     private void addEmpties(int amount) {
         //add empty lines for tags, courses, comments...

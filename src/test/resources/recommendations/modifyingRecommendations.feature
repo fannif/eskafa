@@ -8,6 +8,6 @@ Feature: As a User I can  modify reading recommendations
   Scenario: User can modify a recommendation
     Given The book "Clean Code" is chosen for modifying
     When User has filled in modified comment "modified"
-    Then "Clean Code2 should have a comment "modified"
+    Then "Clean Code" should have a comment "modified"
 
 
