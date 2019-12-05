@@ -35,18 +35,17 @@ public class Stepdefs {
     StubIO io;
     CommandLineUI testUI;
 
-    @Given("Command add is selected")
+    @Given("Command add a book is selected")
     public void commandAddIsSelected() throws Throwable {
         inputLines.add("2");
     }
 
-    @When("User has filled in title {string}, author {string}, ISBN {string} and type {string}")
-    public void informationIsFilled(final String title, final String author, final String isbn, final String type) throws Throwable {
+    @When("User has filled in ISBN {string}, title {string} and author {string}")
+    public void informationIsFilled(final String isbn, final String title, final String author) throws Throwable {
 
+        inputLines.add(isbn);
         inputLines.add(title);
         inputLines.add(author);
-        inputLines.add(isbn);
-        inputLines.add(type);
         inputLines.add("");
         inputLines.add("");
         inputLines.add("comment");
@@ -55,12 +54,11 @@ public class Stepdefs {
         start();
     }
 
-    @Then("Memory should contain a book with title {string}, author {string} and ISBN {string}")
-    public void memoryContainsBook(final String title, final String author, final String isbn) throws SQLException {
+    @Then("Memory should contain a book with title {string} and author {string}")
+    public void memoryContainsBook(final String title, final String author) throws SQLException {
         final Book found = (Book) testDaoBook.findOne(title);
         assertTrue(found.getTitle().equals(title));
-        assertTrue(found.getAuthor().equals(author));
-        assertTrue(found.getISBN().equals(isbn));
+        assertTrue(found.getAuthor().equals(author));g
     }
 
     @Given("Command remove book is selected")
