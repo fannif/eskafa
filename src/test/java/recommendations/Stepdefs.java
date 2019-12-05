@@ -121,10 +121,7 @@ public class Stepdefs {
         inputLines.add("y");
         inputLines.add(title);
         inputLines.add(type);
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
+        addEmpties(4);
         inputLines.add("q");
         start();
     }
@@ -142,10 +139,7 @@ public class Stepdefs {
         inputLines.add("http://www.kaleva.fi");
         inputLines.add("Kaleva");
         inputLines.add("Link"); 
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
+        addEmpties(4);
         inputLines.add("q");
 
         start();
@@ -207,11 +201,7 @@ public class Stepdefs {
         public void userEntersTypeAndTitle(String type, String title) throws Throwable {
             inputLines.add(type);
             inputLines.add(title);
-            inputLines.add("");
-            inputLines.add("");
-            inputLines.add("");
-            inputLines.add("");
-            inputLines.add("");
+            addEmpties(5);
             inputLines.add("q");
             start();
         }
@@ -220,7 +210,14 @@ public class Stepdefs {
         public void rightBookFound(String title) throws Throwable{
             assertTrue(io.getOutputs().contains("Book found: \n\t" + testDaoBook.findOne(title).toString()));
         }
-        
+       
+    private void addEmpties(int amount) {
+        //add empty lines for tags, courses, comments...
+        for (int i = 0; i < amount; i++) {
+            inputLines.add("");
+        }
+    }
+
     private void start() throws Exception {
         io = new StubIO(inputLines);
         
