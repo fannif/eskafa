@@ -8,5 +8,5 @@ Feature: As a user I can add a link as recommendation
   Scenario: A link with same title can only be added once
     Given Command add a new link is selected
     When User tries to add link that is already in memory
-    Then System should respond with "Please, check your input and try again!"
+    Then System should respond with "u001B[91m"+"Please, check your input and try again!"+"\u001B[0m"
 

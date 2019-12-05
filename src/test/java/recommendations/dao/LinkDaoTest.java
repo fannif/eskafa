@@ -1,4 +1,3 @@
-
 package recommendations.dao;
 
 import java.sql.*;
@@ -24,8 +23,8 @@ public class LinkDaoTest {
         ArrayList<Course> courses = new ArrayList<>();
         ArrayList<Course> courses2 = new ArrayList<>();
         courses2.add(new Course (1,"Ohjelmistotuotanto"));
-        Link link1 = new Link(0, "Kaleva", "https://www.kaleva.fi", "Link", "", tags, courses, "news");
-        Link link2 = new Link(0, "Ohtu", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, "");
+        link1 = new Link(0, "Kaleva", "https://www.kaleva.fi", "Link", "", tags, courses, "news");
+        link2 = new Link(0, "Ohtu", "https://ohjelmistotuotanto-hy.github.io/", "Link", "", tags2, courses2, "");
     }
     
     @Test
@@ -61,7 +60,7 @@ public class LinkDaoTest {
  
     
     @Test
-    public void bookCanBeRemovedWithCorrectName() throws SQLException, Exception{
+    public void LinkCanBeRemovedWithCorrectTitle() throws SQLException, Exception{
         linkDao.save(link1);
         linkDao.save(link2);
         
@@ -69,7 +68,7 @@ public class LinkDaoTest {
         assertEquals(null, linkDao.findOne("Ohtu"));
     }
     @Test
-    public void noBookIsRemovedWithNonExistingTitle() throws SQLException, Exception {
+    public void noLinkIsRemovedWithNonExistingTitle() throws SQLException, Exception {
         linkDao.save(link1);
         linkDao.save(link2);
         List<Link> expected = new ArrayList<>();
@@ -78,6 +77,27 @@ public class LinkDaoTest {
 
         linkDao.delete("Horse Ohtu");
         assertThat(linkDao.findAll(), is(expected));        
+    }
+    @Test
+    public void linkCanBeEditet() throws SQLException {
+        linkDao.save(link1);
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(1,"news"));
+        ArrayList<Course> courses = new ArrayList<>();
+        Link updated = new Link(1, "Kaleva", "https://www.kaleva.fi", "Link", "", tags, courses, "news from Northern-Finland");
+        linkDao.edit(updated);
+        assertEquals("Kaleva", linkDao.findByWord("news from Northern-Finland").get(0).getTitle());
+    }
+    @Test
+    public void linkCanBeFoundByCourseWhenIsNotWrittenSameFormAsInTable() throws SQLException {
+        linkDao.save(link2);
+        assertEquals("Ohtu", linkDao.findByWord("ohjelMIStotuotanto").get(0).getTitle());
+        
+    }
+    @Test
+    public void linkCanBeFoundByAn() throws SQLException {
+        linkDao.save(link1);
+        assertEquals("https://www.kaleva.fi", linkDao.findByWord("https://www.kaleva.fi").get(0).getURL());
     }
     
     @After

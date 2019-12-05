@@ -79,7 +79,7 @@ public class BookDaoTest {
     }
     
     @Test
-    public void bookCanBeRemovedWithCorrectName() throws SQLException, Exception{
+    public void bookCanBeRemovedWithCorrectTitle() throws SQLException, Exception{
         bookDao.save(book1);
         bookDao.save(book2);
         bookDao.save(book3);
@@ -98,6 +98,39 @@ public class BookDaoTest {
         expected.add(book3);
         bookDao.delete("Clean Horse");
         assertThat(bookDao.findAll(), is(expected));        
+    }
+    
+    @Test
+    public void bookCanBeEditet() throws SQLException {
+        bookDao.save(book1);
+        ArrayList<Tag> tags1 = new ArrayList<>();
+        tags1.add(new Tag(1,"refactor"));
+        ArrayList<Course> courses1 = new ArrayList<>();
+        courses1.add(new Course(1,"Ohjelmistotuotanto"));
+        courses1.add(new Course(2,"OhJa"));
+        Book updatet = new Book(1, "Robert C. Martin", "Clean Code", "Book", "978-0-13-235088-4", tags1, courses1, "Must have!");
+        
+        
+        bookDao.edit(updatet);
+        assertEquals("Clean Code", bookDao.findByTag("refactor").get(0).getTitle());
+    }
+    
+    @Test
+    public void bookCanBeFoundByACourseName() throws SQLException {
+        bookDao.save(book2);
+        assertEquals("Beyond Fear", bookDao.findByWord("Cypersecurity").get(0).getTitle());
+    }
+    
+    @Test
+    public void noBookCanBeFoundByNonexistingCourseName() throws SQLException {
+        bookDao.save(book2);
+        assertEquals(0, bookDao.findByWord("not there").size());
+    }
+    
+    @Test
+    public void bookCanBeFoundByAnAuthor() throws SQLException {
+        bookDao.save(book1);
+        assertEquals("Robert C. Martin", bookDao.findByWord("Robert C. Martin").get(0).getAuthor());
     }
     
     @After
