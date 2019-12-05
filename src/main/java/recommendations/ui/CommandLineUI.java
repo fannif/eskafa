@@ -23,6 +23,8 @@ public class CommandLineUI {
     private LinkService linkService;
     private TagService tagService;
     private IO io;
+    private final String red = "\u001B[91m";
+    private final String original = "\u001B[0m";
 
     public CommandLineUI(BookService service, LinkService linkService, TagService tagService, IO io) {
         this.bookService = service;
@@ -109,7 +111,7 @@ public class CommandLineUI {
             String title = io.read();
             linkService.edit(title);
         } else {
-            io.print("Could not recognize given command, please check the spelling.");
+            io.print(red + "Could not recognize given command, please check the spelling." + original);
             editRecommendation();
         }
     }
@@ -155,7 +157,7 @@ public class CommandLineUI {
             String title = io.read();
             linkService.remove(title);
         } else {
-            io.print("Could not recognize given command, please check the spelling.");
+            io.print(red + "Could not recognize given command, please check the spelling." + original);
             removeRecommendation();
         }
     }
@@ -245,7 +247,7 @@ public class CommandLineUI {
         if (isAdded == true) {
             io.print("A new book recommendation was added successfully!");
         } else {
-            io.print("Your book recommendation was not added. Another book with same title exists already");
+            io.print(red + "Your book recommendation was not added. Another book with same title exists already" + original);
         }
     }
 
@@ -256,7 +258,7 @@ public class CommandLineUI {
         String url = io.read();
 
         if (!validateUrl(url)) {
-            io.print("Url validation failed! Remember to include a protocol and check for typos.");
+            io.print(red + "Url validation failed! Remember to include a protocol and check for typos." + original);
             return;
         }
 
@@ -289,7 +291,7 @@ public class CommandLineUI {
         if (createNew) {
             io.print("A new link recommendation was added successfully!");
         } else {
-            io.print("Please, check your input and try again!");
+            io.print(red + "Please, check your input and try again!" + original);
         }
     }
 
@@ -321,10 +323,10 @@ public class CommandLineUI {
             connection.connect();
             return true;
         } catch (MalformedURLException e) {
-            io.print("No internet connection");
+            io.print(red + "No internet connection" + original);
             return false;
         } catch (IOException e) {
-            io.print("No internet connection");
+            io.print(red + "No internet connection" + original);
             return false;
         }
 

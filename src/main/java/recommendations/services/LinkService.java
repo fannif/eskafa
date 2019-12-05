@@ -23,6 +23,8 @@ public class LinkService {
     
     private IO io;
     private ReaderDao linkDao;
+    private final String red = "\u001B[91m";
+    private final String original = "\u001B[0m";
     
     public LinkService(ReaderDao dao, IO io) {
         this.io = io;
@@ -53,7 +55,7 @@ public class LinkService {
             String description = document.select("meta[name=description]").get(0).attr("content");
             return description;
         } catch (IndexOutOfBoundsException ex) {
-            io.print("Metadata description not found!");
+            io.print(red + "Metadata description not found!" + original);
         }
         
         String desc = askForDescription();
@@ -66,7 +68,7 @@ public class LinkService {
             Document doc = Jsoup.connect(url).get();
             title = doc.title();
         } catch (IOException ex) {
-            io.print("No internet connection");
+            io.print(red + "No internet connection" + original);
         }
         return title;
     }
