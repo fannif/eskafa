@@ -40,10 +40,9 @@ public class Stepdefs {
         inputLines.add("2");
     }
 
-    @When("User has filled in ISBN {string}, title {string} and author {string}")
-    public void informationIsFilled(final String isbn, final String title, final String author) throws Throwable {
-
-        inputLines.add(isbn);
+    @When("User has filled in title {string} and author {string}")
+    public void informationIsFilled(final String title, final String author) throws Throwable {
+        inputLines.add("");
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add("");
@@ -58,7 +57,7 @@ public class Stepdefs {
     public void memoryContainsBook(final String title, final String author) throws SQLException {
         final Book found = (Book) testDaoBook.findOne(title);
         assertTrue(found.getTitle().equals(title));
-        assertTrue(found.getAuthor().equals(author));g
+        assertTrue(found.getAuthor().equals(author));
     }
 
     @Given("Command remove book is selected")
@@ -83,13 +82,12 @@ public class Stepdefs {
     @Given("book titled {string} has been added")
     public void bookTitledHasBeenAdded(final String title) {
         inputLines.add("2");
+        inputLines.add("");
         inputLines.add(title);
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("Book");
-        inputLines.add("");
-        inputLines.add("");
-        inputLines.add("");
+        inputLines.add(""); //author
+        inputLines.add(""); //tags
+        inputLines.add(""); //courses
+        inputLines.add(""); //comment
     }
 
     @When("command list is selected")
@@ -120,6 +118,7 @@ public class Stepdefs {
     public void userHasFilledInTitleUrlAndType(final String url, final String title, final String type)
             throws Exception {
         inputLines.add(url);
+        inputLines.add("y");
         inputLines.add(title);
         inputLines.add(type);
         inputLines.add("");
