@@ -77,6 +77,7 @@ public class BookService {
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
+                io.print("Book found: \n\t" + book);
                 System.out.println("Please update a field or fields. Press enter to skip the field.");
                 io.print("Title: ");
                 String title = io.read();

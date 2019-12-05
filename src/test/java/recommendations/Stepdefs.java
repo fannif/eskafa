@@ -141,7 +141,7 @@ public class Stepdefs {
     public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable{
         inputLines.add("http://www.kaleva.fi");
         inputLines.add("Kaleva");
-        inputLines.add("Link");
+        inputLines.add("Link"); 
         inputLines.add("");
         inputLines.add("");
         inputLines.add("");
@@ -197,7 +197,30 @@ public class Stepdefs {
                 + "\nDescription: ";
         assertTrue(io.getOutputs().contains(expected));
     }
- 
+
+    @Given("Command edit recommendation is selected")
+    public void commandEditRecommendationSelected() throws Throwable {
+        inputLines.add("8");
+    }
+
+    @When("User enters type {string} and title {string}") 
+        public void userEntersTypeAndTitle(String type, String title) throws Throwable {
+            inputLines.add(type);
+            inputLines.add(title);
+            inputLines.add("");
+            inputLines.add("");
+            inputLines.add("");
+            inputLines.add("");
+            inputLines.add("");
+            inputLines.add("q");
+            start();
+        }
+
+    @Then("The book called {string} is fetched from memory")
+        public void rightBookFound(String title) throws Throwable{
+            assertTrue(io.getOutputs().contains("Book found: \n\t" + testDaoBook.findOne(title).toString()));
+        }
+        
     private void start() throws Exception {
         io = new StubIO(inputLines);
         
