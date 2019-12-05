@@ -95,7 +95,7 @@ public class LinkDaoTest {
         
     }
     @Test
-    public void linkCanBeFoundByAn() throws SQLException {
+    public void linkCanBeFoundByURL() throws SQLException {
         linkDao.save(link1);
         assertEquals("https://www.kaleva.fi", linkDao.findByWord("https://www.kaleva.fi").get(0).getURL());
     }
