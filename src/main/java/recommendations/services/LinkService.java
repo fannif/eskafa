@@ -184,7 +184,7 @@ public class LinkService {
         }
         
         if (!courses.isEmpty()) {
-            link.getCourses();
+            link.setCourses(courses);
         }
         
         if (!comment.isEmpty()) {

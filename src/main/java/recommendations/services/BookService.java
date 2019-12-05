@@ -134,7 +134,7 @@ public class BookService {
         }
 
         if (!courses.isEmpty()) {
-            book.getCourses();
+            book.setCourses(courses);
         }
 
         if (!comment.isEmpty()) {
