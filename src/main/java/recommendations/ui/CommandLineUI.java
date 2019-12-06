@@ -195,49 +195,35 @@ public class CommandLineUI {
     }
 
     private void addBook() throws IOException, SQLException {
-        io.print("\nAdd a new Book");
-        io.print("Please note, that the system allows only unique titles. Existing titles:\n");
-        listTitles("book");
-
-        io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
-        io.print("If you want to skip this, just press enter without adding anything");
+        getAdviceText();
         String title = "";
         String author = "";
         io.print("ISBN: ");
         String isbn = io.read();
+        Book book = null;
         if (!isbn.isEmpty()) {
-            Book book = bookService.fetchBookDetailsByIsbn(isbn);
+            book = bookService.fetchBookDetailsByIsbn(isbn);
             if (book != null) {
                 title = book.getTitle();
                 author = book.getAuthor();
-                io.print("Title: " + title);
-                io.print("Author(s): " + author + "\n");
+                io.print("Title:\n " + title);
+                io.print("Author(s):\n " + author + "\n");
                 Book existingBook = bookService.findBookWithTitle(title);
                 if (existingBook != null) {
                     io.print("There is already one book with same title. Please modify the title a little\n");
-                    io.print("Title: ");
-                    title = io.read();
-                    if (title.equals("")) {
-                        title = book.getTitle();
-                    }
+                    title = askForTitle();
                 }
-            } else {
-                io.print("Title: ");
-                title = io.read();
-                io.print("Author(s): ");
-                author = io.read();
+                if (title.equals("")) {
+                    title = book.getTitle();
+                }
             }
-
         }
-        if (isbn.equals("")) {
-            io.print("Title: ");
-            title = io.read();
+        if (isbn.equals("") || book == null) {
+            title = askForTitle();
             io.print("Author(s): ");
             author = io.read();
         }
-
         ArrayList<Tag> tags = askForTags();
-
         ArrayList<Course> courses = askForCourses();
 
         io.print("Add a comment: ");
@@ -272,8 +258,7 @@ public class CommandLineUI {
 
         String title = linkService.fetchTitle(url);
         if (title.isEmpty()) {
-            io.print("Title: ");
-            title = io.read();
+            title = askForTitle();
         } else {
             title = modifyTitle(title);
         }
@@ -382,6 +367,21 @@ public class CommandLineUI {
         io.print("Title: ");
         title = io.read();
         return title;
+    }
+
+    private String askForTitle() {
+        io.print("Title: ");
+        String title = io.read();
+        return title;
+    }
+
+    private void getAdviceText() throws SQLException {
+        io.print("\nAdd a new Book");
+        io.print("Please note, that the system allows only unique titles. Existing titles:\n");
+        listTitles("book");
+
+        io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
+        io.print("If you want to skip this, just press enter without adding anything");
     }
 
 }
