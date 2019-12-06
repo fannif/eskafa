@@ -24,7 +24,10 @@ public class CommandLineUI {
     private TagService tagService;
     private IO io;
     private final String red = "\u001B[91m";
+    private final String green = "\u001b[32;1m";
+    private final String cyan = "\u001b[36;1m";
     private final String original = "\u001B[0m";
+    private final String bold = "\u001b[37;1m";
 
     public CommandLineUI(BookService service, LinkService linkService, TagService tagService, IO io) {
         this.bookService = service;
@@ -35,20 +38,20 @@ public class CommandLineUI {
 
     public void start() throws Exception {
 
-        io.print("Welcome!");
+        io.print(bold + "Welcome!" + original);
         boolean go = true;
         while (go) {
-            io.print("\n1 --- List all recommendations");
-            io.print("2 --- Add a new book");
-            io.print("3 --- Remove a recommendation from the list");
-            io.print("4 --- List all links");
-            io.print("5 --- Add a new link");
-            io.print("6 --- List tags");
-            io.print("7 --- Search by tag");
-            io.print("8 --- Edit recommendation");
-            io.print("9 --- Find a recommendation by word");
-            io.print("q --- Quit");
-            io.print("Please enter the number corresponding to the command (i.e. 1, 2, ..., 9) or q to stop the application.");
+            io.print(green + "\n1 --- List all recommendations" + original);
+            io.print(cyan + "2 --- Add a new book" + original);
+            io.print(green + "3 --- Remove a recommendation from the list" + original);
+            io.print(cyan + "4 --- List all links" + original);
+            io.print(green + "5 --- Add a new link" + original);
+            io.print(cyan + "6 --- List tags" + original);
+            io.print(green + "7 --- Search by tag" + original);
+            io.print(cyan + "8 --- Edit recommendation" + original);
+            io.print(green + "9 --- Find a recommendation by word" + original);
+            io.print(cyan + "q --- Quit" + original);
+            io.print(bold + "Please enter the number corresponding to the command (i.e. 1, 2, ..., 9) or q to stop the application." + original);
             String choice = io.read();
 
             switch (choice) {
