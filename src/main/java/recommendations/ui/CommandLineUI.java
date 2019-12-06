@@ -9,8 +9,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.*;
-import recommendations.domain.Readable;
 import recommendations.domain.Book;
+import recommendations.domain.Readable;
 import recommendations.domain.Course;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
@@ -26,8 +26,11 @@ public class CommandLineUI {
     private final String red = "\u001B[91m";
     private final String green = "\u001b[32;1m";
     private final String cyan = "\u001b[36;1m";
+    private final String black = "\u001B[30;1m";
     private final String original = "\u001B[0m";
     private final String bold = "\u001b[37;1m";
+    private final String greenBg = "\u001B[102m";
+    private final String blueBg = "\u001B[104m";
 
     public CommandLineUI(BookService service, LinkService linkService, TagService tagService, IO io) {
         this.bookService = service;
@@ -180,19 +183,29 @@ public class CommandLineUI {
 
     private void listRecommendations() throws SQLException {
         io.print("\nRecommendations:\n");
-        ArrayList<Readable> recommendations = new ArrayList<>();
+        ArrayList<Book> bookRecommendations = new ArrayList<>();
+        ArrayList<Link> linkRecommendations = new ArrayList<>();
         for (Book book : bookService.listBooks()) {
-            recommendations.add(book);
+            bookRecommendations.add(book);
         }
         for (Link link : linkService.listLinks()) {
-            recommendations.add(link);
+            linkRecommendations.add(link);
         }
 
-        if (recommendations.isEmpty()) {
+        if (linkRecommendations.isEmpty() && bookRecommendations.isEmpty()) {
             io.print("No recommendations yet. Be the first one to contribute!");
         } else {
-            for (Readable recommendation : recommendations) {
-                io.print("\t" + recommendation);
+            if (!bookRecommendations.isEmpty()) {
+                for (Readable recommendation : bookRecommendations) {
+                    io.print(black + greenBg + "\t" + recommendation);
+                }
+                io.print(original);
+            }
+            if (!linkRecommendations.isEmpty()) {
+                for (Readable recommendation : linkRecommendations) {
+                    io.print(black + blueBg + "\t" + recommendation);
+                }
+                io.print(original);
             }
         }
     }
