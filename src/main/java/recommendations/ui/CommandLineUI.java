@@ -102,7 +102,7 @@ public class CommandLineUI {
     }
 
     private void editRecommendation() throws SQLException {
-        io.print("\nPlease spesify which recommendation type you would like to edit: book/link");
+        io.print("\nPlease specify which recommendation type you would like to edit: book/link");
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
@@ -396,7 +396,7 @@ public class CommandLineUI {
         io.print("Please note, that the system allows only unique titles. Existing titles:\n");
         listTitles("book");
 
-        io.print("By giving ISBN, Title and Autor(s) are fetched automatically, if exists");
+        io.print("By giving ISBN, Title and Author(s) are fetched automatically, if exists");
         io.print("If you want to skip this, just press enter without adding anything");
     }
 
