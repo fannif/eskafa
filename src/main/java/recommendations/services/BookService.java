@@ -20,7 +20,7 @@ public class BookService {
     private IO io;
     private ReaderDao bookDao;
     private final String colorRed = "\u001B[91m";
-    private final String colorOriginal = "\u001B[0m";
+    private final String original = "\u001B[0m";
     private final String green = "\u001b[32;1m";
     private final String cyan = "\u001b[36;1m";
 
@@ -32,7 +32,7 @@ public class BookService {
     public boolean addBook(Book book) throws IOException, SQLException {
         return bookDao.save(book);
     }
-    
+
     public Book findBookWithTitle(String title) throws SQLException {
         Book book = (Book) bookDao.findOne(title);
         return book;
@@ -51,7 +51,7 @@ public class BookService {
                 return;
             }
             if (bookDao.findOne(input) == null) {
-                io.print(cyan+"No such book found. Please check the spelling and try again: "+original);
+                io.print(cyan + "No such book found. Please check the spelling and try again: " + original);
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
@@ -59,7 +59,7 @@ public class BookService {
                 go = false;
             }
         }
-        io.print(green+"The book has been successfully removed"+original);
+        io.print(green + "The book has been successfully removed" + original);
     }
 
     public void edit(String name) throws SQLException {
@@ -72,20 +72,20 @@ public class BookService {
                 return;
             }
             if (book == null) {
-                io.print(cyan+"No such book found. Please check the spelling and try again: "+original);
+                io.print(cyan + "No such book found. Please check the spelling and try again: " + original);
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
                 io.print("Book found: \n\t" + book);
                 System.out.println("Please update a field or fields. Press enter to skip the field.");
-                io.print(cyan+"Title: "+original);
+                io.print(cyan + "Title: " + original);
                 String title = io.read();
-                io.print(cyan+"Author: "+original);
+                io.print(cyan + "Author: " + original);
                 String author = io.read();
                 ArrayList<Tag> tags = new ArrayList();
                 ArrayList<Course> courses = new ArrayList();
-                io.print(cyan+"Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                        + "to continue: "+original);
+                io.print(cyan + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                        + "to continue: " + original);
 
                 while (true) {
                     String tag = io.read();
@@ -95,8 +95,8 @@ public class BookService {
                     Tag newTag = new Tag(0, tag);
                     tags.add(newTag);
                 }
-                io.print(cyan+"Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                        + "to continue: "+original);
+                io.print(cyan + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                        + "to continue: " + original);
 
                 while (true) {
                     String course = io.read();
@@ -106,14 +106,14 @@ public class BookService {
                     Course newCourse = new Course(0, course);
                     courses.add(newCourse);
                 }
-                io.print(cyan+"Add a comment: "+original);
+                io.print(cyan + "Add a comment: " + original);
                 String comment = io.read();
 
                 Book updated = updateBookInformation(book, author, title, tags, courses, comment);
                 if (bookDao.edit(updated)) {
-                    io.print(green+"The book information has been successfully updated."+original);
+                    io.print(green + "The book information has been successfully updated." + original);
                 } else {
-                    System.out.println(green+"The book you are trying to add is already in the database."+original);
+                    System.out.println(green + "The book you are trying to add is already in the database." + original);
                 }
                 go = false;
             }
@@ -145,7 +145,7 @@ public class BookService {
     }
 
     public Book fetchBookDetailsByIsbn(String isbn) {
-        
+
         String cleanIsbn = isbn.replaceAll("[\\-\\s]", "");
         String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + cleanIsbn;
 
@@ -163,10 +163,10 @@ public class BookService {
             return new Book(author, title);
 
         } catch (JSONException e) {
-            io.print(colorRed + "Book not found" + colorOriginal);
+            io.print(colorRed + "Book not found" + original);
             return null;
         } catch (IOException ex) {
-            io.print(colorRed + "Could not retrieve information. Check your Internet connection." + colorOriginal);
+            io.print(colorRed + "Could not retrieve information. Check your Internet connection." + original);
             return null;
         }
     }
@@ -183,7 +183,7 @@ public class BookService {
 
     public String findByWord(String word) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nBooks found by word '"+ word + "':");
+        sb.append("\nBooks found by word '" + word + "':");
         sb.append("\n");
         ArrayList<Book> books = (ArrayList<Book>) bookDao.findByWord(word);
         if (books.isEmpty()) {
@@ -197,7 +197,7 @@ public class BookService {
 
     public String listBookTitles() throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("Added books:"+"\n");
+        sb.append("Added books:" + "\n");
         sb.append("\n");
         for (Book book : this.listBooks()) {
             sb.append(String.format("%-5s %-5s\n", " ", book.getTitle()));
