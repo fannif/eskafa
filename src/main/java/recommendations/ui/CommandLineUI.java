@@ -195,7 +195,7 @@ public class CommandLineUI {
             }
             if (!linkRecommendations.isEmpty()) {
                 for (Link recommendation : linkRecommendations) {
-                    io.print(Color.BLACK.getCode() + Color.BLUEBG.getCode() + "\t" + recommendation);
+                    io.print(Color.WHITE.getCode() + Color.BLUEBG.getCode() + "\t" + recommendation);
                 }
                 io.print(Color.ORIGINAL.getCode());
             }
