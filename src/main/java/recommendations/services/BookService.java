@@ -185,7 +185,7 @@ public class BookService {
 
     public String findByWord(String word) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nBooks found by word '" + word + "':");
+        sb.append(Color.GREEN.getCode() + "\nBooks found by word " + Color.BOLD.getCode() + "'" + word + "':" + Color.ORIGINAL.getCode());
         sb.append("\n");
         ArrayList<Book> books = (ArrayList<Book>) bookDao.findByWord(word);
         if (books.isEmpty()) {
@@ -199,7 +199,7 @@ public class BookService {
 
     public String listBookTitles() throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("Added books:" + "\n");
+        sb.append(Color.CYAN.getCode() + "Added books:" + Color.ORIGINAL.getCode() + "\n");
         sb.append("\n");
         for (Book book : this.listBooks()) {
             sb.append(String.format("%-5s %-5s\n", " ", book.getTitle()));

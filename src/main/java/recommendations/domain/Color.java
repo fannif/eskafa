@@ -9,6 +9,7 @@ public enum Color {
     ORIGINAL("\u001B[0m"),
     BOLD("\u001b[37;1m"),
     GREENBG("\u001B[102m"),
+    RESET("\u001B[0m"),
     BLUEBG("\u001B[104m");
 
     private String code;

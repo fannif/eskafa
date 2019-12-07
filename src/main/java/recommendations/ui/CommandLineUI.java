@@ -293,7 +293,7 @@ public class CommandLineUI {
         if (tagService.listTags().isEmpty()) {
             io.print("No added tags.");
         } else {
-            io.print("\nTags:\n");
+            io.print(Color.CYAN.getCode() + "\nTags:\n" + Color.ORIGINAL.getCode());
             List<Tag> tags = tagService.listTags();
             tags.forEach(tag -> {
                 io.print("\t" + tag.toString());

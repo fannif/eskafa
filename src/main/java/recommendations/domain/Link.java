@@ -5,9 +5,6 @@ import java.util.Objects;
 
 public class Link implements Readable {
 
-    private final static String RESET = "\u001B[0m";
-    private final static String CYAN = "\u001B[36m";
-
     private int id;
     private String title;
     private String URL;

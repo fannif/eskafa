@@ -24,7 +24,6 @@ public class Main {
         BookDao bookdao = new BookDao(db);
         LinkDao linkDao = new LinkDao(db);
         TagDao tagDao = new TagDao(db);
-        //BookService service = new BookService(new fileDao());
         BookService service = new BookService(bookdao, io);
         LinkService linkService = new LinkService(linkDao, io);
         TagService tagService = new TagService(tagDao, bookdao, linkDao, io);

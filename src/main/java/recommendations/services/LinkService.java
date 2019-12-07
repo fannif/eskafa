@@ -194,7 +194,7 @@ public class LinkService {
 
     public String listLinkTitles() throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("Added links:" + "\n");
+        sb.append(Color.CYAN.getCode() + "Added links:" + Color.ORIGINAL.getCode() + "\n");
         sb.append("\n");
         for (Link link : this.listLinks()) {
             sb.append(String.format("%-5s %-5s\n", " ", link.getTitle()));
@@ -204,7 +204,7 @@ public class LinkService {
 
     public String findByWord(String word) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nLinks found by word '" + word + "':");
+        sb.append(Color.GREEN.getCode() + "\nLinks found by word " + Color.BOLD.getCode() + "'" + word + "':" + Color.ORIGINAL.getCode());
         sb.append("\n");
         ArrayList<Link> links = (ArrayList<Link>) linkDao.findByWord(word);
         if (links.isEmpty()) {
