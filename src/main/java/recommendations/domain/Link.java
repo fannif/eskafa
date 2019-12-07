@@ -105,8 +105,8 @@ public class Link implements Readable {
     public String toString() {
         String tagString = listToString(this.tags);
         String coursesString = listToString(this.courses);
-        return "\nType: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: " + CYAN + "<" + this.URL
-                + ">" + RESET + "\n\tTags:" + tagString + "\n\tRelated courses:"
+        return "\nType: " + this.type + "\n\tTitle: " + this.title + "\n\tURL: " + "<" + this.URL
+                + ">" + "\n\tTags:" + tagString + "\n\tRelated courses:"
                 + coursesString + "\n\t" + this.comment + "\n"
                 + "\nDescription: " + this.metadata;
     }

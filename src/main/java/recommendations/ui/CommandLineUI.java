@@ -196,13 +196,13 @@ public class CommandLineUI {
             io.print("No recommendations yet. Be the first one to contribute!");
         } else {
             if (!bookRecommendations.isEmpty()) {
-                for (Readable recommendation : bookRecommendations) {
+                for (Book recommendation : bookRecommendations) {
                     io.print(black + greenBg + "\t" + recommendation);
                 }
                 io.print(original);
             }
             if (!linkRecommendations.isEmpty()) {
-                for (Readable recommendation : linkRecommendations) {
+                for (Link recommendation : linkRecommendations) {
                     io.print(black + blueBg + "\t" + recommendation);
                 }
                 io.print(original);
