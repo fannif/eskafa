@@ -95,25 +95,25 @@ public class CommandLineUI {
     }
 
     private void findRecommendationByWord() throws SQLException {
-        io.print("Please enter the word to search by: ");
+        io.print(cyan+"Please enter the word to search by: "+original);
         String word = io.read();
         io.print(bookService.findByWord(word));
         io.print(linkService.findByWord(word));
     }
 
     private void editRecommendation() throws SQLException {
-        io.print("\nPlease specify which recommendation type you would like to edit: book/link");
+        io.print(cyan+"\nPlease specify which recommendation type you would like to edit: book/link"+original);
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
         if (cleanInput.equals("q")) {
             return;
         } else if (cleanInput.equals("book")) {
-            io.print("\nPlease enter the title of the book to be modified: ");
+            io.print(cyan +"\nPlease enter the title of the book to be modified: "+original);
             String title = io.read();
             bookService.edit(title);
         } else if (cleanInput.equals("link")) {
-            io.print("\nPlease enter the title of the link to be modified: ");
+            io.print(cyan +"\nPlease enter the title of the link to be modified: "+original);
             String title = io.read();
             linkService.edit(title);
         } else {
@@ -126,7 +126,7 @@ public class CommandLineUI {
         ArrayList<Link> links = linkService.listLinks();
         for (Link l : links) {
             io.print(l.toString() + "\n");
-            io.print("Do you want to open this link in your browser (y/n)?");
+            io.print(cyan+"Do you want to open this link in your browser (y/n)?"+original);
             String opn = io.read();
             if (opn.equals("y")) {
                 openLinkInBrowser(l);
@@ -146,7 +146,7 @@ public class CommandLineUI {
     }
 
     private void removeRecommendation() throws Exception {
-        io.print("\nPlease specify which recommendation type you would like to remove: book/link");
+        io.print(cyan+"\nPlease specify which recommendation type you would like to remove: book/link"+original);
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
@@ -154,12 +154,12 @@ public class CommandLineUI {
             return;
         } else if (cleanInput.equals("book")) {
             listTitles(input);
-            io.print("\nPlease enter the title of the book to be removed: ");
+            io.print(cyan+"\nPlease enter the title of the book to be removed: "+original);
             String title = io.read();
             bookService.remove(title);
         } else if (cleanInput.equals("link")) {
             listTitles(input);
-            io.print("\nPlease enter the title of the link to be removed: ");
+            io.print(cyan+"\nPlease enter the title of the link to be removed: "+original);
             String title = io.read();
             linkService.remove(title);
         } else {
@@ -214,7 +214,7 @@ public class CommandLineUI {
         getAdviceText();
         String title = "";
         String author = "";
-        io.print("ISBN: ");
+        io.print(cyan+"ISBN: "+original);
         String isbn = io.read();
         Book book = null;
         if (!isbn.isEmpty()) {
@@ -226,7 +226,7 @@ public class CommandLineUI {
                 io.print("Author(s):\n " + author + "\n");
                 Book existingBook = bookService.findBookWithTitle(title);
                 if (existingBook != null) {
-                    io.print("There is already one book with same title. Please modify the title a little\n");
+                    io.print(red+"There is already one book with same title. Please modify the title a little\n"+original);
                     title = askForTitle();
                 }
                 if (title.equals("")) {
@@ -236,18 +236,18 @@ public class CommandLineUI {
         }
         if (isbn.equals("") || book == null) {
             title = askForTitle();
-            io.print("Author(s): ");
+            io.print(cyan+"Author(s): "+original);
             author = io.read();
         }
         ArrayList<Tag> tags = askForTags();
         ArrayList<Course> courses = askForCourses();
 
-        io.print("Add a comment: ");
+        io.print(cyan+"Add a comment: "+original);
         String comment = io.read();
 
         Boolean isAdded = bookService.addBook(new Book(0, author, title, "Book", isbn, tags, courses, comment));
         if (isAdded == true) {
-            io.print("A new book recommendation was added successfully!");
+            io.print(green+"A new book recommendation was added successfully!"+original);
         } else {
             io.print(red + "Your book recommendation was not added. Another book with same title exists already" + original);
         }
@@ -256,7 +256,7 @@ public class CommandLineUI {
     private void addLink() throws IOException, SQLException, MalformedURLException, URISyntaxException {
 
         io.print("\nAdd a new Link");
-        io.print("Url: ");
+        io.print(cyan+"Url: "+original);
         String url = io.read();
 
         if (!validateUrl(url)) {
@@ -265,7 +265,7 @@ public class CommandLineUI {
         }
 
         if (!checkConnection(url)) {
-            io.print("Do you want to continue? (y/n)");
+            io.print(cyan+"Do you want to continue? (y/n)"+original);
             String opt = io.read();
             if (opt.endsWith("n")) {
                 return;
@@ -279,18 +279,18 @@ public class CommandLineUI {
             title = modifyTitle(title);
         }
 
-        io.print("Type: ");
+        io.print(cyan +"Type: "+original);
         String type = io.read();
         ArrayList<Tag> tags = askForTags();
 
         ArrayList<Course> courses = askForCourses();
 
-        io.print("Add a comment: ");
+        io.print(cyan+"Add a comment: "+original);
         String comment = io.read();
 
         boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
         if (createNew) {
-            io.print("A new link recommendation was added successfully!");
+            io.print(green+"A new link recommendation was added successfully!"+original);
         } else {
             io.print(red + "Please, check your input and try again!" + original);
         }
@@ -312,7 +312,7 @@ public class CommandLineUI {
         io.print("Added tags: ");
         listTags();
         io.print("");
-        io.print("Please enter the name of the tag to search by: ");
+        io.print(cyan +"Please enter the name of the tag to search by: "+ original);
         String name = io.read();
         tagService.findRecommendadtionsByTag(name);
     }
@@ -345,8 +345,8 @@ public class CommandLineUI {
     }
 
     private ArrayList<Tag> askForTags() {
-        io.print("Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                + "to continue: ");
+        io.print(cyan + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                + "to continue: "+ original);
         ArrayList<Tag> tags = new ArrayList<>();
         while (true) {
             String tag = io.read();
@@ -360,8 +360,8 @@ public class CommandLineUI {
     }
 
     private ArrayList<Course> askForCourses() {
-        io.print("Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                + "to continue: ");
+        io.print(cyan + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                + "to continue: "+ original);
         ArrayList<Course> courses = new ArrayList<>();
         while (true) {
             String course = io.read();
@@ -376,24 +376,24 @@ public class CommandLineUI {
 
     private String modifyTitle(String title) {
         io.print("Title: " + title);
-        io.print("Do you want to modify the title? (y/n)");
+        io.print(cyan+"Do you want to modify the title? (y/n)"+original);
         if (io.read().equals("n")) {
             return title;
         }
-        io.print("Title: ");
+        io.print(cyan+"Title: "+original);
         title = io.read();
         return title;
     }
 
     private String askForTitle() {
-        io.print("Title: ");
+        io.print(cyan+"Title: "+original);
         String title = io.read();
         return title;
     }
 
     private void getAdviceText() throws SQLException {
         io.print("\nAdd a new Book");
-        io.print("Please note, that the system allows only unique titles. Existing titles:\n");
+        io.print(bold+"Please note, that the system allows only unique titles. Existing titles:\n"+original);
         listTitles("book");
 
         io.print("By giving ISBN, Title and Author(s) are fetched automatically, if exists");
