@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import recommendations.domain.Book;
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Color;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
 import recommendations.io.IO;
@@ -16,13 +17,8 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 public class BookService {
-
     private IO io;
     private ReaderDao bookDao;
-    private final String colorRed = "\u001B[91m";
-    private final String colorOriginal = "\u001B[0m";
-    private final String colorGreen = "\u001b[32;1m";
-    private final String colorCyan = "\u001b[36;1m";
 
     public BookService(ReaderDao dao, IO io) {
         this.io = io;
@@ -51,7 +47,7 @@ public class BookService {
                 return;
             }
             if (bookDao.findOne(input) == null) {
-                io.print(colorCyan + "No such book found. Please check the spelling and try again: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "No such book found. Please check the spelling and try again: " + Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
@@ -59,7 +55,7 @@ public class BookService {
                 go = false;
             }
         }
-        io.print(colorGreen + "The book has been successfully removed" + colorOriginal);
+        io.print(Color.GREEN.getCode() + "The book has been successfully removed" + Color.ORIGINAL.getCode());
     }
 
     public void edit(String name) throws SQLException {
@@ -72,20 +68,20 @@ public class BookService {
                 return;
             }
             if (book == null) {
-                io.print(colorCyan + "No such book found. Please check the spelling and try again: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "No such book found. Please check the spelling and try again: " + Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
                 io.print("Book found: \n\t" + book);
                 System.out.println("Please update a field or fields. Press enter to skip the field.");
-                io.print(colorCyan + "Title: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "Title: " + Color.ORIGINAL.getCode());
                 String title = io.read();
-                io.print(colorCyan + "Author: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "Author: " + Color.ORIGINAL.getCode());
                 String author = io.read();
                 ArrayList<Tag> tags = new ArrayList();
                 ArrayList<Course> courses = new ArrayList();
-                io.print(colorCyan + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                        + "to continue: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                        + "to continue: " + Color.ORIGINAL.getCode());
 
                 while (true) {
                     String tag = io.read();
@@ -95,8 +91,8 @@ public class BookService {
                     Tag newTag = new Tag(0, tag);
                     tags.add(newTag);
                 }
-                io.print(colorCyan + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                        + "to continue: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                        + "to continue: " + Color.ORIGINAL.getCode());
 
                 while (true) {
                     String course = io.read();
@@ -106,14 +102,14 @@ public class BookService {
                     Course newCourse = new Course(0, course);
                     courses.add(newCourse);
                 }
-                io.print(colorCyan + "Add a comment: " + colorOriginal);
+                io.print(Color.CYAN.getCode() + "Add a comment: " + Color.ORIGINAL.getCode());
                 String comment = io.read();
 
                 Book updated = updateBookInformation(book, author, title, tags, courses, comment);
                 if (bookDao.edit(updated)) {
-                    io.print(colorGreen + "The book information has been successfully updated." + colorOriginal);
+                    io.print(Color.GREEN.getCode() + "The book information has been successfully updated." + Color.ORIGINAL.getCode());
                 } else {
-                    System.out.println(colorGreen + "The book you are trying to add is already in the database." + colorOriginal);
+                    System.out.println(Color.GREEN.getCode() + "The book you are trying to add is already in the database." + Color.ORIGINAL.getCode());
                 }
                 go = false;
             }
@@ -163,10 +159,10 @@ public class BookService {
             return new Book(author, title);
 
         } catch (JSONException e) {
-            io.print(colorRed + "Book not found" + colorOriginal);
+            io.print(Color.RED.getCode() + "Book not found" + Color.ORIGINAL.getCode());
             return null;
         } catch (IOException ex) {
-            io.print(colorRed + "Could not retrieve information. Check your Internet connection." + colorOriginal);
+            io.print(Color.RED.getCode() + "Could not retrieve information. Check your Internet connection." + Color.ORIGINAL.getCode());
             return null;
         }
     }

@@ -2,6 +2,7 @@ package recommendations.services;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import recommendations.domain.Color;
 import recommendations.domain.Link;
 
 import java.io.IOException;
@@ -22,10 +23,6 @@ public class LinkService {
     
     private IO io;
     private ReaderDao linkDao;
-    private final String red = "\u001B[91m";
-    private final String green = "\u001b[32;1m";    
-    private final String original = "\u001B[0m";
-    private final String cyan = "\u001b[36;1m";
     public LinkService(ReaderDao dao, IO io) {
         this.io = io;
         this.linkDao = dao;
@@ -55,7 +52,7 @@ public class LinkService {
             String description = document.select("meta[name=description]").get(0).attr("content");
             return description;
         } catch (IndexOutOfBoundsException ex) {
-            io.print(red + "Metadata description not found!" + original);
+            io.print(Color.RED.getCode() + "Metadata description not found!" + Color.ORIGINAL.getCode());
         }
         
         String desc = askForDescription();
@@ -68,7 +65,7 @@ public class LinkService {
             Document doc = Jsoup.connect(url).get();
             title = doc.title();
         } catch (IOException ex) {
-            io.print(red + "No internet connection" + original);
+            io.print(Color.RED.getCode() + "No internet connection" + Color.ORIGINAL.getCode());
         }
         return title;
     }
@@ -81,7 +78,7 @@ public class LinkService {
                 return;
             }
             if (linkDao.findOne(input) == null) {
-                io.print(cyan+"No such link found. Please check the spelling and try again: "+original);
+                io.print(Color.CYAN.getCode()+"No such link found. Please check the spelling and try again: "+Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
@@ -89,12 +86,12 @@ public class LinkService {
                 go = false;
             }
         }
-        io.print(green +"The link has been successfully removed"+original);
+        io.print(Color.GREEN.getCode() +"The link has been successfully removed"+Color.ORIGINAL.getCode());
     }
     
     public String askForDescription() {
         io.print("Metadata description not found!");
-        io.print(cyan+"Enter description manually or press enter for no description:"+original);
+        io.print(Color.CYAN.getCode()+"Enter description manually or press enter for no description:"+Color.ORIGINAL.getCode());
         String descr = io.read();
         return descr;
         
@@ -123,20 +120,20 @@ public class LinkService {
                 return;
             }
             if (link == null) {
-                io.print(cyan+"No such link found. Please check the spelling and try again: "+original);
+                io.print(Color.CYAN.getCode()+"No such link found. Please check the spelling and try again: "+Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
                 io.print("Link found: \n\t" + link);
                 System.out.println("Please update a field or fields. Press enter to skip the field.");
-                io.print(cyan+"Title: "+original);
+                io.print(Color.CYAN.getCode()+"Title: "+Color.ORIGINAL.getCode());
                 String title = io.read();
-                io.print(cyan+"Type: "+original);
+                io.print(Color.CYAN.getCode()+"Type: "+Color.ORIGINAL.getCode());
                 String type = io.read();
                 ArrayList<Tag> tags = new ArrayList();
                 ArrayList<Course> courses = new ArrayList();
-                io.print(cyan+"Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                        + "to continue: "+original);
+                io.print(Color.CYAN.getCode()+"Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                        + "to continue: "+Color.ORIGINAL.getCode());
                 
                 while (true) {
                     String tag = io.read();
@@ -146,8 +143,8 @@ public class LinkService {
                     Tag newTag = new Tag(0, tag);
                     tags.add(newTag);
                 }
-                io.print(cyan+"Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                        + "to continue: "+original);
+                io.print(Color.CYAN.getCode()+"Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                        + "to continue: "+Color.ORIGINAL.getCode());
                 
                 while (true) {
                     String course = io.read();
@@ -157,14 +154,14 @@ public class LinkService {
                     Course newCourse = new Course(0, course);
                     courses.add(newCourse);
                 }
-                io.print(cyan+"Add a comment: "+original);
+                io.print(Color.CYAN.getCode()+"Add a comment: "+Color.ORIGINAL.getCode());
                 String comment = io.read();
                 
                 Link updated = updateLinkInformation(link, title, type, tags, courses, comment);
                 if (linkDao.edit(updated)) {
-                    io.print(green+"The link information has been successfully updated."+original);
+                    io.print(Color.GREEN.getCode()+"The link information has been successfully updated."+Color.ORIGINAL.getCode());
                 } else {
-                    System.out.println(red+"The link you are trying to add is already in the database."+original);
+                    System.out.println(Color.RED.getCode()+"The link you are trying to add is already in the database."+Color.ORIGINAL.getCode());
                 }
                 go = false;
             }
