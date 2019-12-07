@@ -30,7 +30,6 @@ public class CommandLineUI {
     }
 
     public void start() throws Exception {
-
         io.print(Color.BOLD.getCode() + "Welcome!" + Color.ORIGINAL.getCode());
         boolean go = true;
         while (go) {
