@@ -22,8 +22,8 @@ public class BookService {
 
     private IO io;
     private ReaderDao bookDao;
-    private final String red = "\u001B[91m";
-    private final String original = "\u001B[0m";
+    private final String colorRed = "\u001B[91m";
+    private final String colorOriginal = "\u001B[0m";
 
     public BookService(ReaderDao dao, IO io) {
         this.io = io;
@@ -164,10 +164,10 @@ public class BookService {
             return new Book(author, title);
 
         } catch (JSONException e) {
-            io.print(red + "Book not found" + original);
+            io.print(colorRed + "Book not found" + colorOriginal);
             return null;
         } catch (IOException ex) {
-            io.print(red + "Could not retrieve information. Check your Internet connection." + original);
+            io.print(colorRed + "Could not retrieve information. Check your Internet connection." + colorOriginal);
             return null;
         }
     }
