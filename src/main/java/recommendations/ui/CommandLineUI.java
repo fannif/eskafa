@@ -85,25 +85,25 @@ public class CommandLineUI {
     }
 
     private void findRecommendationByWord() throws SQLException {
-        io.print(Color.CYAN.getCode()+"Please enter the word to search by: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Please enter the word to search by: " + Color.ORIGINAL.getCode());
         String word = io.read();
         io.print(bookService.findByWord(word));
         io.print(linkService.findByWord(word));
     }
 
     private void editRecommendation() throws SQLException {
-        io.print(Color.CYAN.getCode()+"\nPlease specify which recommendation type you would like to edit: book/link"+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "\nPlease specify which recommendation type you would like to edit: book/link" + Color.ORIGINAL.getCode());
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
         if (cleanInput.equals("q")) {
             return;
         } else if (cleanInput.equals("book")) {
-            io.print(Color.CYAN.getCode() +"\nPlease enter the title of the book to be modified: "+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "\nPlease enter the title of the book to be modified: " + Color.ORIGINAL.getCode());
             String title = io.read();
             bookService.edit(title);
         } else if (cleanInput.equals("link")) {
-            io.print(Color.CYAN.getCode() +"\nPlease enter the title of the link to be modified: "+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "\nPlease enter the title of the link to be modified: " + Color.ORIGINAL.getCode());
             String title = io.read();
             linkService.edit(title);
         } else {
@@ -116,7 +116,7 @@ public class CommandLineUI {
         ArrayList<Link> links = linkService.listLinks();
         for (Link l : links) {
             io.print(l.toString() + "\n");
-            io.print(Color.CYAN.getCode()+"Do you want to open this link in your browser (y/n)?"+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "Do you want to open this link in your browser (y/n)?" + Color.ORIGINAL.getCode());
             String opn = io.read();
             if (opn.equals("y")) {
                 openLinkInBrowser(l);
@@ -136,7 +136,7 @@ public class CommandLineUI {
     }
 
     private void removeRecommendation() throws Exception {
-        io.print(Color.CYAN.getCode()+"\nPlease specify which recommendation type you would like to remove: book/link"+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "\nPlease specify which recommendation type you would like to remove: book/link" + Color.ORIGINAL.getCode());
         io.print("To return back to main menu, enter 'q'");
         String input = io.read();
         String cleanInput = readInput(input);
@@ -144,12 +144,12 @@ public class CommandLineUI {
             return;
         } else if (cleanInput.equals("book")) {
             listTitles(input);
-            io.print(Color.CYAN.getCode()+"\nPlease enter the title of the book to be removed: "+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "\nPlease enter the title of the book to be removed: " + Color.ORIGINAL.getCode());
             String title = io.read();
             bookService.remove(title);
         } else if (cleanInput.equals("link")) {
             listTitles(input);
-            io.print(Color.CYAN.getCode()+"\nPlease enter the title of the link to be removed: "+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "\nPlease enter the title of the link to be removed: " + Color.ORIGINAL.getCode());
             String title = io.read();
             linkService.remove(title);
         } else {
@@ -206,7 +206,7 @@ public class CommandLineUI {
         getAdviceText();
         String title = "";
         String author = "";
-        io.print(Color.CYAN.getCode()+"ISBN: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "ISBN: " + Color.ORIGINAL.getCode());
         String isbn = io.read();
         Book book = null;
         if (!isbn.isEmpty()) {
@@ -218,7 +218,7 @@ public class CommandLineUI {
                 io.print("Author(s):\n " + author + "\n");
                 Book existingBook = bookService.findBookWithTitle(title);
                 if (existingBook != null) {
-                    io.print(Color.RED.getCode()+"There is already one book with same title. Please modify the title a little\n"+Color.ORIGINAL.getCode());
+                    io.print(Color.RED.getCode() + "There is already one book with same title. Please modify the title a little\n" + Color.ORIGINAL.getCode());
                     title = askForTitle();
                 }
                 if (title.equals("")) {
@@ -228,18 +228,19 @@ public class CommandLineUI {
         }
         if (isbn.equals("") || book == null) {
             title = askForTitle();
-            io.print(Color.CYAN.getCode()+"Author(s): "+Color.ORIGINAL.getCode());
+            isbn = "";
+            io.print(Color.CYAN.getCode() + "Author(s): " + Color.ORIGINAL.getCode());
             author = io.read();
         }
         ArrayList<Tag> tags = askForTags();
         ArrayList<Course> courses = askForCourses();
 
-        io.print(Color.CYAN.getCode()+"Add a comment: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Add a comment: " + Color.ORIGINAL.getCode());
         String comment = io.read();
 
         Boolean isAdded = bookService.addBook(new Book(0, author, title, "Book", isbn, tags, courses, comment));
         if (isAdded == true) {
-            io.print(Color.GREEN.getCode()+"A new book recommendation was added successfully!"+Color.ORIGINAL.getCode());
+            io.print(Color.GREEN.getCode() + "A new book recommendation was added successfully!" + Color.ORIGINAL.getCode());
         } else {
             io.print(Color.RED.getCode() + "Your book recommendation was not added. Another book with same title exists already" + Color.ORIGINAL.getCode());
         }
@@ -248,7 +249,7 @@ public class CommandLineUI {
     private void addLink() throws IOException, SQLException, MalformedURLException, URISyntaxException {
 
         io.print("\nAdd a new Link");
-        io.print(Color.CYAN.getCode()+"Url: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Url: " + Color.ORIGINAL.getCode());
         String url = io.read();
 
         if (!validateUrl(url)) {
@@ -257,7 +258,7 @@ public class CommandLineUI {
         }
 
         if (!checkConnection(url)) {
-            io.print(Color.CYAN.getCode()+"Do you want to continue? (y/n)"+Color.ORIGINAL.getCode());
+            io.print(Color.CYAN.getCode() + "Do you want to continue? (y/n)" + Color.ORIGINAL.getCode());
             String opt = io.read();
             if (opt.endsWith("n")) {
                 return;
@@ -271,18 +272,18 @@ public class CommandLineUI {
             title = modifyTitle(title);
         }
 
-        io.print(Color.CYAN.getCode() +"Type: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Type: " + Color.ORIGINAL.getCode());
         String type = io.read();
         ArrayList<Tag> tags = askForTags();
 
         ArrayList<Course> courses = askForCourses();
 
-        io.print(Color.CYAN.getCode()+"Add a comment: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Add a comment: " + Color.ORIGINAL.getCode());
         String comment = io.read();
 
         boolean createNew = linkService.addLinkWithMeta(0, title, url, type, tags, courses, comment);
         if (createNew) {
-            io.print(Color.GREEN.getCode()+"A new link recommendation was added successfully!"+Color.ORIGINAL.getCode());
+            io.print(Color.GREEN.getCode() + "A new link recommendation was added successfully!" + Color.ORIGINAL.getCode());
         } else {
             io.print(Color.RED.getCode() + "Please, check your input and try again!" + Color.ORIGINAL.getCode());
         }
@@ -304,7 +305,7 @@ public class CommandLineUI {
         io.print("Added tags: ");
         listTags();
         io.print("");
-        io.print(Color.CYAN.getCode() +"Please enter the name of the tag to search by: "+ Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Please enter the name of the tag to search by: " + Color.ORIGINAL.getCode());
         String name = io.read();
         tagService.findRecommendadtionsByTag(name);
     }
@@ -316,10 +317,10 @@ public class CommandLineUI {
             connection.connect();
             return true;
         } catch (MalformedURLException e) {
-            io.print(Color.RED.getCode() + "No internet connection" + Color.ORIGINAL.getCode());
+            io.print(Color.RED.getCode() + "Could not reach " + url + Color.ORIGINAL.getCode());
             return false;
         } catch (IOException e) {
-            io.print(Color.RED.getCode() + "No internet connection" + Color.ORIGINAL.getCode());
+            io.print(Color.RED.getCode() + "Could not reach " + url + Color.ORIGINAL.getCode());
             return false;
         }
 
@@ -338,7 +339,7 @@ public class CommandLineUI {
 
     private ArrayList<Tag> askForTags() {
         io.print(Color.CYAN.getCode() + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                + "to continue: "+ Color.ORIGINAL.getCode());
+                + "to continue: " + Color.ORIGINAL.getCode());
         ArrayList<Tag> tags = new ArrayList<>();
         while (true) {
             String tag = io.read();
@@ -353,7 +354,7 @@ public class CommandLineUI {
 
     private ArrayList<Course> askForCourses() {
         io.print(Color.CYAN.getCode() + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                + "to continue: "+ Color.ORIGINAL.getCode());
+                + "to continue: " + Color.ORIGINAL.getCode());
         ArrayList<Course> courses = new ArrayList<>();
         while (true) {
             String course = io.read();
@@ -368,24 +369,24 @@ public class CommandLineUI {
 
     private String modifyTitle(String title) {
         io.print("Title: " + title);
-        io.print(Color.CYAN.getCode()+"Do you want to modify the title? (y/n)"+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Do you want to modify the title? (y/n)" + Color.ORIGINAL.getCode());
         if (io.read().equals("n")) {
             return title;
         }
-        io.print(Color.CYAN.getCode()+"Title: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Title: " + Color.ORIGINAL.getCode());
         title = io.read();
         return title;
     }
 
     private String askForTitle() {
-        io.print(Color.CYAN.getCode()+"Title: "+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Title: " + Color.ORIGINAL.getCode());
         String title = io.read();
         return title;
     }
 
     private void getAdviceText() throws SQLException {
         io.print("\nAdd a new Book");
-        io.print(Color.BOLD.getCode()+"Please note, that the system allows only unique titles. Existing titles:\n"+Color.ORIGINAL.getCode());
+        io.print(Color.BOLD.getCode() + "Please note, that the system allows only unique titles. Existing titles:\n" + Color.ORIGINAL.getCode());
         listTitles("book");
 
         io.print("By giving ISBN, Title and Author(s) are fetched automatically, if exists");

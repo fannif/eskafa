@@ -1,6 +1,9 @@
 package recommendations.services;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -144,6 +147,9 @@ public class BookService {
 
         String cleanIsbn = isbn.replaceAll("[\\-\\s]", "");
         String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + cleanIsbn;
+        if (!connected(url)) {
+            return null;
+        }
 
         try {
             String jsonData = Request.Get(url).execute().returnContent().asString();
@@ -199,5 +205,21 @@ public class BookService {
             sb.append(String.format("%-5s %-5s\n", " ", book.getTitle()));
         }
         return sb.toString();
+    }
+    
+    public boolean connected(String url) {
+        try {
+            URL check = new URL(url);
+            URLConnection connection = check.openConnection();
+            connection.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            io.print(Color.RED.getCode() + "No connection" + Color.ORIGINAL.getCode());
+            return false;
+        } catch (IOException e) {
+            io.print(Color.RED.getCode() + "No connection" + Color.ORIGINAL.getCode());
+            return false;
+        }
+
     }
 }

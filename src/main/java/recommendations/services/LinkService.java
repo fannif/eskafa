@@ -20,33 +20,34 @@ import java.net.URLConnection;
 import recommendations.io.IO;
 
 public class LinkService {
-    
+
     private IO io;
     private ReaderDao linkDao;
+
     public LinkService(ReaderDao dao, IO io) {
         this.io = io;
         this.linkDao = dao;
     }
-    
+
     public boolean addLinkWithMeta(int id, String title, String url, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) throws SQLException, IOException, MalformedURLException, URISyntaxException {
-        
+
         String descriptionMetaData = getDescription(url);
         Link l = new Link(id, title, url, type, descriptionMetaData, tags, courses, comment);
-        
+
         return linkDao.save(l);
     }
-    
+
     public ArrayList<Link> listLinks() throws SQLException {
         return (ArrayList<Link>) linkDao.findAll();
     }
-    
+
     public String getDescription(String url) throws IOException {
-        
+
         if (!connected(url)) {
             String noConnectionDesc = askForDescription();
             return noConnectionDesc;
         }
-        
+
         try {
             Document document = Jsoup.connect(url).get();
             String description = document.select("meta[name=description]").get(0).attr("content");
@@ -54,22 +55,22 @@ public class LinkService {
         } catch (IndexOutOfBoundsException ex) {
             io.print(Color.RED.getCode() + "Metadata description not found!" + Color.ORIGINAL.getCode());
         }
-        
+
         String desc = askForDescription();
         return desc;
     }
-    
+
     public String fetchTitle(String url) {
         String title = "";
         try {
             Document doc = Jsoup.connect(url).get();
             title = doc.title();
         } catch (IOException ex) {
-            io.print(Color.RED.getCode() + "No internet connection" + Color.ORIGINAL.getCode());
+            io.print(Color.RED.getCode() + "Could not fetch title automatically." + Color.ORIGINAL.getCode());
         }
         return title;
     }
-    
+
     public void remove(String title) throws Exception {
         boolean go = true;
         String input = title;
@@ -78,7 +79,7 @@ public class LinkService {
                 return;
             }
             if (linkDao.findOne(input) == null) {
-                io.print(Color.CYAN.getCode()+"No such link found. Please check the spelling and try again: "+Color.ORIGINAL.getCode());
+                io.print(Color.CYAN.getCode() + "No such link found. Please check the spelling and try again: " + Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
@@ -86,17 +87,16 @@ public class LinkService {
                 go = false;
             }
         }
-        io.print(Color.GREEN.getCode() +"The link has been successfully removed"+Color.ORIGINAL.getCode());
+        io.print(Color.GREEN.getCode() + "The link has been successfully removed" + Color.ORIGINAL.getCode());
     }
-    
+
     public String askForDescription() {
-        io.print("Metadata description not found!");
-        io.print(Color.CYAN.getCode()+"Enter description manually or press enter for no description:"+Color.ORIGINAL.getCode());
+        io.print(Color.CYAN.getCode() + "Add description or press enter for no description:" + Color.ORIGINAL.getCode());
         String descr = io.read();
         return descr;
-        
+
     }
-    
+
     public boolean connected(String url) {
         try {
             URL check = new URL(url);
@@ -109,7 +109,7 @@ public class LinkService {
             return false;
         }
     }
-    
+
     public void edit(String name) throws SQLException {
         boolean go = true;
         String input = name;
@@ -120,21 +120,21 @@ public class LinkService {
                 return;
             }
             if (link == null) {
-                io.print(Color.CYAN.getCode()+"No such link found. Please check the spelling and try again: "+Color.ORIGINAL.getCode());
+                io.print(Color.CYAN.getCode() + "No such link found. Please check the spelling and try again: " + Color.ORIGINAL.getCode());
                 io.print("To return back to main menu, enter q");
                 input = io.read();
             } else {
                 io.print("Link found: \n\t" + link);
                 System.out.println("Please update a field or fields. Press enter to skip the field.");
-                io.print(Color.CYAN.getCode()+"Title: "+Color.ORIGINAL.getCode());
+                io.print(Color.CYAN.getCode() + "Title: " + Color.ORIGINAL.getCode());
                 String title = io.read();
-                io.print(Color.CYAN.getCode()+"Type: "+Color.ORIGINAL.getCode());
+                io.print(Color.CYAN.getCode() + "Type: " + Color.ORIGINAL.getCode());
                 String type = io.read();
                 ArrayList<Tag> tags = new ArrayList();
                 ArrayList<Course> courses = new ArrayList();
-                io.print(Color.CYAN.getCode()+"Add zero or more tags. Enter tags one at a time. Press 'enter'"
-                        + "to continue: "+Color.ORIGINAL.getCode());
-                
+                io.print(Color.CYAN.getCode() + "Add zero or more tags. Enter tags one at a time. Press 'enter'"
+                        + "to continue: " + Color.ORIGINAL.getCode());
+
                 while (true) {
                     String tag = io.read();
                     if (tag.equals("")) {
@@ -143,9 +143,9 @@ public class LinkService {
                     Tag newTag = new Tag(0, tag);
                     tags.add(newTag);
                 }
-                io.print(Color.CYAN.getCode()+"Add zero or more related courses. Enter courses one at a time. Press 'enter'"
-                        + "to continue: "+Color.ORIGINAL.getCode());
-                
+                io.print(Color.CYAN.getCode() + "Add zero or more related courses. Enter courses one at a time. Press 'enter'"
+                        + "to continue: " + Color.ORIGINAL.getCode());
+
                 while (true) {
                     String course = io.read();
                     if (course.equals("")) {
@@ -154,47 +154,47 @@ public class LinkService {
                     Course newCourse = new Course(0, course);
                     courses.add(newCourse);
                 }
-                io.print(Color.CYAN.getCode()+"Add a comment: "+Color.ORIGINAL.getCode());
+                io.print(Color.CYAN.getCode() + "Add a comment: " + Color.ORIGINAL.getCode());
                 String comment = io.read();
-                
+
                 Link updated = updateLinkInformation(link, title, type, tags, courses, comment);
                 if (linkDao.edit(updated)) {
-                    io.print(Color.GREEN.getCode()+"The link information has been successfully updated."+Color.ORIGINAL.getCode());
+                    io.print(Color.GREEN.getCode() + "The link information has been successfully updated." + Color.ORIGINAL.getCode());
                 } else {
-                    System.out.println(Color.RED.getCode()+"The link you are trying to add is already in the database."+Color.ORIGINAL.getCode());
+                    System.out.println(Color.RED.getCode() + "The link you are trying to add is already in the database." + Color.ORIGINAL.getCode());
                 }
                 go = false;
             }
         }
     }
-    
+
     private Link updateLinkInformation(Link link, String title, String type, ArrayList<Tag> tags, ArrayList<Course> courses, String comment) {
         if (!title.isEmpty()) {
             link.setTitle(title);
         }
-        
+
         if (!type.isEmpty()) {
             link.setType(type);
         }
-        
+
         if (!tags.isEmpty()) {
             link.setTags(tags);
         }
-        
+
         if (!courses.isEmpty()) {
             link.setCourses(courses);
         }
-        
+
         if (!comment.isEmpty()) {
             link.setComment(comment);
         }
-        
+
         return link;
     }
 
     public String listLinkTitles() throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("Added links:"+"\n");
+        sb.append("Added links:" + "\n");
         sb.append("\n");
         for (Link link : this.listLinks()) {
             sb.append(String.format("%-5s %-5s\n", " ", link.getTitle()));
@@ -204,7 +204,7 @@ public class LinkService {
 
     public String findByWord(String word) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nLinks found by word '"+ word + "':");
+        sb.append("\nLinks found by word '" + word + "':");
         sb.append("\n");
         ArrayList<Link> links = (ArrayList<Link>) linkDao.findByWord(word);
         if (links.isEmpty()) {
