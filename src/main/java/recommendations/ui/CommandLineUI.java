@@ -189,13 +189,13 @@ public class CommandLineUI {
         } else {
             if (!bookRecommendations.isEmpty()) {
                 for (Book recommendation : bookRecommendations) {
-                    io.print(Color.BLACK.getCode() + Color.GREENBG.getCode() + "\t" + recommendation);
+                    io.print(Color.BLACK.getCode() + Color.GREENBG.getCode() + recommendation);
                 }
                 io.print(Color.ORIGINAL.getCode());
             }
             if (!linkRecommendations.isEmpty()) {
                 for (Link recommendation : linkRecommendations) {
-                    io.print(Color.WHITE.getCode() + Color.BLUEBG.getCode() + "\t" + recommendation);
+                    io.print(Color.WHITE.getCode() + Color.BLUEBG.getCode() + recommendation);
                 }
                 io.print(Color.ORIGINAL.getCode());
             }

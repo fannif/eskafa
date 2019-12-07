@@ -122,7 +122,7 @@ public class Book implements Readable {
     public String toString() {
         String tagString = listToString(this.tags);
         String coursesString = listToString(this.relatedCourses);
-        return "Type: " + this.type + "\n\tTitle: " + this.title + "\n\tAuthor: " + this.author + "\n\tISBN: "
+        return "\tType: " + this.type + "\n\tTitle: " + this.title + "\n\tAuthor: " + this.author + "\n\tISBN: "
                 + this.ISBN + "\n\tTags:" + tagString + "\n\tRelated courses:"
                 + coursesString + "\n\t" + this.comment + "\n";
     }
