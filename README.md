@@ -44,5 +44,6 @@ Ensimmäisellä käynnistyskerralla ohjelma luo recommendations.db-nimisen tiedo
 lukuvinkkien tallentamista varten. Ohjelman oikea toiminta edellyttää, että koneelle on asennettu Java.   
 
 ### [Lukuvinkkikirjaston käyttö](https://github.com/fannif/eskafa/blob/master/kayttoohje.md)
+  
 
 
