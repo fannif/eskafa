@@ -31,7 +31,7 @@ public class Stepdefs {
     CommandLineUI testUI;
 
     @Given("Command add a book is selected")
-    public void commandAddIsSelected() throws Throwable {
+    public void commandAddABookIsSelected() throws Throwable {
         inputLines.add("2");
     }
 
@@ -127,18 +127,66 @@ public class Stepdefs {
     @When("User tries to add link that is already in memory")
     public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable {
         inputLines.add("http://www.kaleva.fi");
+        inputLines.add("y");
         inputLines.add("Kaleva");
         inputLines.add("Link");
         addEmpties(4);
         inputLines.add("q");
-
         start();
     }
 
     @Then("System should respond with {string}")
-    public void memoryShouldContainOnlyOneLinkWithUrl(String respond) throws Throwable {
+    public void systemShouldRespondWith(String output) throws Throwable {
         ArrayList<String> outputs = io.getOutputs();
-        assertTrue(outputs.contains(respond));
+        assertTrue(outputs.contains(Color.RED.getCode() + output + Color.ORIGINAL.getCode()));
+    }
+
+
+    @When("User has filled in url {string}")
+    public void userHasFilledInUrl(String url) throws Throwable {
+        inputLines.add(url);
+    }
+
+    @Then("Program should propose a title that user can accept or reject")
+    public void programShouldProposeATitleThatUserCanAcceptOrReject() throws Throwable {
+        inputLines.add("n");
+        addEmpties(5);
+        inputLines.add("q");
+        start();
+        ArrayList<String> outputs = io.getOutputs();
+        assertTrue(outputs.contains("Title: Operating system - Wikipedia"));
+        assertTrue(outputs.contains(Color.CYAN.getCode() + "Do you want to modify the title? (y/n)" + Color.ORIGINAL.getCode()));
+    }
+
+    @When("User has accepted a title proposed")
+    public void userHasAcceptedATitleProposed() throws Throwable {
+        inputLines.add("https://en.wikipedia.org/wiki/Operating_system");
+        inputLines.add("n");
+        addEmpties(5);
+        inputLines.add("q");
+        start();
+    }
+
+    @Then("A link containing proposed title should be added to memory")
+    public void aLinkContainingProposedTitleShouldBeAddedToMemory() throws Throwable {
+        Link found = (Link) testDaoLink.findOne("Operating system - Wikipedia");
+        assertTrue(found != null);
+    }
+
+    @When("User has rejected a fetched title")
+    public void userHasRejectedAFetchedTitle() throws Throwable {
+        inputLines.add("https://en.wikipedia.org/wiki/Operating_system");
+        inputLines.add("y");
+    }
+
+    @Then("User can fill in title manually")
+    public void userCanFillInTitleManually() throws Throwable {
+        inputLines.add("Manual title");
+        addEmpties(5);
+        inputLines.add("q");
+        start();
+        Link found = (Link) testDaoLink.findOne("Manual title");
+        assertTrue(found != null);
     }
 
     @Given("there are saved tags")
@@ -247,6 +295,39 @@ public class Stepdefs {
         }
         assertTrue(foundBooks == 2);
     }
+
+    @When("User has filled in ISBN that is found by search")
+    public void userHasFilledInISBNThatIsFoundBySearch() throws Throwable {
+        inputLines.add("0-7475-3269-9");
+        addEmpties(3);
+        inputLines.add("q");
+        start();
+    }
+
+    @Then("program should automatically fill in title and author")
+    public void programShouldAutomaticallyFillInTitleAndAuthor() throws Throwable {
+        Book found = (Book) testDaoBook.findOne("Harry Potter and the Philosopher's Stone");
+        assertTrue(found != null);
+        assertTrue(found.getAuthor().equals("J. K. Rowling"));
+    }
+
+    @When("User does not fill in ISBN")
+    public void userDoesNotFillInISBN() {
+        inputLines.add("");
+    }
+
+    @Then("program should ask the information to be put in manually")
+    public void programShouldAskTheInformationToBePutInManually() throws Throwable {
+        inputLines.add("title");
+        inputLines.add("author");
+        addEmpties(3);
+        inputLines.add("q");
+        start();
+        ArrayList<String> outputs = io.getOutputs();
+        assertTrue(outputs.contains(Color.CYAN.getCode() +"Title: " + Color.ORIGINAL.getCode()));
+        assertTrue(outputs.contains(Color.CYAN.getCode() + "Author(s): " + Color.ORIGINAL.getCode()));        
+    }
+
 
     private void addEmpties(int amount) {
         //add empty lines for tags, courses, comments...
