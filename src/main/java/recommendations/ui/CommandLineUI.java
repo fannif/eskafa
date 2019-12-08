@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 import recommendations.domain.*;
-import recommendations.domain.Readable;
 import recommendations.io.IO;
 import recommendations.services.*;
 
@@ -213,8 +212,8 @@ public class CommandLineUI {
             if (book != null) {
                 title = book.getTitle();
                 author = book.getAuthor();
-                io.print("Title:\n " + title);
-                io.print("Author(s):\n " + author + "\n");
+                io.print(Color.BOLD.getCode()+"Title:\n "+Color.ORIGINAL.getCode() + title);
+                io.print(Color.BOLD.getCode()+"Author(s):\n "+Color.ORIGINAL.getCode() + author + "\n");
                 Book existingBook = bookService.findBookWithTitle(title);
                 if (existingBook != null) {
                     io.print(Color.RED.getCode() + "There is already one book with same title. Please modify the title a little\n" + Color.ORIGINAL.getCode());
