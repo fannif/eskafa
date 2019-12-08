@@ -296,21 +296,6 @@ public class Stepdefs {
         assertTrue(foundBooks == 2);
     }
 
-    @When("User has filled in ISBN that is found by search")
-    public void userHasFilledInISBNThatIsFoundBySearch() throws Throwable {
-        inputLines.add("0-7475-3269-9");
-        addEmpties(3);
-        inputLines.add("q");
-        start();
-    }
-
-    @Then("program should automatically fill in title and author")
-    public void programShouldAutomaticallyFillInTitleAndAuthor() throws Throwable {
-        Book found = (Book) testDaoBook.findOne("Harry Potter and the Philosopher's Stone");
-        assertTrue(found != null);
-        assertTrue(found.getAuthor().equals("J. K. Rowling"));
-    }
-
     @When("User does not fill in ISBN")
     public void userDoesNotFillInISBN() {
         inputLines.add("");
@@ -330,7 +315,6 @@ public class Stepdefs {
 
 
     private void addEmpties(int amount) {
-        //add empty lines for tags, courses, comments...
         for (int i = 0; i < amount; i++) {
             inputLines.add("");
         }
