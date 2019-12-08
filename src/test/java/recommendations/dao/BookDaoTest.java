@@ -54,7 +54,7 @@ public class BookDaoTest {
     @Test
     public void findeOneReturnsRightBookInRightForm() throws SQLException {
         bookDao.save(book3);
-        assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
+        assertEquals("\tType: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
                 + "|Security|Popular|\n\tRelated courses:|Cypersecurity|\n\t\n" ,bookDao.findOne("Secrets & Lies").toString());
     }
     

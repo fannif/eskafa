@@ -2,23 +2,18 @@ package recommendations;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import recommendations.domain.Book;
-import recommendations.services.BookService;
-import recommendations.ui.CommandLineUI;
 import io.cucumber.java.en.Then;
 import java.sql.SQLException;
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import recommendations.dao.ReaderDao;
-import recommendations.domain.Course;
-import recommendations.domain.Link;
-import recommendations.domain.Tag;
+import recommendations.ui.CommandLineUI;
 import recommendations.io.StubIO;
-
-import recommendations.services.LinkService;
-import recommendations.services.TagService;
+import recommendations.dao.ReaderDao;
+import recommendations.domain.Color;
+import recommendations.domain.Link;
+import recommendations.domain.Book;
+import recommendations.services.*;
 
 public class Stepdefs {
 
@@ -64,7 +59,6 @@ public class Stepdefs {
     public void commandRemoveSelected() throws Throwable {
         inputLines.add("3");
     }
-    
 
     @When("User has filled in the title {string} and this book is in memory")
     public void userTriesToRemoveBookThatIsInMemory(final String title) throws Throwable {
@@ -84,10 +78,7 @@ public class Stepdefs {
         inputLines.add("2");
         inputLines.add("");
         inputLines.add(title);
-        inputLines.add(""); //author
-        inputLines.add(""); //tags
-        inputLines.add(""); //courses
-        inputLines.add(""); //comment
+        addEmpties(4);
     }
 
     @When("command list is selected")
@@ -133,12 +124,11 @@ public class Stepdefs {
         assertTrue(found.getURL().equals(url));
     }
 
-    
     @When("User tries to add link that is already in memory")
-    public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable{
+    public void aLinkWithUrlIsAlreadyInTheMemory() throws Throwable {
         inputLines.add("http://www.kaleva.fi");
         inputLines.add("Kaleva");
-        inputLines.add("Link"); 
+        inputLines.add("Link");
         addEmpties(4);
         inputLines.add("q");
 
@@ -150,10 +140,10 @@ public class Stepdefs {
         ArrayList<String> outputs = io.getOutputs();
         assertTrue(outputs.contains(respond));
     }
-    
-     @Given("there are saved tags")
+
+    @Given("there are saved tags")
     public void thereAreSavedTags() {
-        
+
     }
 
     @When("command list tags is selected")
@@ -165,10 +155,10 @@ public class Stepdefs {
 
     @Then("program responds with list of tags")
     public void programRespondsWithListOfTags() {
-        assertTrue(io.getOutputs().contains("\nTags:\n"));      
+        assertTrue(io.getOutputs().contains(Color.CYAN.getCode() + "\nTags:\n" + Color.ORIGINAL.getCode()));
     }
-    
-     @Given("command search by tag is selected")
+
+    @Given("command search by tag is selected")
     public void commandSearchByTagIsSelected() {
         inputLines.add("7");
     }
@@ -182,10 +172,10 @@ public class Stepdefs {
 
     @Then("recommendations with given tag are listed")
     public void recommendationsWithGivenTagAreListed() {
-        String expected = "\nType: Link"
+        String expected = "\tType: Link"
                 + "\n\tTitle: Kaleva"
-                + "\n\tURL: \u001B[36m<http://www.kaleva.fi"
-                + ">\u001B[0m\n\tTags:|news|"
+                + "\n\tURL: " + Color.CYAN.getCode() + "<http://www.kaleva.fi"
+                + ">" + Color.WHITE.getCode() + "\n\tTags:|news|"
                 + "\n\tRelated courses:"
                 + "\n\tnews" + "\n"
                 + "\nDescription: ";
@@ -197,67 +187,67 @@ public class Stepdefs {
         inputLines.add("8");
     }
 
-    @When("User enters type {string} and title {string}") 
-        public void userEntersTypeAndTitle(String type, String title) throws Throwable {
-            inputLines.add(type);
-            inputLines.add(title);
-            addEmpties(5);
-            inputLines.add("q");
-            start();
-        }
+    @When("User enters type {string} and title {string}")
+    public void userEntersTypeAndTitle(String type, String title) throws Throwable {
+        inputLines.add(type);
+        inputLines.add(title);
+        addEmpties(5);
+        inputLines.add("q");
+        start();
+    }
 
     @Then("The book called {string} is fetched from memory")
-        public void rightBookFound(String title) throws Throwable {  
-            assertTrue(io.getOutputs().contains("Book found: \n\t" + testDaoBook.findOne(title).toString()));
-        }
+    public void rightBookFound(String title) throws Throwable {
+        assertTrue(io.getOutputs().contains("Book found: \n\t" + testDaoBook.findOne(title).toString()));
+    }
 
-    @Given("The book {string} is chosen for modifying") 
-        public void modifyingCleanCode(String title) throws Throwable {
-            inputLines.add("8");
-            inputLines.add("book");
-            inputLines.add(title);
-        }
+    @Given("The book {string} is chosen for modifying")
+    public void modifyingCleanCode(String title) throws Throwable {
+        inputLines.add("8");
+        inputLines.add("book");
+        inputLines.add(title);
+    }
 
     @When("User has filled in modified comment {string}")
-        public void userModifiesComment(String newComment) throws Throwable {
-            addEmpties(4);
-            inputLines.add(newComment);
-            inputLines.add("q");
-            start();
-        }
+    public void userModifiesComment(String newComment) throws Throwable {
+        addEmpties(4);
+        inputLines.add(newComment);
+        inputLines.add("q");
+        start();
+    }
 
     @Then("{string} should have a comment {string}")
-        public void commentHasBeenModified(String title, String comment) throws Throwable {
-            Book testBook = (Book) testDaoBook.findOne(title);
-            assertTrue(testBook.toString().contains("modified"));
-        }
-    
+    public void commentHasBeenModified(String title, String comment) throws Throwable {
+        Book testBook = (Book) testDaoBook.findOne(title);
+        assertTrue(testBook.toString().contains("modified"));
+    }
+
     @Given("Command search by word is selected")
-        public void searchByWordSelected() throws Throwable {
-            inputLines.add("9");
-        }
+    public void searchByWordSelected() throws Throwable {
+        inputLines.add("9");
+    }
 
     @When("User has filled in word {string}")
-        public void searchByWord(String word) throws Throwable {
-            inputLines.add(word);
-            inputLines.add("q");
-            start();
-        } 
+    public void searchByWord(String word) throws Throwable {
+        inputLines.add(word);
+        inputLines.add("q");
+        start();
+    }
 
     @Then("Program should return all books containing the word in their information")
-        public void returnedListCorrect() throws Throwable {
-            int foundBooks = 0;
-            for (String output : io.getOutputs()) {
-                if (output.contains("Clean Code")) {
-                    foundBooks++;
-                }
-                if (output.contains("JavaScript")) {
-                    foundBooks++;
-                }
+    public void returnedListCorrect() throws Throwable {
+        int foundBooks = 0;
+        for (String output : io.getOutputs()) {
+            if (output.contains("Clean Code")) {
+                foundBooks++;
             }
-            assertTrue(foundBooks == 2);
+            if (output.contains("JavaScript")) {
+                foundBooks++;
+            }
         }
-       
+        assertTrue(foundBooks == 2);
+    }
+
     private void addEmpties(int amount) {
         //add empty lines for tags, courses, comments...
         for (int i = 0; i < amount; i++) {
@@ -267,14 +257,13 @@ public class Stepdefs {
 
     private void start() throws Exception {
         io = new StubIO(inputLines);
-        
+
         testDaoBook = new FakeBookDao();
         testDaoLink = new FakeLinkDao();
         testDaoTag = new FakeTagDao();
-        
+
         testService = new BookService(testDaoBook, io);
         testServiceLink = new LinkService(testDaoLink, io);
-        testService = new BookService(testDaoBook, io);
         testServiceTag = new TagService(testDaoTag, testDaoBook, testDaoLink, io);
 
         testUI = new CommandLineUI(testService, testServiceLink, testServiceTag, io);

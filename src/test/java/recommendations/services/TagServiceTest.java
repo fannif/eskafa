@@ -13,6 +13,7 @@ import recommendations.FakeBookDao;
 import recommendations.FakeLinkDao;
 import recommendations.FakeTagDao;
 import recommendations.dao.ReaderDao;
+import recommendations.domain.Color;
 import recommendations.domain.Tag;
 import recommendations.io.StubIO;
 
@@ -60,10 +61,10 @@ public class TagServiceTest {
         tagService.findRecommendadtionsByTag("news");
         assertEquals("No books found by tag news", io.getOutputs().get(0));
         assertEquals("Links found by tag news: ", io.getOutputs().get(2));
-        String expected = "\nType: Link"
+        String expected = "\tType: Link"
                 + "\n\tTitle: Kaleva"
-                + "\n\tURL: \u001B[36m<http://www.kaleva.fi"
-                + ">\u001B[0m\n\tTags:|news|"
+                + "\n\tURL: " + Color.CYAN.getCode() + "<http://www.kaleva.fi"
+                + ">" + Color.WHITE.getCode() + "\n\tTags:|news|"
                 + "\n\tRelated courses:"
                 + "\n\tnews" + "\n"
                 + "\nDescription: ";

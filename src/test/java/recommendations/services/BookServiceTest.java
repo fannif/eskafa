@@ -10,6 +10,7 @@ import org.junit.Test;
 import recommendations.FakeBookDao;
 import recommendations.dao.ReaderDao;
 import recommendations.domain.Book;
+import recommendations.domain.Color;
 import recommendations.domain.Course;
 import recommendations.domain.Tag;
 import recommendations.io.StubIO;
@@ -38,20 +39,19 @@ public class BookServiceTest {
 
     @Test
     public void listBooksReturnsBookListInRightForm() throws SQLException {
-        assertEquals("Type: Book\n\tTitle: Clean Code\n\tAuthor: Robert C. Martin\n\tISBN: 978-0-13-235088-4\n\tTags:"
+        assertEquals("\tType: Book\n\tTitle: Clean Code\n\tAuthor: Robert C. Martin\n\tISBN: 978-0-13-235088-4\n\tTags:"
                 + "|clean code|\n\tRelated courses:|Ohjelmistotuotanto|OhJa|\n\tMust have!\n", service.listBooks().get(0).toString());
     }
 
     @Test
     public void listBooksReturnsBookListInRightFormWithEmptyCoursesField() throws SQLException {
-        assertEquals("Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
+        assertEquals("\tType: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:"
                 + "|Security|Popular|\n\tRelated courses:\n\t\n", service.listBooks().get(2).toString());
     }
 
     @Test
     public void removeBookRemovesBookIfBookExistsInList() throws Exception {
         String title = "Beyond Fear";
-        //Scanner lukija = new Scanner(System.in);
         inputLines.add("q");
         service.remove(title);
         assertEquals(3, service.listBooks().size());
@@ -61,7 +61,6 @@ public class BookServiceTest {
     @Test
     public void removeBookDoesNothingIfBookNotInList() throws Exception {
         String title = "Hello world";
-        //Scanner lukija = new Scanner("q");
         inputLines.add("q");
         service.remove(title);
 
@@ -92,24 +91,24 @@ public class BookServiceTest {
     @Test
     public void findingBookByWordWorksCorrectlyWhenBookFound() throws SQLException {
         String found = service.findByWord("Fear");
-        String book = "Type: Book\n\tTitle: Beyond Fear\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-79781119092438\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
-        String expected = "\nBooks found by word 'Fear':\n" + book;
+        String book = "\tType: Book\n\tTitle: Beyond Fear\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-79781119092438\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
+        String expected = Color.GREEN.getCode() + "\nBooks found by word " + Color.BOLD.getCode() + "'Fear':" + Color.ORIGINAL.getCode() + "\n" + book;
         assertEquals(expected, found);
     }
 
     @Test
     public void findingBookByWordWorksCorrectlyWhenMultipleBooksFound() throws SQLException {
         String found = service.findByWord("Schneier");
-        String book1 = "Type: Book\n\tTitle: Beyond Fear\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-79781119092438\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
-        String book2 = "Type: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
-        String expected = "\nBooks found by word 'Schneier':\n" + book1 + book2;
+        String book1 = "\tType: Book\n\tTitle: Beyond Fear\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-79781119092438\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
+        String book2 = "\tType: Book\n\tTitle: Secrets & Lies\n\tAuthor: Bruce Schneier\n\tISBN: 0-387-02620-7\n\tTags:|Security|Popular|\n\tRelated courses:\n\t\n";
+        String expected = Color.GREEN.getCode() + "\nBooks found by word " + Color.BOLD.getCode() + "'Schneier':" + Color.ORIGINAL.getCode() + "\n" + book1 + book2;
         assertEquals(expected, found);
     }
 
     @Test
     public void findingBookByWordWorksCorrectlyWhenNoBooksFound() throws SQLException {
         String found = service.findByWord("not found");
-        String expected = "\nBooks found by word 'not found':\nNone :(\nPlease try another word.\n";
+        String expected = Color.GREEN.getCode() + "\nBooks found by word " + Color.BOLD.getCode() + "'not found':" + Color.ORIGINAL.getCode() + "\nNone :(\nPlease try another word.\n";
         assertEquals(expected, found);
     }
 

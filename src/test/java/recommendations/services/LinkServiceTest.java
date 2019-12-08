@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import recommendations.FakeLinkDao;
+import recommendations.domain.Color;
 import recommendations.domain.Course;
 import recommendations.domain.Link;
 import recommendations.domain.Tag;
@@ -86,24 +87,24 @@ public class LinkServiceTest {
     @Test
     public void findingLinkByWordWorksCorrectlyWhenLinkFound() throws SQLException {
         String found = linkService.findByWord("Kaleva");
-        String link = "\nType: Link\n\tTitle: Kaleva\n\tURL: \u001B[36m<http://www.kaleva.fi>\u001B[0m\n\tTags:|news|\n\tRelated courses:\n\tnews\n\nDescription: ";
-        String expected = "\nLinks found by word 'Kaleva':\n" + link;
+        String link = "\tType: Link\n\tTitle: Kaleva\n\tURL: " + Color.CYAN.getCode() + "<http://www.kaleva.fi>" + Color.WHITE.getCode() + "\n\tTags:|news|\n\tRelated courses:\n\tnews\n\nDescription: ";
+        String expected = Color.GREEN.getCode() + "\nLinks found by word " + Color.BOLD.getCode() + "'Kaleva':" + Color.ORIGINAL.getCode() + "\n" + link;
         assertEquals(expected, found);
     }
 
     @Test
     public void findingLinkByWordWorksCorrectlyWhenMultipleLinksFound() throws SQLException {
         String found = linkService.findByWord("Link");
-        String link1 = "\nType: Link\n\tTitle: Kaleva\n\tURL: \u001B[36m<http://www.kaleva.fi>\u001B[0m\n\tTags:|news|\n\tRelated courses:\n\tnews\n\nDescription: ";
-        String link2 = "\nType: Link\n\tTitle: \n\tURL: \u001B[36m<https://ohjelmistotuotanto-hy.github.io/>\u001B[0m\n\tTags:\n\tRelated courses:|Ohjelmistotuotanto|\n\t\n\nDescription: ";
-        String expected = "\nLinks found by word 'Link':\n" + link1 + link2;
+        String link1 = "\tType: Link\n\tTitle: Kaleva\n\tURL: " + Color.CYAN.getCode() + "<http://www.kaleva.fi>" + Color.WHITE.getCode() + "\n\tTags:|news|\n\tRelated courses:\n\tnews\n\nDescription: ";
+        String link2 = "\tType: Link\n\tTitle: \n\tURL: " + Color.CYAN.getCode() + "<https://ohjelmistotuotanto-hy.github.io/>" + Color.WHITE.getCode() + "\n\tTags:\n\tRelated courses:|Ohjelmistotuotanto|\n\t\n\nDescription: ";
+        String expected = Color.GREEN.getCode() + "\nLinks found by word " + Color.BOLD.getCode() + "'Link':" + Color.ORIGINAL.getCode() + "\n" + link1 + link2;
         assertEquals(expected, found);
     }
 
     @Test
     public void findingLinkByWordWorksCorrectlyWhenNoLinksFound() throws SQLException {
         String found = linkService.findByWord("not found");
-        String expected = "\nLinks found by word 'not found':\nNone :(\nPlease try another word.\n";
+        String expected = Color.GREEN.getCode() + "\nLinks found by word " + Color.BOLD.getCode() + "'not found':" + Color.ORIGINAL.getCode() + "\nNone :(\nPlease try another word.\n";
         assertEquals(expected, found);
     }
     

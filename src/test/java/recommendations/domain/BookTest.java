@@ -133,7 +133,7 @@ public class BookTest {
 
     @Test
     public void toStringCorrect() {
-        String expected = "Type: Book\n\tTitle: TestBook\n\tAuthor: Test Author\n\tISBN: 123-456\n\tTags:|tag1|tag2|\n\tRelated courses:|TestCourse|\n\tThis is a test comment.\n";
+        String expected = "\tType: Book\n\tTitle: TestBook\n\tAuthor: Test Author\n\tISBN: 123-456\n\tTags:|tag1|tag2|\n\tRelated courses:|TestCourse|\n\tThis is a test comment.\n";
         assertEquals(expected, book.toString());
     }
 
