@@ -16,7 +16,6 @@ public class StubIO  implements IO{
 
     @Override
     public void print(String toPrint) {
-        //System.out.println(toPrint);
         this.outputs.add(toPrint);
     }
 
@@ -24,7 +23,6 @@ public class StubIO  implements IO{
     public String read() {
         if (i < this.inputs.size()) {
             String read = this.inputs.get(i++);
-            //System.out.println(read);
             return read;
         }
         return "";

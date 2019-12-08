@@ -315,7 +315,6 @@ public class Stepdefs {
 
 
     private void addEmpties(int amount) {
-        //add empty lines for tags, courses, comments...
         for (int i = 0; i < amount; i++) {
             inputLines.add("");
         }

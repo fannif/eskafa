@@ -1,0 +1,1 @@
+Feature: As a User I want to have colors in the UI so it will be easier to use
