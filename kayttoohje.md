@@ -16,7 +16,7 @@ Uuden kirjavinkin lisääminen onnistuu valitsemalla vaihtoehdon
 
 `2 --- Add a new book`
  
-Tämän jälkeen ohjelma kysyy lisättävän kirjan tiedot ja tallentaa ne tietokantaan.  
+Tämän jälkeen ohjelma kysyy lisättävän kirjan tiedot ja tallentaa ne tietokantaan. Jos käyttäjä syöttää kirjan ISBN:n, kirjan nimi ja kirjoittaja haetaan automaattisesti. 
 
 #### 3. Lukuvinkin poistaminen
 
@@ -62,7 +62,23 @@ Komennon
 avulla käyttäjä voi hakea lukuvinkkejä ohjelmaan lisättyjen tagien perusteella. Komento palauttaa 
 listan lisätyistä tageista, joista käyttäjä voi valita yhden hakusanaksi.  
 
-#### 8. Ohjelman sulkeminen
+#### 8. Lukuvinkin muokkaaminen
+
+Komennolla
+
+`8 --- Edit recommendation`
+
+käyttäjä voi muokata tallennettuja lukuvinkkejä. Ohjelma kysyy, muokataanko kirja- (*book*) vai linkkivinkkiä (*link*). Ohjelma etsii lukuvinkin nimen perusteella, minkä jälkeen käyttäjä voi syöttää muokattavat tiedot.
+
+#### 9. Haku sanan perusteella
+
+Komennolla 
+
+`9 --- Find a recommendation by word`
+
+käyttäjä voi hakea lukuvinkkejä haluamansa hakusanan perusteella. Ohjelma palauttaa listan niistä lukuvinkeistä, jotka sisältävät annetun hakusanan. 
+
+#### 10. Ohjelman sulkeminen
 
 Ohjelman voi sulkea komennolla 
 
