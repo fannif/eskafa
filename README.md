@@ -32,7 +32,7 @@ Hyväksymiskriteerit on täytetty. Suuria bugeja ei löydy. Yksikkötestejä on 
 
 ### Asennus ja käynnistys
 
-Lataa ohjelman viimeisin versio jar-tiedostona (release 2.0, Java 11) [täältä](https://github.com/fannif/eskafa/releases/download/v2.0/recommendations_java11.jar). (Version Java 8:lle löydät [täältä](https://github.com/fannif/eskafa/releases/download/v2.0/recommendations_java8.jar)). Ohjelma ei vaadi asennusta eli jar-tiedoston 
+Lataa ohjelman viimeisin versio jar-tiedostona (release 3.0, Java 11) [täältä](https://github.com/fannif/eskafa/releases/download/v3.0/recommendations_java11.jar). (Version Java 8:lle löydät [täältä](https://github.com/fannif/eskafa/releases/download/v3.0/recommendations_java8.jar)). Ohjelma ei vaadi asennusta eli jar-tiedoston 
 voi ajaa suoraan komentoriviltä. Tätä varten hakemistossa, johon jar-tiedosto on tallennettu, täytyy suorittaa alla oleva 
 komento, joka käynnistää sovelluksen: 
 
