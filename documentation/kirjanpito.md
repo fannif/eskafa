@@ -14,4 +14,12 @@ Työtunteja yhteensä: 35.6 tuntia
 
 Toteutettuja taskeja: 43    
 Työmääräarvio sprintin alussa: 32.5 tuntia    
-Työtunteja yhteensä: 38.75 tuntia    
+Työtunteja yhteensä: 37.15 tuntia    
+
+### Sprint 3
+
+<img src="https://github.com/fannif/eskafa/blob/master/documentation/pictures/burndown3.png">
+
+Toteutettuja taskeja: 35    
+Työmääräarvio sprintin alussa: 36.1 tuntia    
+Työtunteja yhteensä: 36.6
