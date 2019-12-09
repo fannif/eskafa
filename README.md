@@ -1,5 +1,8 @@
 # Ohtu-projekti
 
+#### Raportti
+[Raportti](https://docs.google.com/document/d/1KP4My4xsly2mDC_WLEWCxONvGXCuGsiD3FvnAhjNQMM/edit?usp=sharing)
+
 #### Product backlog
 [Product Backlog](https://docs.google.com/spreadsheets/d/1x9YFq1DHGwN0qCpNWJFqQOZS0CGin8dj2chu-N1ArWo/edit?usp=gmail_thread&ts=5dd2977a)
 
