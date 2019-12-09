@@ -9,11 +9,11 @@
 #### Sprint Backlog
 [Sprint Backlog](https://docs.google.com/spreadsheets/d/1OqxUPbk6urff_mOtHHC_oDDHmhOTyWZxNcCAq9ybvWM/edit?usp=sharing)
 
-#### Työmääräkirjanpito ja Burndown chart
+#### Työmääräkirjanpito ja Burndown
 
-[Menneet sprintit](https://github.com/fannif/eskafa/blob/master/documentation/kirjanpito.md)
+[Burndown charts](https://github.com/fannif/eskafa/blob/master/documentation/kirjanpito.md)
 
-[Sprintti 3](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
+[Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1Hvs-0SekRi4vSxOb8fyAxVITSERtZ6C_UGIzY706q-Y/edit?usp=sharing)
 
 
 #### CircleCI
